@@ -1,0 +1,29 @@
+Introduction
+
+This documentation is firstly divided by purpose. This means, different files may be brought up within a single section. It’ll be specified whenever that's the case.
+
+Files within the libraries aren’t meant to be modified as easily or regularly, as the ones within the Overworld/ folder should cover most of your needs.
+
+Without further ado, here’s a quick overview of the relevant sections.
+
+Creating Cutscenes
+By Cutscenes, you’re likely looking for manually coded animations that involving setting and moving sprites around during the Overworld. You can write such animations from within the Lua/Overworld/Cutscenes file, as well as checking startup conditions. Code for aiding in the process of building said animations, can also be found within this section.
+
+Creating Rooms
+If you plan on editing the JSON files of the rooms, you may want to install the OgmoEditor(https://ogmo-editor-3.github.io), which provides a visual interface that’ll definitely make your job easier. I wouldn’t recommend manually modifying the JSON, but you do you.
+
+Parsing of the JSON files and then building the rooms are carried out by the OgmoEditor library file. For most use cases however, you’ll only want to check out the Lua/Overworld/RoomHandler file. For more on that, check out the respective section.
+
+Battles (…rather than Encounters)
+A mod using this library may only have one (1) Encounter file. That is, because the *actual* encounters will be loaded from files within the Battles/ folder. As such, there’s not much of a point replacing the encounter’s variables: You’ll need to do so from within Battle files. Worry not, as you can mod these the way you normally would Encounters.
+
+All Avatars are loaded since boot and stored within the Overworld.AllAvatars table, but only the ones included in the Overworld.party table are accounted for. You’ll want to modify this table, not AllAvatars.
+
+
+The following don’t have dedicated sections, as I think they’re fairly self-explanatory. If you really need help modifying them, however, check out the comments.
+
+The Overworld’s Textbox object
+During most circumstances, you won’t need to make use of anything other than the Overworld.TextBox.CreateTextbox function, or the Overworld.TextBox.isActive property. More on these can be found at the Cutscenes section.
+
+Avatars (a.k.a. The members of your party)
+These are the players (renamed as Avatars) that the user controls in order to navigate and interact with the Overworld. By virtue of their design, you normally shouldn’t modify them directly (Check the Cutscenes section). If you have a feature in mind, however, don’t let my word stop you.

@@ -1,0 +1,28 @@
+{
+        "lancer": ["[func:SetMugshot,Lancer.Grin][func:TalkingSprite,{0,true}]Ho ho ho!!°3 If it isn't my favorite group of CLOWNS![func:TalkingSprite,{0,false}]!",
+            "[novoice] [func:SetMugshot,Lancer.Grin][func:TalkingSprite,{0,true}](Am i getting the lancer voice right oh please tell me i'm getting it right)[func:TalkingSprite,{0,false}]",
+            "[func:SetMugshot,Lancer.Cheery][func:TalkingSprite,{0,true}]I hope you CLOWNS are ready for what's just ahead[func:TalkingSprite,{0,false}]!",
+            "[func:SetMugshot,Lancer.GrinTongue][func:TalkingSprite,{0,true}]...°3the ONCE in a lifetime chance to [color:ffff00]expand your party[color]!!![func:TalkingSprite,{0,false}]!"
+        ],
+
+        "lancer-2": ["[func:SetMugshot,Lancer.Grin][func:TalkingSprite,{0,true}]Ho ho ho ho ho ho ho ho![func:TalkingSprite,{0,false}]!"],
+        
+        "party-susie": ["Susie may join your party.°3 Will you add her?",
+            [[], ["No", "party-susie-no"], [] ,["Yes", "party-susie-add"] ]],
+        
+        "party-susie-no":  ["[func:SetMugshot,Susie.Normal]...°2Sure, whatever."],
+        "party-susie-add": ["[func:SetMugshot,Susie.Smile]Yep,°2 c'mon let's go.",
+            "[novoice]Susie has joined your party...!"],
+        
+        "party-starwalker": ["Starwalker may also join your party.°3 Will you add the Starwalker?",
+            [[], ["No", "close"], [] ,["Yes", "party-starwalker-add"] ]],
+        "party-starwalker-add":  ["Starwalker has joined your party."],
+        "party-starwalker-cant": ["Nothing to see here."],
+
+        "party-gentle": ["This one gentle fellow may join your party.°3 Will you add them?",
+            [[], ["No", "party-gentle-no"], [] ,["Yes", "party-gentle-add"] ]],
+        
+        "party-gentle-no":  ["[func:SetMugshot,Gentle.Shock][sound:gentle-quip2]"],
+        "party-gentle-add": ["[func:SetMugshot,Gentle.Pleased][sound:gentle-quip1]much obliged",
+            "[novoice]The gentle fellow has joined your party...!"]
+}

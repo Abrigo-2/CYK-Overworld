@@ -1,0 +1,323 @@
+{
+  "name": "CYK + Overworld",
+  "ogmoVersion": "3.4.0",
+  "levelPaths": ["."],
+  "backgroundColor": "#282c34ff",
+  "gridColor": "#3c4049cc",
+  "anglesRadians": false,
+  "directoryDepth": 5,
+  "layerGridDefaultSize": {"x": 40, "y": 40},
+  "levelDefaultSize": {"x": 320, "y": 240},
+  "levelMinSize": {"x": 640, "y": 480},
+  "levelMaxSize": {"x": 20000, "y": 20000},
+  "levelValues": [
+    {"name": "hasBackground", "definition": "Boolean", "display": 0, "defaults": false}
+  ],
+  "defaultExportMode": ".json",
+  "compactExport": false,
+  "externalScript": "ogmosettings.js",
+  "playCommand": "",
+  "entityTags": ["player", "Assets", "Triggers"],
+  "layers": [
+    {
+      "definition": "entity",
+      "name": "Assets",
+      "gridSize": {"x": 40, "y": 40},
+      "exportID": "42126934",
+      "requiredTags": [],
+      "excludedTags": []
+    },
+    {
+      "definition": "entity",
+      "name": "Triggers",
+      "gridSize": {"x": 40, "y": 40},
+      "exportID": "42027604",
+      "requiredTags": [],
+      "excludedTags": []
+    },
+    {
+      "definition": "entity",
+      "name": "AvatarOrigin",
+      "gridSize": {"x": 8, "y": 8},
+      "exportID": "42017888",
+      "requiredTags": [],
+      "excludedTags": []
+    },
+    {
+      "definition": "tile",
+      "name": "solid",
+      "gridSize": {"x": 40, "y": 40},
+      "exportID": "68263052",
+      "exportMode": 0,
+      "arrayMode": 1,
+      "defaultTileset": "blank40"
+    },
+    {
+      "definition": "tile",
+      "name": "Ground",
+      "gridSize": {"x": 40, "y": 40},
+      "exportID": "41973050",
+      "exportMode": 0,
+      "arrayMode": 1,
+      "defaultTileset": "field"
+    }
+  ],
+  "entities": [
+    {
+      "exportID": "41975265",
+      "name": "Player",
+      "limit": -1,
+      "size": {"x": 20, "y": 20},
+      "origin": {"x": 0, "y": 76},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#ff0000ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 20, "y": 20},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": ["player"],
+      "values": [
+        {
+          "name": "direction",
+          "definition": "Enum",
+          "display": 1,
+          "choices": ["up", "right", "down", "left"],
+          "defaults": 0
+        },
+        {"name": "originID", "definition": "Integer", "display": 2, "defaults": 1, "bounded": false, "min": 0, "max": 100}
+      ],
+      "texture": "Assets/3.png",
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAABMCAYAAAABUsWSAAABb2lDQ1BpY2MAACiRdZE7SwNBFIW/JIrigxSKERFJEcUigaAglhJBm2iRRPDVZDcvIY9ld4MEW8HGQrAQbXwV/gNtBVsFQVAEESt/gK9GZL2TBCKis8zejzNzLjNnwB3N6wWrKQyFom3GpiP++YVFf8szHgbw0YMvqVvGTHwqwb/j4xaXqjch1ev/fX+O9lTa0sHVKjymG6YtPCEcXbUNxZvC3XoumRI+EA6ackDhS6VrNX5SnK3xm2IzEZsEt+rpz/5g7QfrObMgPCwcKOTLev086iYd6eJcXGqfzH4sYkwTwY9GmRXy2ISkFiWzv33hqm+Wknh0+RtUMMWRJSfeoKhl6ZqWmhE9LV+eisr9d55WZnSk1r0jAs2PjvM6CC3b8LXlOJ+HjvN1BJ4HOC82/CXJafxd9K2GFtgH7zqcXjQ0bQfONqD33kiayarkkenOZODlBDoXoOsa2pZqWdXXOb6DxJo80RXs7sGQ7PcufwMELGgMzr1msgAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAtJJREFUaAXtmjFOW0EQhg2ie02OQAlNcoC0aWg4ABKiRVTpUqSIU6RIR4VoERIHoKGh5QDQkDJHSOM6sR/6lrc/bzS7hiSzyEjWeHZmd2e+N7Ney0wmf/mv697/XrzYRnXGVa7rQBR9rTSQYdalc8b8ZrOboj3bI/ZShMaoDccsgu0Q+1ekhtQW75VcWGKrwPTReXo6U/5XbWmA1NrqUSoZTw9LbC1KbSnBsMSKAzv4+H2yeOmfNa5+tXpxYLULP9e/OjCLkDW+bIDVgS27Ue08tyvH6qpmk7PjTzXuyTcssY0UovOmm247HuPmo+llZphN73vdI9kusWVJZZgGSlrveDA48jYsMbcrSeboV14rJ292MY1K9cfJm4df+8TIhHMt1QoGQ5Z2oU6PS4xIn3sv05oqrSX2V9kOMb6leASpNe8EVxKq637o8YlpJhYxSH39dqtTMv3L53e9DtHrH1eZ/cPWTq9DKDPOlXaJQYiMakkxj3X2D98y1EuLXDvEqC0y9AiRvtYU4ypZ1yPXHrGfsz1NNtM3u4tMR4EIOpLuRFep3RmfGLVlkaolpETQIQdZ9GaImd+SLEJkTsbaXdhVcl4xnu5zxt0/bI0lYjzjzW7S/1Lm3a9KSUHIkuwzv7/1+xJHfGKaEXd1HUenZqxaOz+9613pOuYhvfXbI0ZmnoTImdFd3nzLHpbYk19GqBky0e6jtrDXSr3JUouswxMISyydY0SMVFKaGX61knVYH8k464UllmqMSLllWLX2UjWmhKit8Cf/E2JKDt2TZApxz1/tzGc8bI2ZXakZkMmyRJhvrYsdGZbYKjAeUak0u1IXoLb0s84619SP9fD3ai3sozS7kgw9yScEJze6N8+zvx5ifMZxK/Ayx9/zU3u7xOhGagdSHgns+D8SefhPhHlNZt8jH+0P78ISc88xiGlGlg5ZutTyY9w6z8ISI/CVLCXwB6aPCBSPKuHUAAAAAElFTkSuQmCC"
+    },
+    {
+      "exportID": "42030714",
+      "name": "Interactable",
+      "limit": -1,
+      "size": {"x": 40, "y": 40},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#486db1c8",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 20, "y": 20},
+      "resizeableX": true,
+      "resizeableY": true,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": ["Triggers"],
+      "values": [
+        {"name": "dialogueID", "definition": "String", "display": 0, "defaults": "", "maxLength": 0, "trimWhitespace": true},
+        {"name": "dialoguesTotal", "definition": "Integer", "display": 1, "defaults": 1, "bounded": false, "min": 1, "max": 100}
+      ]
+    },
+    {
+      "exportID": "30097684",
+      "name": "Door",
+      "limit": -1,
+      "size": {"x": 40, "y": 40},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#83e5b6ad",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 32, "y": 32},
+      "resizeableX": true,
+      "resizeableY": true,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": ["Triggers"],
+      "values": [
+        {"name": "roomNext", "definition": "String", "display": 1, "defaults": "", "maxLength": 0, "trimWhitespace": true},
+        {"name": "originID", "definition": "Integer", "display": 2, "defaults": 1, "bounded": false, "min": 0, "max": 100},
+        {"name": "nextBGM", "definition": "String", "display": 0, "defaults": "", "maxLength": 0, "trimWhitespace": true}
+      ]
+    },
+    {
+      "exportID": "36689021",
+      "name": "SavePoint",
+      "limit": -1,
+      "size": {"x": 32, "y": 32},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#dcf0ffe3",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 32, "y": 32},
+      "resizeableX": false,
+      "resizeableY": false,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": ["Triggers"],
+      "values": [
+        {"name": "location", "definition": "String", "display": 1, "defaults": "", "maxLength": 0, "trimWhitespace": false},
+        {"name": "hasText", "definition": "Boolean", "display": 0, "defaults": true}
+      ],
+      "texture": "../../Sprites/Overworld/SavePoint/0.png",
+      "textureImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAmAgMAAADLmjGOAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEUAAACGlLf4+Pr///8GXtVPAAAAAXRSTlMAQObYZgAAAAFiS0dEAxEMTPIAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAHdElNRQflDAsOLCSXAOjkAAAAV0lEQVQY05XOMQ7AMAgDQJb8L4sX/sfiV4amSkokS209HQIBZplmO69EV3TF5lBk/CDXkYdwpnES4JVA5WzfA4U5kEXMZYVZkOv3QnNJhGLbrx+EovVPHKMeOmenxZVKAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTEyLTExVDE0OjQ0OjE3KzAwOjAwziADXwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0xMi0xMVQxNDo0NDowOCswMDowMIWfy5QAAAAASUVORK5CYII="
+    },
+    {
+      "exportID": "62280486",
+      "name": "Battle",
+      "limit": -1,
+      "size": {"x": 80, "y": 80},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#d90056bd",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 80, "y": 80},
+      "resizeableX": true,
+      "resizeableY": true,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": ["Triggers"],
+      "values": [
+        {"name": "encounterName", "definition": "String", "display": 1, "defaults": "", "maxLength": 0, "trimWhitespace": true}
+      ]
+    },
+    {
+      "exportID": "42067692",
+      "name": "Sprite",
+      "limit": -1,
+      "size": {"x": 40, "y": 40},
+      "origin": {"x": 0, "y": 0},
+      "originAnchored": true,
+      "shape": {
+        "label": "Rectangle",
+        "points": [
+          {"x": -1, "y": -1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": -1},
+          {"x": -1, "y": 1},
+          {"x": 1, "y": 1}
+        ]
+      },
+      "color": "#d1ff00ff",
+      "tileX": false,
+      "tileY": false,
+      "tileSize": {"x": 40, "y": 40},
+      "resizeableX": true,
+      "resizeableY": true,
+      "rotatable": false,
+      "rotationDegrees": 360,
+      "canFlipX": false,
+      "canFlipY": false,
+      "canSetColor": false,
+      "hasNodes": false,
+      "nodeLimit": 0,
+      "nodeDisplay": 0,
+      "nodeGhost": true,
+      "tags": ["Assets"],
+      "values": [
+        {"name": "rescale", "definition": "Boolean", "display": 0, "defaults": false},
+        {"name": "hasYSort", "definition": "Boolean", "display": 0, "defaults": true},
+        {
+          "name": "spritePath",
+          "definition": "Filepath",
+          "display": 1,
+          "defaults": "proj:",
+          "extensions": []
+        }
+      ]
+    }
+  ],
+  "tilesets": [
+    {"label": "field", "path": "../../Sprites/Overworld/Tilesets/field/animated/0.png", "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAABoklEQVRYw91YMW7DQAxjgkyGh34gY5aO6Q/6jq59Vf/SH6QfyJgvBB3dLqUB06YlFx1O1RboTsHRlMi73ePDyxcW4vnzdfL72n8AAG7DBQBw3D8BAE7382Tde/c2yet6t5/1GVy3R+NxUMSIgEPCBddrHUVklu+xWr95BHfkoHJCEXD53+5znNd8HQ6SAyecU13K0Dz3aX7s0gGL3HYcrsPBaA46brk5F+13dXRf+xzUb+4UhNxRbt26yybklKM6//h/rF+ni/Vk7oRuXmXDKQbrqia3j+DIvfs692YnHJa7UTnkutV+EdbtqymJnlznm+OQzf8gcMQ6clEP1JuDPDm5oFxyXck6OhejmHGvrB90GplFLjsXs0pTT0kil+KQi5ByyHJqsMudL20fQUVMuy/bjQ45/QJ6v466u30EnSN2iLgujNyQ5rP/V+9W91e+L0Iq9INDNTfjJr1TliyyenfZGvVetyLk3AuBe0GIXr3+D4JOK7e+kI7+sc9Nh8ix19FidyeJFMHdRZTDTokix15Hi0ckunXORH7Q3foih14WwW+K10+GqoJOWwAAAABJRU5ErkJggg==", "tileWidth": 40, "tileHeight": 40, "tileSeparationX": 0, "tileSeparationY": 0, "tileMarginX": 0, "tileMarginY": 0},
+    {"label": "blank40", "path": "Tilesets/blank40.png", "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAABb2lDQ1BpY2MAACiRdZE7SwNBFIW/JIrigxSKERFJEcUigaAglhJBm2iRRPDVZDcvIY9ld4MEW8HGQrAQbXwV/gNtBVsFQVAEESt/gK9GZL2TBCKis8zejzNzLjNnwB3N6wWrKQyFom3GpiP++YVFf8szHgbw0YMvqVvGTHwqwb/j4xaXqjch1ev/fX+O9lTa0sHVKjymG6YtPCEcXbUNxZvC3XoumRI+EA6ackDhS6VrNX5SnK3xm2IzEZsEt+rpz/5g7QfrObMgPCwcKOTLev086iYd6eJcXGqfzH4sYkwTwY9GmRXy2ISkFiWzv33hqm+Wknh0+RtUMMWRJSfeoKhl6ZqWmhE9LV+eisr9d55WZnSk1r0jAs2PjvM6CC3b8LXlOJ+HjvN1BJ4HOC82/CXJafxd9K2GFtgH7zqcXjQ0bQfONqD33kiayarkkenOZODlBDoXoOsa2pZqWdXXOb6DxJo80RXs7sGQ7PcufwMELGgMzr1msgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAGFJREFUWAnt0sEJwCAUBUEjVphW0j8RbGEuHtb7wmd8z7/eb1z85sW3ndM6UH8owQRVQPs2mKAKaN8GE1QB7dtggiqgfRtMUAW0b4MJqoD2bTBBFdC+DSaoAtq3wQRVQPsN1a8CGPRbCZcAAAAASUVORK5CYII=", "tileWidth": 40, "tileHeight": 40, "tileSeparationX": 0, "tileSeparationY": 0, "tileMarginX": 0, "tileMarginY": 0},
+    {"label": "redzone", "path": "../../Sprites/Overworld/Tilesets/redzone/animated/0.png", "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAABUUlEQVRYw92YzQ2DMAyFk1KFDTizQi9doNszBWc2oBLQQ2UkXnGdmFSN8amgkMpfnv/iH/62uB27L7XTWF9ttxvmZ9S+9B2uv7jC7frrP2guYfti2l/XTv79owrGCJKHdParx5Nuw5UEo0l6xnXc93Y0SOQ4z/5l5RMk7WnznmSY1+ikJC3ai2Jt1GKUIjk8mW4e9/OjWYLaqOXISUZEe7d81SK9P08tTiWWmhWwm2lcMEKw8+Oux1qNpdZsrg+kZzt5kKJKS4DrRqK7nyqcvKOWyJDnrasPaXLwVruZ2NqYK+9JM4ydKEYNcSQpX37Y7A5pTyJ5nihGbXC19OhMY2+qo+gjjaEWsWKgRpFoLpJ25+K1IgABrvZyUZ+LZPkE0dNc+Uy6o5HI2plJct/FxO4X27HbmUkwGqX7O20nzd3V2M+DqX0hkpQ0JZHjanzxBF/2qLRy8XQllgAAAABJRU5ErkJggg==", "tileWidth": 40, "tileHeight": 40, "tileSeparationX": 0, "tileSeparationY": 0, "tileMarginX": 0, "tileMarginY": 0}
+  ]
+}

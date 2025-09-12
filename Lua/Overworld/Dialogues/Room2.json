@@ -1,0 +1,9 @@
+{
+        "scene1": ["[func:SetMugshot,Ralsei.Happy]Look,°2 Kris!°3 A clearing!",
+            "[func:SetMugshot,Ralsei.Smile]We've been walking for two minutes already,°3 let's take a break."],
+        
+        "scene2": ["[func:SetMugshot,Ralsei.Side]Feel that?°3 That's premium [color:ffff00]Darkner's AC Quality[color](tm).",
+            "[func:SetMugshot,Ralsei.Normal]The breeze is as fresh as your sense of fashion.°4\nWhich is very fresh."],
+        
+        "scene3": ["[func:SetMugshot,Ralsei.Happy]Enough of that.°3 Let's keep moving!"]
+}

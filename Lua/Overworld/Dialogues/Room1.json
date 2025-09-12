@@ -1,0 +1,14 @@
+{
+        "start": ["A dialogue.",
+            "[func:SetMugshot,Ralsei.Side]A mugshot,°2 too."],
+            
+        "multi": ["[func:SetMugshot,Ralsei.LookDown]Hey,°2 Kris?",
+            "[func:SetMugshot,Ralsei.Happy]If I put on a silly hat,°2 and danced a merry jig...",
+            "[func:SetMugshot,Ralsei.Blush].°2.°2.°2would you take me seriously?",
+            [[], ["No", "multi-b"], [] ,["Yes. Of course", "multi-a"] ]],
+        
+        "multi-a": ["[func:SetMugshot,Ralsei.Soft]Hey,°2 it's okay.°3 I know how hard you're trying to stay in character."],
+        "multi-b": ["[func:SetMugshot,Ralsei.Smile]I understand.°2 I'll never ask this of you again."],
+
+        "multi-2": ["[func:SetMugshot,Ralsei.Side]I said I wouldn't ask again,°2 right?°4 I'm making due on that."]
+}
