@@ -38,6 +38,9 @@ animations = {
     Spare =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },                                     1 / 15, { next = "Idle", actionFrame=5 }                               },
     SliceAnim =     { { 0, 1, 2, 3 },                                                           2 / 15, { loop = "ONESHOTEMPTY" }                       },
 }
+healAnimOffsetX = -2
+healAnimOffsetY = -10
+
 
 rudeBusterEndMagic = -1
 rudeBusterStartFrame = -1

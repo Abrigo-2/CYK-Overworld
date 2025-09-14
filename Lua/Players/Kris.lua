@@ -34,6 +34,8 @@ animations = {
     -- Acts go below.
     Pose =          { { 0, 1, 2, 3 }, 1 / 4, { posShift = { 2, 0 } }                                                                            },
 }
+healAnimOffsetX = -20
+healAnimOffsetY = -18
 
 -- Started when this Player casts a spell through the MAGIC command.
 -- Kris can't use spells. so this won't get used.

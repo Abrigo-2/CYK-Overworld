@@ -42,6 +42,8 @@ animations = {
     -- Acts go here.
     Pose =          { { 0, 1, 2, 3 },                                                    1 /  4, { posShift = { 8,  4 } },                                 },
 }
+healAnimOffsetX = -3
+healAnimOffsetY = -8
 
 
 -- Started when this Player casts a spell through the MAGIC command

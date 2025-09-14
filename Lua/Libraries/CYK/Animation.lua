@@ -362,7 +362,40 @@ return function(self)
             secondaryFlash.alpha = 0
 
             newAnimationRun.f = secondaryFlash
-            newAnimationRun.timeout = .66
+            newAnimationRun.timeout = .66*1.63
+
+            newAnimationRun.stars = { }
+            local healStarsAmount = 4 + math.random(2, 5)
+            for i=1, healStarsAmount*2 do
+                local greenStarShine = CreateSprite("CreateYourKris/SpareStars/1", "Entity")
+                greenStarShine.SetParent(target.sprite)
+
+                greenStarShine.color = { 0, 1, 0 }
+                greenStarShine.alpha = 0
+
+                local starSize = (7/26) + math.random(0, 2) * (12/26)
+                starSize = starSize > 1 and 1 or starSize
+                greenStarShine.Scale(starSize, starSize)
+                greenStarShine["size"] = starSize
+
+                local starRotation = math.random(0, 12)*30
+                greenStarShine.rotation    = starRotation
+                greenStarShine["rotation"] = starRotation
+
+                
+                local newY = math.random(0, 8)
+                newY = (i <= healStarsAmount+1) and newY or newY+28
+                greenStarShine["y"] = newY
+
+                local newX = math.random(-24, 12)
+                greenStarShine["x"] = newX
+                greenStarShine.MoveTo(newX, newY)
+
+                greenStarShine["xDir"] = math.random(-3, 3)
+
+                table.insert(newAnimationRun.stars, greenStarShine)
+            end
+
         elseif type == self.animationChannelsName.flashFailSpare then
             local secondaryFlash = CreateSprite("px", "Entity")
             secondaryFlash.SetParent(target.sprite["mask"])
@@ -407,16 +440,69 @@ return function(self)
             local timePercent = (currentTime / animation.timeout) * 100
             
             if animation.name == self.animationChannelsName.flashHeal then
-                if timePercent < 36 then
-                    animation.f.alpha = timePercent/36.0
-                elseif timePercent > 64 then
-                    animation.f.alpha = 1 - ( (timePercent-64)/36.0 )
+                -- Animate the white flash.
+                if timePercent < 18 then
+                    animation.f.alpha = timePercent/18.0
+                elseif timePercent > 32 then
+                    animation.f.alpha = 1 - ( (timePercent-32)/18.0 )
                 else
                     animation.f.alpha = 1
                 end
 
+                --Animate the green sparkles
+                if timePercent > 22.4 then
+                    local localPercent = ( (timePercent-22.4)/(100-22.4) ) * 100
+                    localPercent = (localPercent > 100) and 100 or localPercent
+
+                    local acceleration = (1 - localPercent/100) * 0.8
+                    acceleration = 1 + acceleration
+
+                    for i=1, #animation.stars do
+
+                        -- Fade-in, scale up.
+                        if localPercent < 18.8 then
+                            animation.stars[i].alpha = (localPercent+6.2)/12.6
+                            local nextSize = math.max(animation.stars[i]["size"]*(localPercent/18.8), animation.stars[i]["size"])
+                            animation.stars[i].Scale(nextSize, nextSize)
+                        -- Fade-out
+                        elseif localPercent >= (100-21) then
+                            local reduce = 1 - ( (localPercent-(100-21))/21 )
+                            animation.stars[i].alpha = reduce
+                            animation.stars[i].Scale(
+                                animation.stars[i]["size"]*reduce, animation.stars[i]["size"]*reduce )
+                        -- Keep alpha and scale consistent midways.
+                        else
+                            animation.stars[i].alpha = 1
+                            animation.stars[i].Scale(
+                                animation.stars[i]["size"], animation.stars[i]["size"] )
+                        end
+
+                        -- Rotate.
+                        if localPercent then
+                            local increment = (localPercent*0.01) * 320
+                            animation.stars[i].rotation = animation.stars[i]["rotation"] + increment
+                        end
+                        
+                        -- Position.        
+                        local nextY = animation.stars[i]["y"] + (localPercent*acceleration*0.01) * 68
+                        if animation.stars[i]["y"] > 58 then
+                            nextY = 58 + (localPercent*acceleration*0.01) * 20
+                        end
+                        
+                        animation.stars[i].x = animation.stars[i]["x"] + (localPercent*acceleration*0.01) * (0.4 + 7.6*animation.stars[i]["xDir"]) * ( (nextY > 40) and 1.23 or 1.08 )
+
+                        -- Offset position.
+                        animation.stars[i].x = animation.stars[i].x + animation.entity.healAnimOffsetX
+                        animation.stars[i].y = nextY + animation.entity.healAnimOffsetY - 25
+
+                    end
+                end
+
                 if timePercent >= 100 then
-                    animation.f.Remove()  end
+                    animation.f.Remove()
+                    for i=#animation.stars, 1, -1 do
+                        animation.stars[i].Remove()  end
+                end
                 
             elseif animation.name == self.animationChannelsName.flashFailSpare then
                 timePercent = (Input.Menu == 2) and timePercent*2 or timePercent

@@ -38,6 +38,8 @@ animations = {
     Spare =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },                     1 / 16, { next = "Idle", actionFrame=5 }                              },
     SliceAnim =     { { 0, 1, 2, 3 },                                       2 / 15, { loop = "ONESHOTEMPTY" }                       },
 }
+healAnimOffsetX = 0
+healAnimOffsetY = 6
 
 -- Started when this Player casts a spell through the MAGIC command
 -- This is called at the start of the turn.

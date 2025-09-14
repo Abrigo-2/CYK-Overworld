@@ -336,6 +336,10 @@ return function(self)
             entity.sparebegcounter = 0  -- A hidden mechanic in ch1.
         end
 
+        -- Offset for the green sparkles in the Heal animation.
+        entity.healAnimOffsetX = (entity.healAnimOffsetX and entity.healAnimOffsetX) or 0
+        entity.healAnimOffsetY = (entity.healAnimOffsetY and entity.healAnimOffsetY) or 0
+
         -- Target of this entity
         entity.target = nil
 

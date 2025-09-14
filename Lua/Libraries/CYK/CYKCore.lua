@@ -1278,7 +1278,7 @@ return function ()
                 player.UI.faceSprite.Set("CreateYourKris/Players/" .. player.sprite["anim"] .. "/UI/Normal")
             else
                 -- Increment the Player's HP by 1/8th of his max HP if they're down
-                self.AtkMgr.ChangeHP(player, player, math.ceil(player.maxhp / 8))
+                player.Heal(math.ceil(player.maxhp / 8), true)
             end
         end
         -- Reset some turn-based variables
@@ -1567,7 +1567,7 @@ return function ()
         self.UpdateIntro()
         self.PerformQueuedPlayerActions()
         self.RunSecondaryAnimations()
-        --self.UpdateAttackingPerfectStars()
+        self.UpdateAttackingPerfectStars()
 
         -- Subsystems Update function calls
         self.UI.Update()

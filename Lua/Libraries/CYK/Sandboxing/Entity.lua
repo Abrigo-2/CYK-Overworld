@@ -223,13 +223,13 @@ end
 canmove = true
 
 -- Heals this entity by a given amount
-function Heal(val)
+function Heal(val, ignoreAnim)
     if type(val) ~= "number" then
         error("entity.Heal() needs at least one number as argument.", 2)
     end
     CYK.AtkMgr.ChangeHP(self, self, val)
-    CYK.StartSecondaryAnimation(CYK.animationChannelsName.flashHeal, self)
-    DEBUG(CYK.animationChannelsName.flashHeal)
+    if not ignoreAnim then
+        CYK.StartSecondaryAnimation(CYK.animationChannelsName.flashHeal, self)  end
 end
 
 -- Hurts this entity by a given amount, from another entity
