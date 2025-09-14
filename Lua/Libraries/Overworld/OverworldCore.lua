@@ -69,8 +69,8 @@ return function()
             local blur = blurs[i]
             if blur.isactive then
             
-                blur.alpha = blur.alpha - 1/40*Time.mult
-                if blur.alpha <= 0.2 then
+                blur.alpha = blur.alpha - 1/48*Time.mult
+                if blur.alpha <= 0.21 then
                     blur.Remove()
                 end
             end
@@ -240,7 +240,7 @@ return function()
                 
             end
             
-            local placingTime = 26  -- The amount of frames it'll take to move the players into position.
+            local placingTime = 15  -- The amount of frames it'll take to move the players into position.
             -- + 30 accounts for the 30 frames it takes the horn to blare twice.
             if f > 30 and f <= 30+placingTime then
                 for i=1, #playerpositions do
@@ -261,7 +261,7 @@ return function()
 
             end
 
-            if f == 30+placingTime+2 then
+            if f == 30+placingTime+3 then
                 --Hide player avatars
                 for i=1, #playerpositions do
                     if i <= #self.party then
@@ -297,7 +297,7 @@ return function()
             else
                 NewAudio.SetVolume("BGM", self.BGM.volumeMax) end
             
-            local placingTime = 26  -- The amount of frames it'll take to move the players into position.
+            local placingTime = 22  -- The amount of frames it'll take to move the players into position.
             -- + 1 accounts for...... (?????????)
             if f > 1 and f < placingTime then
                 for i=1, #playerpositions do

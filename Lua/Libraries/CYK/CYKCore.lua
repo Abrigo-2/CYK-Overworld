@@ -104,8 +104,6 @@ return function ()
 
     self.stronger = false -- Define if the players are *becoming stronger* after a battle
 
-    self.infiLoopCounter = 0
-
     -- Triggered when the player presses the Confirm key
     function self.Confirm(force)
         -- State when the player chooses his Players' actions
@@ -1016,7 +1014,7 @@ return function ()
             self.TxtMgr.text2.progressmode = "none"
             self.Background.CreateBackground(background, backgroundfade)
 
-            if battlemusic then  NewAudio.Pause("BGM") end
+            if pauseowmusic then  NewAudio.Pause("BGM") end
             encounterFile.EncounterStarting()
 
             if skipintro then
