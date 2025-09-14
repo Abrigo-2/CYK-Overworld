@@ -365,15 +365,17 @@ return function(self)
             newAnimationRun.timeout = .66*1.63
 
             newAnimationRun.stars = { }
-            local healStarsAmount = 4 + math.random(2, 5)
+            local healStarsAmount = 3 + math.random(2, 4)
             for i=1, healStarsAmount*2 do
                 local greenStarShine = CreateSprite("CreateYourKris/SpareStars/1", "Entity")
                 greenStarShine.SetParent(target.sprite)
 
+                local isBelow = (i <= healStarsAmount-1)
+
                 greenStarShine.color = { 0, 1, 0 }
                 greenStarShine.alpha = 0
 
-                local starSize = (7/26) + math.random(0, 2) * (12/26)
+                local starSize = (7/26) + math.random(0, isBelow and 2 or 8) * (3/26)
                 starSize = starSize > 1 and 1 or starSize
                 greenStarShine.Scale(starSize, starSize)
                 greenStarShine["size"] = starSize
@@ -384,7 +386,7 @@ return function(self)
 
                 
                 local newY = math.random(0, 8)
-                newY = (i <= healStarsAmount+1) and newY or newY+28
+                newY = isBelow and newY or newY+26
                 greenStarShine["y"] = newY
 
                 local newX = math.random(-24, 12)
@@ -465,9 +467,9 @@ return function(self)
                             local nextSize = math.max(animation.stars[i]["size"]*(localPercent/18.8), animation.stars[i]["size"])
                             animation.stars[i].Scale(nextSize, nextSize)
                         -- Fade-out
-                        elseif localPercent >= (100-21) then
-                            local reduce = 1 - ( (localPercent-(100-21))/21 )
-                            animation.stars[i].alpha = reduce
+                        elseif localPercent >= (100-30) then
+                            animation.stars[i].alpha = 1 - ( (localPercent-(100-21))/21 )
+                            local reduce = 1 - ( (localPercent-(100-30))/30 )
                             animation.stars[i].Scale(
                                 animation.stars[i]["size"]*reduce, animation.stars[i]["size"]*reduce )
                         -- Keep alpha and scale consistent midways.
@@ -484,16 +486,12 @@ return function(self)
                         end
                         
                         -- Position.        
-                        local nextY = animation.stars[i]["y"] + (localPercent*acceleration*0.01) * 68
-                        if animation.stars[i]["y"] > 58 then
-                            nextY = 58 + (localPercent*acceleration*0.01) * 20
-                        end
-                        
-                        animation.stars[i].x = animation.stars[i]["x"] + (localPercent*acceleration*0.01) * (0.4 + 7.6*animation.stars[i]["xDir"]) * ( (nextY > 40) and 1.23 or 1.08 )
+                        local nextY = animation.stars[i]["y"] + (localPercent*acceleration*0.01) * 62
+                        animation.stars[i].x = animation.stars[i]["x"] + (localPercent*acceleration*0.01) * (0.4 + 4.6*animation.stars[i]["xDir"]) * ( (nextY > 40) and 1.23 or 1.08 )
 
                         -- Offset position.
                         animation.stars[i].x = animation.stars[i].x + animation.entity.healAnimOffsetX
-                        animation.stars[i].y = nextY + animation.entity.healAnimOffsetY - 25
+                        animation.stars[i].y = nextY + animation.entity.healAnimOffsetY - 30
 
                     end
                 end
