@@ -140,7 +140,7 @@ return function(CreateYourKris)
         -- Move the preview of the TP bar if it's not equal to the TP bar's true value
         if self.trueValue ~= self.previewValue then
             -- Case TP was maxed out
-            if self.previewValue == self.maxValue then
+            if self.previewValue >= self.maxValue then
                 self.bar.bar.color32 = self.noFullColor32
                 self.staticText.Set("CreateYourKris/TP Bar/text")
             end
@@ -149,7 +149,7 @@ return function(CreateYourKris)
             self.previewValue = self.previewValue + math.min(self.previewSpeed, math.abs(self.previewValue - self.trueValue)) * (gt and 1 or -1)
 
             -- Case TP is now maxed: hide the numbers and set the bar's color
-            if self.previewValue == self.maxValue then
+            if self.previewValue >= self.maxValue then
                 self.barValue = self.maxValue - 1
                 self.bar.bar.color32 = self.fullColor32
                 self.num1.Set("empty")
@@ -168,7 +168,7 @@ return function(CreateYourKris)
                 end
 
                 -- Updates the numbers
-                local previewValueRelative = math.floor(self.previewValue / self.maxValue * 100)
+                local previewValueRelative = math.floor( (self.previewValue / self.maxValue * 100)+0.5 )
                 local twoNumbers = previewValueRelative >= 10
                 self.num1.Set("CreateYourKris/TP Bar/Numbers/" .. (twoNumbers and tostring(math.floor(previewValueRelative / 10)) or tostring(math.floor(previewValueRelative))))
                 if twoNumbers then

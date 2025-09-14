@@ -886,7 +886,7 @@ return function ()
             if self.players[self.turn].action == "Magic" and newState == "ACTIONSELECT" then
                 self.TP.Set(self.turnTPs[self.turn])
             end
-            self.TP.PreviewTPLoss(self.TP.maxValue+1)
+            self.TP.PreviewTPLoss(self.TP.trueValue+1)
 
             -- Hide the flash sprite of all entities (somehow I can't get the right entity so I do that instead)
             for i = 1, #self.players + #self.enemies do
@@ -898,7 +898,7 @@ return function ()
         elseif oldState == "ACTMENU" then
             self.TxtMgr.HideText()
             -- Remove the preview of the TP bar
-            self.TP.PreviewTPLoss(self.TP.maxValue+1)
+            self.TP.PreviewTPLoss(self.TP.trueValue+1)
             -- If we choose an enemy, that means we agreed to go further, so we can remove the amount of TP the spell or act command needs!
             if Input.Confirm == 1 and self.players[secondaryData].action ~= "Item" then
                 local spellOrAct = self.players[secondaryData].action == "Magic" and self.spells[self.players[self.turn].subAction] or
