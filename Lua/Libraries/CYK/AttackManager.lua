@@ -313,8 +313,7 @@ return function(CYK)
         else
             -- If the damage is lower than 0, that means it's negative and subtracts the target's health.
             if damage < 0 and not isTargetPlayer then
-                PlaySoundOnceThisFrame("hitsound")
-            end
+                PlaySoundOnceThisFrame((attacker.name == "Susie") and "hitsusie" or "hitsound")  end
         end
 
         return true
