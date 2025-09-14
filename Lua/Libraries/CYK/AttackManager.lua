@@ -280,7 +280,7 @@ return function(CYK)
             return false
         end
         -- Shake the screen if ANYONE is hurt.
-        if (coeff == 1 and not isTargetPlayer) or isTargetPlayer or attacker.name == "Susie" then
+        if isTargetPlayer or attacker.name == "Susie" then
             if damageClass ~= "RudeBuster" then
                 CYK.ScreenShake.Shake(13, 6)
             end

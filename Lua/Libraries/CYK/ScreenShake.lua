@@ -50,8 +50,11 @@ return function(CYK)
 
             -- Moves the camera AND relevant UI nodes.
             Misc.MoveCameraTo(newX, newY)
-
             CYK.UI.relocateUI()
+            if (background) and CYK.Background.cover then
+                CYK.Background.cover.absx = Misc.cameraX
+                CYK.Background.cover.absy = Misc.cameraY
+            end
 
             if frame == shake.frames then
                 self.shakeInProgress = nil  end
