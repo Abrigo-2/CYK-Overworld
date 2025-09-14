@@ -18,7 +18,7 @@ return function(self)
         end
 
         local spell = { }
-        local tpAccordingToBar = math.ceil(tpCost * 100/255)
+        local tpAccordingToBar = math.floor((tpCost * 100/CYK.TP.maxValue) + 0.5)
         spell.description = "[font:uidialog][novoice][instant][color:808080]" .. description .. "\n[color:ff8040]" .. tostring( tpAccordingToBar ) .. "% TP"
 
         spell.tpCost = tpCost
