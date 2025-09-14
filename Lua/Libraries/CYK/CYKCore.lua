@@ -1569,7 +1569,6 @@ return function ()
         self.UpdateIntro()
         self.PerformQueuedPlayerActions()
         self.RunSecondaryAnimations()
-        self.UpdateAttackingPerfectStars()
 
         -- Subsystems Update function calls
         self.UI.Update()

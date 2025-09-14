@@ -116,15 +116,8 @@ return function(CYK)
 
                         -- Create the stars displayed during perfect attacks
                         local player = CYK.players[attackingPlayer.playerID]
-                        for j = 1, 3 do
-                            local star = CreateSprite("CreateYourKris/UI/Attack/Stars/1", "Entity")
-                            star.absx = player.sprite.absx + math.random(player.sprite.width / 2, player.sprite.width)
-                            star.absy = player.sprite.absy + math.random(0, player.sprite.height / 2)
-                            star["anim"] = "damageStar"
-                            CYK.SetAnim({ sprite = star }, "Idle", { noAnimOverride = true, destroyOnEnd = true })
-                            star["startX"] = star.absx
-                            attackingPlayer.perfectStars[j] = star
-                        end
+                        CYK.StartSecondaryAnimation(CYK.animationChannelsName.perfectHitStars, player)
+                        
                     -- 2 frame off...
                     elseif diff <= self.visorSpeed*3 then
                         attackingPlayer.coeff = 120
@@ -473,33 +466,6 @@ return function(CYK)
 
         CYK.UI.CreateValueChangeText(textValue, target, color)
         return value
-    end
-
-   
-    -- Updates the stars that appear when a Player executes a perfect attack
-    function CYK.UpdateAttackingPerfectStars()
-        for i = #CYK.AtkMgr.attackingPlayers, 1, -1 do
-            local attackingPlayer = CYK.AtkMgr.attackingPlayers[i]
-            -- If there's any star left
-            if #attackingPlayer.perfectStars > 0 then
-                -- If the star's anim is complete, remove it
-                while #attackingPlayer.perfectStars > 0 and attackingPlayer.perfectStars[1].animcomplete do
-                    table.remove(attackingPlayer.perfectStars, 1)
-                end
-                -- Move the star to the right and fade it out over time
-                if #attackingPlayer.perfectStars > 0 then
-                    local starAlpha = (200 - (attackingPlayer.perfectStars[1].absx - attackingPlayer.perfectStars[1]["startX"] + 3)) / 200
-                    for j = 1, #attackingPlayer.perfectStars do
-                        local star = attackingPlayer.perfectStars[j]
-                        star.absx = star.absx + (3 * (0.888 * (2-starAlpha)))
-                        star.alpha = starAlpha
-                    end
-                end
-            -- Remove the current attacking player from the attackingPlayers table if we're not in the state ATTACKING
-            elseif CYK.state ~= "ATTACKING" then
-                table.remove(CYK.AtkMgr.attackingPlayers, i)
-            end
-        end
     end
 
     return self

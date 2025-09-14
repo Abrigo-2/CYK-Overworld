@@ -35,10 +35,6 @@ return function(self)
                 end
             end
         end
-        -- Animation of the stars that appear when a Player's attack is performed perfectly
-        self.anims.damageStar = {
-            Idle = { { "CreateYourKris/UI/Attack/Stars/1", "CreateYourKris/UI/Attack/Stars/2", "CreateYourKris/UI/Attack/Stars/3" }, 1 / 4, { loop = "ONESHOTEMPTY" } }
-        }
 
         testSprite.Remove()
     end
@@ -344,7 +340,7 @@ return function(self)
     end
 
     -- Simply an enum.
-    self.animationChannelsName = { flashHeal=0, flashFailSpare=1, flashFailPacify=2 }
+    self.animationChannelsName = { flashHeal=0, flashFailSpare=1, flashFailPacify=2, perfectHitStars=3 }
     self.animationChannels = { }
     -- Starts secondary, polish animations.
     function self.StartSecondaryAnimation(type, target)
@@ -420,6 +416,22 @@ return function(self)
 
             newAnimationRun.f = secondaryFlash
             newAnimationRun.timeout = 0.6
+        elseif type == self.animationChannelsName.perfectHitStars then
+
+            newAnimationRun.perfectStars = {}
+            newAnimationRun.timeout = 3/4
+            for j = 1, 3 do
+                local player = target
+
+                local star = CreateSprite("CreateYourKris/UI/Attack/Stars/1", "Entity")
+                star.absx = player.sprite.absx + math.random(player.sprite.width / 2, player.sprite.width)
+                star.absy = player.sprite.absy + math.random(0, player.sprite.height / 2)
+                
+                star.SetAnimation( {1, 2, 3}, 1/4, "CreateYourKris/UI/Attack/Stars" )
+                star["startX"] = star.absx
+
+                newAnimationRun.perfectStars[j] = star
+            end
         else
             -- Undefined animation.
             error("The specified argument in type, \"" .. tostring(type) .. "\", refers to an undefined animation. Make sure you've used to correct CYK.animationChannelsName value." )
@@ -512,6 +524,7 @@ return function(self)
                 else
                     animation.f.alpha = 1
                 end
+                -- Caps the "maximum" alpha
                 animation.f.alpha = animation.f.alpha * 0.292
 
                 if timePercent >= 100 then
@@ -527,10 +540,26 @@ return function(self)
                 else
                     animation.f.alpha = 1
                 end
+                -- Caps the "maximum" alpha
                 animation.f.alpha = animation.f.alpha * 0.354
 
                 if timePercent >= 100 then
                     animation.f.Remove()  end
+
+            elseif animation.name == self.animationChannelsName.perfectHitStars then
+                -- Move the star to the right and fade it out over time
+                local starAlpha = (200 - (animation.perfectStars[1].absx - animation.perfectStars[1]["startX"] + 3)) / 200
+                for j = 1, #animation.perfectStars do
+                    local star = animation.perfectStars[j]
+                    star.absx = star.absx + (3 * (0.888 * (2-starAlpha)))
+                    star.alpha = starAlpha
+                end
+
+                if timePercent >= 100 then
+                    while #animation.perfectStars > 0 do
+                        animation.perfectStars[1].Remove()
+                        table.remove(animation.perfectStars, 1) end
+                end
             end
 
             if timePercent >= 100 then
