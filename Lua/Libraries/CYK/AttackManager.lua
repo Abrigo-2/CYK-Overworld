@@ -3,6 +3,8 @@ return function(CYK)
 
     self.attackingPlayers = { }  -- Used when players are attacking. It keeps track of who is attacking and who is attacking first!
     
+    self.visorSpeed = 4 * (1 + 1/30)
+
     -- Sets a Player attack up
     function self.SetupAttack()
         -- If a player's target entity is not active, take an active entity instead
@@ -53,12 +55,16 @@ return function(CYK)
             end
             attackingPlayer.inputNumber = chosen
             attackingPlayer.visor = player.UI.atkZone.visor
-            attackingPlayer.visor.x = 38 + 240 + 96 * (attackingPlayer.inputNumber - 1)
+            attackingPlayer.visor.x = 41 + (60*self.visorSpeed) + (24*self.visorSpeed) * (attackingPlayer.inputNumber - 1)
+            attackingPlayer.visor["crit"] = false
+
+            attackingPlayer.atkColor = player.atkHitColor
             
             for i=1, #attackingPlayer.visor["trails"] do
                 local t = attackingPlayer.visor["trails"][i]
-                t.x = 272 + 96 * (attackingPlayer.inputNumber - 1)
-                t.alpha = 1 / #attackingPlayer.visor["trails"]
+                t.x = attackingPlayer.visor.x
+                t.alpha = .92 - (#attackingPlayer.visor["trails"]-i) * 2/11
+                t.alpha = t.alpha * 0.54
             end
             attackingPlayer.visor["activeTrail"] = true
             
@@ -96,15 +102,15 @@ return function(CYK)
                     attackingPlayer.visor["activeTrail"] = false
                     
                     -- Get the attack coefficient of this Player that'll be used if this Player's attack cursor is closer to the left than any other cursors
-                    local diff = math.abs(visor.x - 38)
+                    local diff = math.abs(visor.x - 41)
                     local attackingPlayer = nextPlayers[#nextPlayers][1]
 
                     -- Missed
                     if visor.x <= -500 then
                         attackingPlayer.coeff = 0
                     -- Perfect hit!!
-                    elseif diff == 0 then
-                        visor.x = 38
+                    elseif diff <= self.visorSpeed+1 then
+                        visor.x = 41
                         diff = 0
                         attackingPlayer.coeff = 150
 
@@ -119,11 +125,11 @@ return function(CYK)
                             star["startX"] = star.absx
                             attackingPlayer.perfectStars[j] = star
                         end
-                    -- 1 frame off...
-                    elseif diff <= 4 then
+                    -- 2 frame off...
+                    elseif diff <= self.visorSpeed*3 then
                         attackingPlayer.coeff = 120
-                    -- 2 frames off...
-                    elseif diff <= 8 then
+                    -- 4 frames off...
+                    elseif diff <= self.visorSpeed*5 then
                         attackingPlayer.coeff = 110
                     -- Formula when far from the target
                     else
@@ -142,13 +148,16 @@ return function(CYK)
         -- If a Player has attacked
         if #nextPlayers > 0 then
             -- For each of those Players
-            local crit  = false
+            local crit = false
             while #nextPlayers > 0 do
                 local playerID = nextPlayers[1][1].playerID
                 local visor = nextPlayers[1][1].visor
-                if visor.x == 38 then
+                if visor.x == 41 then
                     visor.color = { 1, 1, 0 }
+                    visor["crit"] = true
                     crit = true
+                elseif visor.x > 41 then
+                    visor.color = nextPlayers[1][1].atkColor
                 end
                 nextPlayers[1][1].stopped = true
                 -- Start this Player's "Fight" animation
@@ -203,11 +212,18 @@ return function(CYK)
                 end
                 -- Shows the Player's visor scale up and disappear as the attack is confirmed
                 if attackingPlayer.stopped and attackingPlayer.visor.alpha > -1 then
-                    attackingPlayer.visor.Scale(attackingPlayer.visor.xscale + 6 * 0.05, attackingPlayer.visor.yscale + 38 * 0.05)
+                    if attackingPlayer.visor["crit"] then
+                        attackingPlayer.visor.Scale(attackingPlayer.visor.xscale + 8 * 0.05, attackingPlayer.visor.yscale + 46 * 0.06)
+                    else
+                        attackingPlayer.visor.Scale(attackingPlayer.visor.xscale + 6 * 0.05, attackingPlayer.visor.yscale + 38 * 0.05)
+                    end
                     attackingPlayer.visor.alpha = attackingPlayer.visor.alpha - 0.05
                 -- Moves the visor to the left
                 elseif not attackingPlayer.stopped then
-                    attackingPlayer.visor.x = attackingPlayer.visor.x - 4
+                    -- This is accurate, just laggy.
+                    --attackingPlayer.visor.x = attackingPlayer.visor.x - ((CYK.frame%2 == 0) and self.visorSpeed*2 or 0)
+                    attackingPlayer.visor.x = attackingPlayer.visor.x - self.visorSpeed*Time.mult * ( (attackingPlayer.visor.x < 41) and 1.5 or 1 )
+                    
                     -- If the visor goes too far to the left, it disappears and the attack ends
                     if attackingPlayer.visor.x < 20 then
                         attackingPlayer.visor.alpha = attackingPlayer.visor.x / 20
@@ -223,13 +239,17 @@ return function(CYK)
                 -- Moves and fades the trails
                 for i=1, #attackingPlayer.visor["trails"] do
                     local t = attackingPlayer.visor["trails"][i]
-                    t.alpha = t.alpha - 1/18
+                    
+                    if CYK.frame%4 == 1 then
+                        if i == #attackingPlayer.visor["trails"] then
+                            t.x = attackingPlayer.visor.x
+                        else
+                            t.x = attackingPlayer.visor["trails"][i+1].x  end
+                    end
 
-                    -- Trails follow as long as the visor is visible.
-                    if t.alpha <= 0 and attackingPlayer.visor["activeTrail"] then
-                        t.x = attackingPlayer.visor.x
-                       
-                        t.alpha = t.alpha + ( 1 - i/#attackingPlayer.visor["trails"] )
+                    
+                    if not attackingPlayer.visor["activeTrail"] then
+                        t.alpha = t.alpha - 1/18
                     end
                 end
                 -- If any of the Players isn't done attacking, do not exit this state
@@ -469,10 +489,10 @@ return function(CYK)
                 end
                 -- Move the star to the right and fade it out over time
                 if #attackingPlayer.perfectStars > 0 then
-                    local starAlpha = (200 - (attackingPlayer.perfectStars[1].absx - attackingPlayer.perfectStars[1]["startX"] + 5)) / 200
+                    local starAlpha = (200 - (attackingPlayer.perfectStars[1].absx - attackingPlayer.perfectStars[1]["startX"] + 3)) / 200
                     for j = 1, #attackingPlayer.perfectStars do
                         local star = attackingPlayer.perfectStars[j]
-                        star.absx = star.absx + 5
+                        star.absx = star.absx + (3 * (0.888 * (2-starAlpha)))
                         star.alpha = starAlpha
                     end
                 end

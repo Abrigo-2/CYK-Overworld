@@ -276,13 +276,14 @@ return function(CYK)
             playerUI.atkZone.visor.SetParent(playerUI.atkZone.press)
             playerUI.atkZone.visor.Scale(6, 38)
             playerUI.atkZone.visor.SetAnchor(0, 0)
-            playerUI.atkZone.visor.SetPivot(0, 0.5)
+            playerUI.atkZone.visor.SetPivot(0.5, 0.5)
             playerUI.atkZone.visor.x = 270
             playerUI.atkZone.visor.y = 19
             playerUI.atkZone.visor.alpha = 0
+            playerUI.atkZone.visor["crit"] = false
 
             playerUI.atkZone.visor["trails"] = { }
-            for i=1, 3 do
+            for i=1, 4 do
                 local t = CreateSprite("px", "LowerUI")
                 t.SetParent(playerUI.atkZone.press)
                 t.Scale(6, 38)
