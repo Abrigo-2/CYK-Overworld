@@ -27,7 +27,7 @@ enemypositions = {
     { 492, 250 },
 }
 
- unescape = false -- Uncomment me to remove the pesky QUITTING text when trying to exit the encounter!
+--unescape = false -- Uncomment me to remove the pesky QUITTING text when trying to exit the encounter!
 
 -- Preloads all of CYK's animations to reduce loading times in-game, at the price of an increasing loading time at the start of the encounter
 preloadAnimations = true
@@ -44,10 +44,10 @@ CYKDebugLevel = 0
 fontCharUsedForPlayer = { Kris = "Ђ", Susie = "Ѓ", Ralsei = "Є", Ieslar = "Љ", KRISP = "Њ", ZOOZIE = "Ћ" }
 fontCharUsedForPlayer["2FPEST"] = "Ќ"
 
-skipintro = false --Skips the battle intro animation or not
-battlemusic = true
-background = false     -- Set this variable to false to disable CYK's background
-backgroundfade = true -- Set this variable to false to disable the fade effect on the background when entering a wave
+skipintro = false      -- Skips the battle intro animation.
+pauseowmusic = true    -- Pause the overworld's background track when a fight starts.
+background = false     -- Set this variable to false to disable the square-grid background. (or whatever is the default background)
+backgroundfade = true  -- Set this variable to false to disable the fade effect on the background when entering a wave. Advised to keep as true.
 
 -- A custom list with attacks to choose from. Actual selection happens in EnemyDialogueEnding(). Put here in case you want to use it.
 possible_attacks = { }
@@ -104,14 +104,14 @@ function EncounterStarting()
 
         Overworld.party[1] = Overworld.allAvatars["OWKris"] -- This will set your current party members. Can exceed 3! They just won't show up in battle.
         Overworld.party[2] = Overworld.allAvatars["OWRalsei"]
-        Overworld.party[3] = Overworld.allAvatars["OWGentle"]
+        --Overworld.party[3] = Overworld.allAvatars["OWGentle"]
         
         self.canControl = true  -- Set true so the player can move around from the get-go, as soon as the mod is loaded.
 
-        Overworld.originID = 3
-        Overworld.CreateRoom("Room4")
+        Overworld.originID = 1
+        Overworld.CreateRoom("Room1")
 
-        --NewAudio.PlayMusic("BGM", "fields_requiem", true, Overworld.BGM.volumeMax) -- The starting Overworld's BGM track.
+        NewAudio.PlayMusic("BGM", "fields_requiem", true, Overworld.BGM.volumeMax) -- The starting Overworld's BGM track.
         Overworld.BGM.name = "fields_requiem"
     end
 
@@ -124,10 +124,10 @@ function EncounterStarting()
     OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"} -- This carries over your inventory after a fight.
 
     -- For playtesting purposes...
-    -- These variables mute the game's background music.
-    NewAudio.SetVolume("BGM", 0)
-    NewAudio.Stop( "BGM")
-    Audio.Volume(0)
+    -- Uncoment these functions to mute the game's background music.
+    --NewAudio.SetVolume("BGM", 0)
+    --NewAudio.Stop( "BGM")
+    --Audio.Volume(0)
 
 end
 
@@ -143,9 +143,9 @@ encounterFile = (require "Battles/Example")()
 
 -- In order to reduce lag, the enounter's file is *actually* loaded at Overworld.StartBattleIntro()
 function LoadBattleValues()
-    battlemusic = false
+    pauseowmusic = false
     if encounterFile.music ~= "none" then
-        battlemusic = true
+        pauseowmusic = true
         Audio.LoadFile(encounterFile.music)
         Audio.Pause()
     end
