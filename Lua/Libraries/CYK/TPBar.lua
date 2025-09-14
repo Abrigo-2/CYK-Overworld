@@ -168,11 +168,12 @@ return function(CreateYourKris)
                 end
 
                 -- Updates the numbers
-                local previewValueRelative = math.floor( (self.previewValue / self.maxValue * 100)+0.5 )
+                local previewValueRelative = math.floor( (self.previewValue / self.maxValue) * 100 )
                 local twoNumbers = previewValueRelative >= 10
                 self.num1.Set("CreateYourKris/TP Bar/Numbers/" .. (twoNumbers and tostring(math.floor(previewValueRelative / 10)) or tostring(math.floor(previewValueRelative))))
                 if twoNumbers then
                     self.num1.absx = Misc.cameraX + 12
+                    self.num2.absx = Misc.cameraX + 28
                     self.num2.Set("CreateYourKris/TP Bar/Numbers/" .. tostring(math.floor(previewValueRelative) % 10))
                 else
                     self.num1.absx = Misc.cameraX + 20
