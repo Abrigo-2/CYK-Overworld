@@ -281,7 +281,9 @@ return function(CYK)
         end
         -- Shake the screen if ANYONE is hurt.
         if (coeff == 1 and not isTargetPlayer) or isTargetPlayer or attacker.name == "Susie" then
-            CYK.ScreenShake.Shake(13, 6)
+            if damageClass ~= "RudeBuster" then
+                CYK.ScreenShake.Shake(13, 6)
+            end
         end
         -- Tries to call this entity's BeforeDamageCalculation function
         ProtectedCYKCall(target.BeforeDamageCalculation, attacker, coeff)
