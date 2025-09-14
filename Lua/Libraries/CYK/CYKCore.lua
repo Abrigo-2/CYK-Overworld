@@ -444,6 +444,8 @@ return function ()
                         end
 
                         CYK.StartSecondaryAnimation(CYK.animationChannelsName.flashFailSpare, enemy)
+                        if chapter2 then
+                            CYK.UI.CreateValueChangeText("Miss", enemy, {1, 1, 1})  end
                     end
                 end
 
