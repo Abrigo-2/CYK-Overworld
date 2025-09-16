@@ -454,6 +454,8 @@ return function ()
                         self.Confirm(true)
                     end
                 end
+
+                nextPlayer.UI.faceSprite.Set("CreateYourKris/Players/" .. nextPlayer.sprite["anim"] .. "/UI/Normal")
                 
                 table.remove(self.currentPlayerActionQueue, i)
             end
