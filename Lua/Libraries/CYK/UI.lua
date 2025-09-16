@@ -445,14 +445,12 @@ return function(CYK)
         self.shownTimer = 35
     end
 
-    function self.DisplayAtkZone(uiObject, hide)
-        local alpha = hide and 0 or 1
+    function self.DisplayAtkZone(uiObject, alpha)
+        local alpha = alpha and alpha or 1
         uiObject.atkZone.press.alpha = alpha
         uiObject.atkZone.faceSprite.alpha = alpha
         uiObject.atkZone.bar.alpha = alpha
         uiObject.atkZone.target.alpha = alpha
-        uiObject.atkZone.visor.alpha = alpha
-        uiObject.atkZone.visor.color = { 1, 1, 1 }
     end
 
     function self.FlashAttackBars()

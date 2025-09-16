@@ -851,7 +851,7 @@ return function ()
                 local attackingPlayer = self.AtkMgr.attackingPlayers[i]
                 attackingPlayer.visor.Scale(6, 38)
                 attackingPlayer.visor.alpha = 0
-                self.AtkMgr.DisplayAtkZone(self.players[attackingPlayer.playerID].UI, true)
+                self.AtkMgr.DisplayAtkZone(self.players[attackingPlayer.playerID].UI, 0)
                 self.SetAnim(self.players[attackingPlayer.playerID], "Idle")
 
                 -- Hide the fading trail of the visor

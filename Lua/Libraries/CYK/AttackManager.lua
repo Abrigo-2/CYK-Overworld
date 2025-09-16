@@ -4,6 +4,7 @@ return function(CYK)
     self.attackingPlayers = { }  -- Used when players are attacking. It keeps track of who is attacking and who is attacking first!
     
     self.visorSpeed = 4 * (1 + 1/30)
+    self.fadetime = 0
 
     -- Sets a Player attack up
     function self.SetupAttack()
@@ -32,6 +33,9 @@ return function(CYK)
             return
         end
 
+        -- Reset the timer for fading out the attack UI
+        self.fadetime = 0
+
         -- Computes the order at which the Players will attack and the position of their attack visor
         local differentInputs = math.random()
         differentInputs = math.min(#self.attackingPlayers, differentInputs < 0.1 and 1 or differentInputs < 0.9 and 2 or 3)
@@ -57,7 +61,9 @@ return function(CYK)
             attackingPlayer.visor = player.UI.atkZone.visor
             attackingPlayer.visor.x = 41 + (60*self.visorSpeed) + (24*self.visorSpeed) * (attackingPlayer.inputNumber - 1)
             attackingPlayer.visor["crit"] = false
-
+            
+            attackingPlayer.visor.color = { 1, 1, 1 }
+            attackingPlayer.visor.alpha = 1
             attackingPlayer.atkColor = player.atkHitColor
             
             for i=1, #attackingPlayer.visor["trails"] do
@@ -250,20 +256,38 @@ return function(CYK)
                     done = false
                 end
             end
-            -- If any enemy is still displaying their Hurt animation, do not exit this state
-            for i = 1, #CYK.enemies do
-                local enemy = CYK.enemies[i]
-                if enemy.sprite["currAnim"] == "Hurt" then
-                    done = false
-                end
-            end
-            -- If everything is done, exit this state
+            
+            -- Once every player's done attacking, start fading out the UI
             if done then
-                if #CYK.enemies > 0 then
-                    CYK.State("ENEMYDIALOGUE")
-                else
-                    CYK.State("BEFOREDONE")
+                
+                self.fadetime = self.fadetime + 1
+                for i = 1, #CYK.players do
+                    local player = CYK.players[i]
+                    
+                    if (player.UI.atkZone.bar.alpha > 0) then
+                        self.DisplayAtkZone(player.UI,  1 - (self.fadetime/20) )
+                        player.UI.atkZone.visor.alpha = player.UI.atkZone.visor.alpha - (self.fadetime/20)
+                    end
+
+                    if i >= 2 then
+                        CYK.players[i].UI.atkZone.separator.alpha = CYK.players[i].UI.atkZone.separator.alpha - (self.fadetime/20)
+                    end
+
                 end
+                
+                local enemyHurtingDone = true
+                -- If any enemy is still displaying their Hurt animation, do not exit this state
+                for i = 1, #CYK.enemies do
+                    if CYK.enemies[i].sprite["currAnim"] == "Hurt" then
+                        enemyHurtingDone = false
+                        break
+                    end
+                end
+
+                if (self.fadetime > 20) and enemyHurtingDone then
+                    CYK.State( (#CYK.enemies > 0) and "ENEMYDIALOGUE" or "BEFOREDONE" )
+                end
+
             end
         end
 
@@ -279,7 +303,7 @@ return function(CYK)
         if target.hp < 0 or not target.isactive then
             return false
         end
-        -- Shake the screen if ANYONE is hurt.
+        -- Shake the screen if a player is hurt.
         if isTargetPlayer or attacker.name == "Susie" then
             if damageClass ~= "RudeBuster" then
                 CYK.ScreenShake.Shake(13, 6)
