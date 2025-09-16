@@ -90,10 +90,10 @@ function UpdateTurn(frame, absoluteFrame)
                     rudeBuster.absx = currPos.x
                     rudeBuster.absy = currPos.y
                     
-                    local shrinkPercent = 0.625 * ( (num+1)/10 )
-                    shrinkPercent = shrinkPercent + .375
+                    local shrinkPercentX = 0.625 * (num+1)/10 + .375
+                    local shrinkPercentY = 0.7   * (num+1)/10 + .3
                     rudeBuster.Scale(
-                        2.4 * shrinkPercent , 2 * shrinkPercent * 1.3
+                        2.4 * shrinkPercentX,  2 * shrinkPercentY * 1.3
                     )
                     rudeBuster["startFrame"] = absoluteFrame
                               
@@ -109,17 +109,19 @@ function UpdateTurn(frame, absoluteFrame)
                 for i = 1, 8 do
                     local rudeBuster = CreateSprite("RudeBuster/0", "Entity")
                     
-                    local xMod = 5
-                    local yMod = -10
+                    local xMod =   5 + ( (i >= 3 and i <= 6) and 25 or -25 )
+                    local yMod = -10 + ( (i <= 4) and -25 or 25 )
                     rudeBuster.absx = target.sprite.absx + target.sprite.width/2  + xMod
                     rudeBuster.absy = target.sprite.absy + target.sprite.height/2 + yMod
                     
                     rudeBuster.rotation = 45 + 90 * math.floor((i - 1) / 2)
-                    rudeBuster.Scale(2, 2)
+                    rudeBuster.Scale(2.5, 2.5)
+                    rudeBuster.SetPivot(0, 0.5)
+                    rudeBuster.alpha = 6/8
                     
                     rudeBuster["startFrame"] = absoluteFrame
                     rudeBuster["hit"] = true
-                    rudeBuster["hitPlus"] = i % 2 == 0
+                    rudeBuster["hitPlus"] = (i%2 == 0)
                     
                     table.insert(rudeBustersHit, rudeBuster)
                 end
@@ -151,11 +153,12 @@ function UpdateTurn(frame, absoluteFrame)
                     end
 
                     if currentFrame > HitFrame+5 then
-                        rB.alpha = rB.alpha - (1/11) * (1.1 - (i / #rudeBustersTrail))
+                        rB.alpha = rB.alpha - 0.06 * (1-rB.alpha)
                     end
 
-                    local yscale = rB.yscale - (1/10)
-                    rB.yscale = (yscale>0) and yscale or 0
+                    --local yscale = rB.yscale - (1/10)
+                    --rB.yscale = (yscale>0) and yscale or 0
+                    rB.yscale = rB.yscale * 0.94
                 end
 
                 if frame == 30 then
@@ -170,14 +173,13 @@ function UpdateTurn(frame, absoluteFrame)
             for i = #rudeBustersHit, 1, -1 do
                 local rB = rudeBustersHit[i]
                 local frame = absoluteFrame - rB["startFrame"]
-                local lastFrame = 30
+                local lastFrame = 35
 
                 -- Movement.
                 local rotation = math.rad(rB.rotation)
-                local coeff = 4.75 * (1.1 - frame / lastFrame) * (rB["hitPlus"] and 1.1 or 1)
+                local coeff = (rudeBusterBoosted and 7.75 or 7.15) * (1.2 - frame / lastFrame) * (rB["hitPlus"] and 1.18 or 1.04)
                 rB.Move(math.cos(rotation) * coeff, math.sin(rotation) * coeff)
-                rB.xscale = rB.xscale * .89
-                rB.xscale = (math.abs(rB.xscale) > 0.01) and rB.xscale or 0
+                rB.xscale = rB.xscale * .88
 
                 if frame == lastFrame then
                     rB.Remove()
