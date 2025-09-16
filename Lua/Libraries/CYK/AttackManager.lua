@@ -367,7 +367,7 @@ return function(CYK)
         end
 
         -- Further reduce Player's damage taken.
-        if isTargetPlayer then
+        if chapter2 and isTargetPlayer then
             if  dmg > target.maxhp/5 then
                 dmg = dmg - 3
             elseif dmg > target.maxhp/8 then
