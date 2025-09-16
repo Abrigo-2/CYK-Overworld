@@ -23,7 +23,7 @@ hp = 600
 atk = 8
 def = 0
 dialogbubble = "DRBubble" -- See documentation for what bubbles you have available.
-check = "Check message goes here."
+check = "A Poseour of the greater variety.[w:4] Watch yourself around him."
 canspare = false
 sparebeg = -1
 
@@ -94,7 +94,7 @@ function HandleCustomCommand(user, command)
     if command == "Check" then
         text = { name .. " - " .. atk .. " ATK " .. def .. " DEF\n" .. check }
     elseif command == "Talk" then
-        currentdialogue = {"... *yawns*"}
+        AddBubbleToTurn("... *yawns*")
         text = "You try to talk with Poseur, but he pays your words no mind."
 
     elseif command == "Pose" then
@@ -141,19 +141,19 @@ function HandleCustomCommand(user, command)
         SetCYKAnimation("Idle")
 
         text = text .. "\nPoseur is finally impressed by your endeavors!"
-        currentdialogue = {"Not bad..."}
+        AddBubbleToTurn("Not bad...")
 
     elseif (chapter2 and GetMercyPercent()>=70) or (posecount > 4)  then     -- winning him over.
         text = text .. "\nPoseur is certainly growing more impressed...!"
-        currentdialogue = {"Almost!"}
+        AddBubbleToTurn("Almost!")
 
     else
         if command == "Pose" then      -- not even close to winning him over
             text = text .. "\n...but Poseur was barely impressed."
-            currentdialogue = {"Hmm."}
+            AddBubbleToTurn("Hmm.")
         elseif command ~= "Talk" then  -- starting the process of winning him over
             text = text .. "\n...but Poseur wasn't impressed enough."
-            currentdialogue = {"Not bad..."}
+            AddBubbleToTurn("Not bad...")
         end
     end
 

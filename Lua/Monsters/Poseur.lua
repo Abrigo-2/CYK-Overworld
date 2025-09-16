@@ -52,13 +52,13 @@ end
 function HandleAttack(attacker, attackstatus)
     if attackstatus == -1 then
         -- Player pressed fight but didn't press Z afterwards
-        table.insert(currentdialogue, "Do no harm, " .. attacker.name .. ".\n")
+        AddBubbleToTurn("Do no harm, " .. attacker.name .. ".\n")
     else
         -- Player did actually attack
         if attackstatus < 50 then
-            table.insert(currentdialogue, "You're strong, " .. attacker.name .. "!\n")
+            AddBubbleToTurn("You're strong, " .. attacker.name .. "!\n")
         else
-            table.insert(currentdialogue, "Too strong, " .. attacker.name .. "...\n")
+            AddBubbleToTurn("Too strong, " .. attacker.name .. "...\n")
         end
     end
 end
@@ -78,10 +78,10 @@ function HandleCustomCommand(user, command)
             table.insert(comments, "Poseur has trouble staying up.")
         end
         tired = true
-        currentdialogue = {"... *yawns*"}
+        AddBubbleToTurn("... *yawns*")
         text = {"You try to talk with Poseur, but all you seem to be able to do is make him yawn."}
     elseif command == "Pose" then
-        currentdialogue = {"Not bad."}
+        AddBubbleToTurn("Not bad.")
         text = {"You posed dramatically...[w:4] \nPoseur was utterly swayed."}
 
         if not canspare then
