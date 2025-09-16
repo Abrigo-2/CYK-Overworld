@@ -172,7 +172,8 @@ return function(self)
             if f <= 4 then
                 --wait
             elseif NewAudio.GetVolume("BGM") > 0 then
-                NewAudio.SetVolume("BGM", NewAudio.GetVolume("BGM") - self.BGM.volumeMax/25 )
+                local volumeStep = self.BGM.volumeMax / 25
+                NewAudio.SetVolume("BGM", NewAudio.GetVolume("BGM") - volumeStep )
             else
                 self.bgmFadeout = false
 
