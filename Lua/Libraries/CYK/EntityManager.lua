@@ -322,10 +322,8 @@ return function(self)
             entity.fleeDrops = nil
 
             -- Mercy counter.
-            if chapter2 then
-                if entity.useMercyCounter then
-                    entity.mercyPercent = (entity.canspare) and 100 or 0
-                end
+            if chapter2 and entity.useMercyCounter then
+                entity.mercyPercent = (entity.canspare) and 100 or 0
             end
 
             entity.sparebegcounter = 0  -- A hidden mechanic in Ch1.
