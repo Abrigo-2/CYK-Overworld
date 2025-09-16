@@ -347,14 +347,14 @@ return function(CYK)
         if damageClass == "RudeBuster" then
             dmg = math.ceil( (11*attacker.atk) + (5*attacker.mag) )
             dmg = math.ceil( dmg - (3 * target.def) )
-            dmg = (coeff >= 2) and dmg+40 or dmg
+            dmg = (coeff >= 2) and dmg+30 or dmg
         elseif damageClass == "IceShock" then
             dmg = math.ceil( (30*(attacker.mag-10)) + 90 + math.random(0, 10) )
             dmg = math.ceil( dmg - (3 * target.def) )
         elseif damageClass == "ChargedMash" then
             local hpPercent = 1 - math.abs((target.hp-1) / target.maxhp) 
             dmg = math.ceil( 15*(0.4*hpPercent+1)*(attacker.atk + attacker.mag) / 2 )
-            dmg = math.ceil( dmg - (3 * target.def) ) 
+            dmg = math.ceil( dmg - (3 * target.def) )
         else
             if isAttackerPlayer then
                 -- coeff comes as a float from 0 to 1.
