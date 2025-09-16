@@ -188,8 +188,8 @@ function UpdateTurn(frame, absoluteFrame)
                         rudeBusterActive = false
                     end
                     rB = nil
-                elseif frame % 4 == 0 then
-                    rB.Set("RudeBuster/" .. tostring((frame%28) / 4))
+                elseif frame % 6 == 0 then
+                    rB.Set("RudeBuster/" .. tostring((frame%36) / 6))
                 end
             end
 
