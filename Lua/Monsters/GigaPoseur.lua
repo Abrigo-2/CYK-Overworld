@@ -22,8 +22,8 @@ AddAct("Z-Pose", "Show him good!!", 20*5/2, { "Gentle" })
 hp = 600
 atk = 8
 def = 0
-dialogbubble = "DRBubble" -- See documentation for what bubbles you have available.
-check = "A Poseour of the greater variety.[w:4] Watch yourself around him."
+dialogbubble = "CH1wide" -- See documentation for what bubbles you have available.
+check = "A Poseur of the greater variety.[w:4] Watch yourself around him."
 canspare = false
 sparebeg = -1
 

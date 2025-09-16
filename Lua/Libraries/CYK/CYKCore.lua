@@ -64,14 +64,14 @@ return function ()
     Equipment = (require "Libraries/CYK/Equipment")(self)
 
     -- Include the subsystems
-    self.TP = (require "Libraries/CYK/TPBar")(self)                  -- Handles everything related to TP (except the variable above)
-    self.UI = (require "Libraries/CYK/UI")(self)                     -- UI manager
-    self.TxtMgr = (require "Libraries/CYK/TextManager")(self)        -- Handles all of CYK's texts
-    self.AtkMgr = (require "Libraries/CYK/AttackManager")(self)      -- Handles everything related to the Fight command
-    self.Inventory = (require "Libraries/CYK/Inventory")(self)       -- Inventory management
-    self.ScreenShake = (require "Libraries/CYK/ScreenShake")(self)   -- Screen shaking handler
-    self.BubbleData = require "Libraries/CYK/BubbleData"             -- Lists all the bubbles usable in CYK
-    self.GameOver = require "Libraries/CYK/GameOver"                 -- Handles fake game over
+    self.TP = (require "Libraries/CYK/TPBar")(self)                     -- Handles everything related to TP (except the variable above)
+    self.UI = (require "Libraries/CYK/UI")(self)                        -- UI manager
+    self.TxtMgr = (require "Libraries/CYK/TextManager")(self)           -- Handles all of CYK's texts
+    self.AtkMgr = (require "Libraries/CYK/AttackManager")(self)         -- Handles everything related to the Fight command
+    self.Inventory = (require "Libraries/CYK/Inventory")(self)          -- Inventory management
+    self.ScreenShake = (require "Libraries/CYK/ScreenShake")(self)      -- Screen shaking handler
+    self.BubbleData = require "../Sprites/UI/SpeechBubbles/BubbleData"  -- Lists all the bubbles usable in CYK
+    self.GameOver = require "Libraries/CYK/GameOver"                    -- Handles fake game over
 
     -- Background! You can disable it by setting the variable background to false
     self.Background = (require "Libraries/CYK/Default Background")(self)

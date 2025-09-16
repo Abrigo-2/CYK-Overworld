@@ -182,7 +182,7 @@ function SetBubbleOffset(x, y)
     bubbleOffsetY = y
 end
 
--- If you want to have different characters interject at different times in a turn, you should use this.
+-- If you want to have different characters interject sequentially after each other in a turn, you should use this.
 function AddBubbleToTurn(string, isPlayer, _ID)
     local isPlayer = (isPlayer) and isPlayer or (UI ~= nil)
     local _ID = (_ID) and _ID or ID
@@ -214,7 +214,7 @@ function AddBubbleToTurn(string, isPlayer, _ID)
 
 end
 
--- Hard to explain. Point is, you use this to make characters send multiple speech bubbles at once.
+-- Hard to explain. Point is, you use this to make multiple characters interject at once along each other.
 function InstantBubbleToTurn(string, isPlayer, _ID)
     local isPlayer = (isPlayer) and isPlayer or (UI ~= nil)
     local _ID = (_ID) and _ID or ID

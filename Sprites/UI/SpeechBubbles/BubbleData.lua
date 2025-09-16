@@ -1,7 +1,13 @@
 -- This library contains the data used by the bubbles used in CYK.
 -- Please update this library if you plan to add more bubbles.
+-- Make sure to design them as if they were to face an enemy.
+-- Any speech bubbles facing a player will be mirrored for you.
 return {
     DRBubble =        { side = "left",   x = 8,  y = 21, wideness = 120 },
+    CH1 =             { side = "left",   x = 8,  y = 20,  wideness = 69 },
+    CH1large =        { side = "left",   x = 7,  y = 20,  wideness = 150 },
+    CH1wide =         { side = "left",   x = 8,  y = 18,  wideness = 150 },
+
     left =            { side = "left",   x = 9,  y = 21, wideness = 70  },
     leftwide =        { side = "left",   x = 12, y = 25, wideness = 194 },
     leftwideminus =   { side = "left",   x = 9,  y = 21, wideness = 150 },

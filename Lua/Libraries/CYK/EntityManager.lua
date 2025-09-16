@@ -601,7 +601,7 @@ return function(self)
 
         local bubbleData = self.BubbleData[bubble]
         if not bubbleData then
-            error("The bubble DRBubble is missing from the BubbleData file!")
+            error("The bubble " .. bubble .. " is missing from the BubbleData file!")
         end
 
         
