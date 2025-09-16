@@ -72,6 +72,7 @@ return function(CYK)
         end
     end
 
+    -- This functions are dedicated to the intro/outro of the background in the Overworld.
     function self.Show ()
         self.cover.absx = Misc.cameraX
         self.cover.absy = Misc.cameraY
@@ -83,7 +84,6 @@ return function(CYK)
         self.animframe = 0
         self.isBeingShown = true
     end
-
     function self.Hide ()
         self.cover.absx = Misc.cameraX
         self.cover.absy = Misc.cameraY
@@ -154,7 +154,7 @@ return function(CYK)
             end
         end
 
-        -- Change the fade sprite's alpha when the background is fading in or out
+        -- Change the fade sprite's alpha in order do dim down the background
         if self.anim and self.isFadeActive then
             local alpha = self.maxHideTimer == 0 and (self.anim == "show" and 0 or 0.5)
                                                  or  (self.anim == "show" and (self.hideTimer / self.maxHideTimer) * 0.5
@@ -170,8 +170,8 @@ return function(CYK)
         end
     end
 
-    -- Hides or shows the background
-    function self.Display(show, timer)
+    -- Dims down the background
+    function self.Dimmen(show, timer)
         if self.isFadeActive then
             self.hideTimer = timer or 0
             self.maxHideTimer = timer or 0

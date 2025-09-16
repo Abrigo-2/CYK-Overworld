@@ -850,8 +850,8 @@ return function ()
         end
 
         if oldState == "DEFENDING" then
-            -- Display the background again
-            self.Background.Display(true, 0)
+            -- Undim the background again
+            self.Background.Dimmen(true, 0)
             for i = 1, #self.players do
                 self.HideFlash(self.players[i])
             end
@@ -935,8 +935,8 @@ return function ()
             Player.sprite.alpha = 0
             self.choiceIndex = 1
         elseif oldState == "ENEMYDIALOGUE" then
-            -- Hide the background
-            self.Background.Display(true, 0)
+            -- Dim the background
+            self.Background.Dimmen(true, 0)
             
             -- Destroy all of the entities' bubble text objects if they haven't been destroyed before
             local pools = { self.players, self.enemies }
@@ -1117,8 +1117,8 @@ return function ()
             -- Call the function EnemyDialogueStarting() if it exists
             ProtectedCYKCall(EnemyDialogueStarting)
             self.EnteringState(newState)
-            -- Hide the background
-            self.Background.Display(false, 30)
+            -- Dims down the background
+            self.Background.Dimmen(false, 30)
             -- Show the "TARGET" cursor on each Player who can be hit during this wave
             for i = 1, #self.players do
                 if self.players[i].hp > 0 and (table.containsObj(self.playerTargets, self.players[i].ID, true) or self.playerTargets[1] == 0) then
@@ -1133,8 +1133,8 @@ return function ()
             if not self.hasEnemyTargetsBeenReset then
                 self.ResetEnemyTargets()
             end
-            -- Hide the background directly
-            self.Background.Display(false, 0)
+            -- Dims the background directly
+            self.Background.Dimmen(false, 0)
             -- Set the Arena and the Player's position
             self.nextwaves = nextwaves
             nextwaves = { "empty" }

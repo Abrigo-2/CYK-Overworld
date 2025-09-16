@@ -177,7 +177,7 @@ return function(self)
 
         -- Displays the Arena if the "hide" animation is started and if the Arena will last for less than 31 frames
         if not show and self.arenaAnimTime <= 30 and self.Background then
-            self.Background.Display(true, self.arenaAnimTime)
+            self.Background.Dimmen(true, self.arenaAnimTime)
         end
 
         -- Heart effect
@@ -273,7 +273,7 @@ return function(self)
             -- Updates the heart
             if frame <= 30 then
                 if frame == self.arenaAnimTime - 30 and self.arenaAnim ~= "show" and self.Background then
-                    self.Background.Display(true, 30)
+                    self.Background.Dimmen(true, 30)
                 end
                 -- Updates the heart's little spawn effects
                 for i = 1, #self.arenaAnimHeartEffects do
