@@ -232,7 +232,7 @@ return function(CreateYourKris)
     function self.Set(value, isRelative)
         self.trueValue = isRelative and self.trueValue + value or value
         if self.trueValue < 0 then   self.trueValue = 0   end
-        if self.trueValue > 255 then self.trueValue = 255 end
+        if self.trueValue > self.maxValue then self.trueValue = self.maxValue end
     end
 
     function self.Show()

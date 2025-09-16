@@ -443,7 +443,8 @@ function AddAct(name, description, tpCost, requiredPlayers)
     end
 
     local act = { }
-    act.description = "[font:uidialog][novoice][instant][color:808080]" .. description .. (tpCost > 0 and ("\n[color:ff8040]" .. tostring(tpCost) .. "% TP") or "")
+    local tpAccordingToBar = math.floor((tpCost * 100/CYK.TP.maxValue) + 0.5)
+    act.description = "[font:uidialog][novoice][instant][color:808080]" .. description .. (tpCost > 0 and ("\n[color:ff8040]" .. tostring(tpAccordingToBar) .. "% TP") or "")
     act.tpCost = tpCost
     act.requiredPlayers = requiredPlayers
     acts[name] = act

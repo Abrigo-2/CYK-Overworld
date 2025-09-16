@@ -16,8 +16,8 @@ commands = { "Check", "Talk", "Pose", "S-Pose", "Z-Pose" }
 AddAct("Check", "", 0)
 AddAct("Talk", "Little chit-chat", 0)
 AddAct("Pose", "Show him who's cool!", 0)
-AddAct("S-Pose", "Show him who RULES!", 20, { "Susie" })
-AddAct("Z-Pose", "Show him good!!", 20, { "Gentle" })
+AddAct("S-Pose", "Show him who RULES!", 20*5/2, { "Susie" })
+AddAct("Z-Pose", "Show him good!!", 20*5/2, { "Gentle" })
 
 hp = 600
 atk = 8
@@ -155,7 +155,6 @@ function HandleCustomCommand(user, command)
             text = text .. "\n...but Poseur wasn't impressed enough."
             currentdialogue = {"Not bad..."}
         end
-
     end
 
     BattleDialog({ text })

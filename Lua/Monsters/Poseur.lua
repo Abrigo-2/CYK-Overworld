@@ -12,12 +12,10 @@ randomdialogue = {
       "It's working."
 }
 
-commands = { "Check", "Talk", "Pose", "S-Pose", "Z-Pose" }
+commands = { "Check", "Talk", "Pose" }
 AddAct("Check", "", 0)
 AddAct("Talk", "Little chit-chat", 0)
 AddAct("Pose", "Show him who's cool!", 0)
-AddAct("S-Pose", "Show him who RULES!", 20, { "Susie" })
-AddAct("Z-Pose", "Show him good!!", 20, { "Gentle" })
 
 hp = 80
 atk = 8
@@ -105,7 +103,6 @@ function HandleCustomCommand(user, command)
             blur.alpha = 0.69 - 0.01 * i 
             table.insert(CYK.players[1].blurs, blur)
         end
-
     end
 
     BattleDialog(text)
