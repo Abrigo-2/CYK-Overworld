@@ -113,14 +113,13 @@ function UpdateTurn(frame, absoluteFrame)
                 for i = 1, 8 do
                     local rudeBuster = CreateSprite("RudeBuster/0", "Entity")
                     
-                    local xMod =   5 + ( (i >= 3 and i <= 6) and 25 or -25 )
-                    local yMod = -10 + ( (i <= 4) and -25 or 25 )
+                    local xMod =   5 --+ ( (i >= 3 and i <= 6) and 25 or -25 )
+                    local yMod = -10 --+ ( (i <= 4) and -25 or 25 )
                     rudeBuster.absx = target.sprite.absx + target.sprite.width/2  + xMod
                     rudeBuster.absy = target.sprite.absy + target.sprite.height/2 + yMod
                     
                     rudeBuster.rotation = 45 + 90 * math.floor((i - 1) / 2)
                     rudeBuster.Scale(2.5, 2.5)
-                    rudeBuster.SetPivot(0, 0.5)
                     rudeBuster.alpha = 6/8
                     
                     rudeBuster["startFrame"] = absoluteFrame
