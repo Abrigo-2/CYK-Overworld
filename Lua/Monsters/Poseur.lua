@@ -27,6 +27,9 @@ check = "Check message goes here."
 canspare = false
 sparebeg = 3
 
+useMercyCounter=true
+isTiredWhenHPLow=true
+
 -- CYK variables
 mag = 9001            -- MAGIC stat of the enemy
 targetType = "single" -- Specifies how many (or which) target(s) this enemy's bullets will target
@@ -49,10 +52,6 @@ end
 
 -- Triggered when a Player attacks (or misses) this enemy in the ATTACKING state
 function HandleAttack(attacker, attackstatus)
-    if currentdialogue == nil then
-        currentdialogue = { }
-    end
-
     if attackstatus == -1 then
         -- Player pressed fight but didn't press Z afterwards
         table.insert(currentdialogue, "Do no harm, " .. attacker.name .. ".\n")

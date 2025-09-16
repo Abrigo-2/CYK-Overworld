@@ -261,7 +261,7 @@ function AddSpell(name, description, tpCost, targetType)
     return CYK.AddSpell(name, description, tpCost, targetType)
 end
 
--- Modify the pourcentage of mercy of an enemy and verify and they can be now spare
+-- Modify the pourcentage of mercy of an enemy and verify and they can be now spare  WHAT??????
 function ChangeMercyPercent(val, target, text, sound)    
     if not chapter2 then error("entity.ChangeMercyPercent() is a Chapter 2-only function!\n\nSet chapter2 to true in the Encounter file to access it!", 2) end
     if type(val)~="number" then
@@ -296,7 +296,8 @@ function ChangeMercyPercent(val, target, text, sound)
                 CYK.enemies[i].mercyPercent=CYK.enemies[i].mercyPercent+val
                 if CYK.enemies[i].mercyPercent>100 then CYK.enemies[i].mercyPercent=100
                 elseif CYK.enemies[i].mercyPercent<0 then CYK.enemies[i].mercyPercent=0 end
-                if CYK.enemies[i].mercyPercent==100 then CYK.enemies[i].canspare=true end
+                if CYK.enemies[i].mercyPercent==100 then CYK.enemies[i].canspare=true
+                else CYK.enemies[i].canspare=false end
             end
         end
     elseif not targetString then
@@ -307,7 +308,8 @@ function ChangeMercyPercent(val, target, text, sound)
         target.mercyPercent=target.mercyPercent+val
         if target.mercyPercent>100 then target.mercyPercent=100
         elseif target.mercyPercent<0 then target.mercyPercent=0 end
-        if target.mercyPercent==100 then target.canspare=true end
+        if target.mercyPercent==100 then target.canspare=true
+        else target.canspare=false end
     else
         error("entity.ChangeMercyPercent() needs either an enemy or a string saying \"All\" as its second argument.", 2)
     end
@@ -376,7 +378,6 @@ function UpdateUI()
     end
 end
 
--- Adds an act to an enemy
 -- Adds an act to an enemy
 function AddAct(name, description, tpCost, requiredPlayers)
     -- Add the acts table if it doesn't exist

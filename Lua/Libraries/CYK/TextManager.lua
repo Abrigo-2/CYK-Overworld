@@ -435,6 +435,7 @@ return function(CYK)
     function self.DisplayTextArrow(show, isUp)
         local textArrow = isUp and self.textArrow or self.textArrowDown
         textArrow.alpha = show and 1 or 0
+        textArrow.x = chapter2 and 390 or 450
         textArrow.y = isUp and 83 or 21
         textArrowAnimStart = CYK.frame
     end

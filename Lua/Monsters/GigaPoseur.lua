@@ -27,6 +27,9 @@ check = "Check message goes here."
 canspare = false
 sparebeg = -1
 
+useMercyCounter=true
+isTiredWhenHPLow=true
+
 -- CYK variables
 mag = 9001            -- MAGIC stat of the enemy
 targetType = "single" -- Specifies how many (or which) target(s) this enemy's bullets will target
@@ -49,10 +52,6 @@ end
 
 -- Triggered when a Player attacks (or misses) this enemy in the ATTACKING state
 function HandleAttack(attacker, attackstatus)
-    if currentdialogue == nil then
-        currentdialogue = { }
-    end
-
     if attackstatus == -1 then
         -- Player pressed fight but didn't press Z afterwards
         table.insert(currentdialogue, "Do no harm, " .. attacker.name .. ".\n")
@@ -81,17 +80,20 @@ function HandleCustomCommand(user, command)
         text = "You try to talk with Poseur, but he pays your words no mind."
 
     elseif command == "Pose" then
-        posecount = posecount + 1
+        if chapter2 then ChangeMercyPercent(10)
+        else  posecount = posecount + 1 end
         text = "You posed dramatically...[w:4]"
 
         posingPlayers = { CYK.players[1] }
     elseif command == "S-Pose" then
-        posecount = posecount + 3
-        text = "You and Susie posed dramatically...![w:4] "
+        if chapter2 then ChangeMercyPercent(35)
+        else  posecount = posecount + 3 end
+        text = "You and Susie posed dramatically![w:4] "
 
         posingPlayers = { CYK.players[1], CYK.players[3] }
     elseif command == "Z-Pose" then
-        posecount = posecount + 3
+        if chapter2 then ChangeMercyPercent(35)
+        else  posecount = posecount + 3 end
         text = "You and the gentle fellow posed...![w:4] "
         
         posingPlayers = { CYK.players[1], CYK.players[3] }
@@ -99,7 +101,7 @@ function HandleCustomCommand(user, command)
 
     if command == "Pose" or command == "Z-Pose" or command == "S-Pose" then
         for j=1, #posingPlayers do
-            CYK.SetAnim( posingPlayers[j], "Pose" )
+            --CYK.SetAnim( posingPlayers[j], "Pose" )
             for i=1, 6 do
                 local blur = CreateSprite( posingPlayers[j].sprite.spritename, "Background")
                 blur.SetPivot(0, 0)
@@ -112,9 +114,8 @@ function HandleCustomCommand(user, command)
 
     end
 
-    -- If I had chapter2 enabled, this wouldn't be necessary.
-    if posecount >= 9 then       -- Won him over.
-        
+    
+    if (chapter2 and GetMercyPercent()>=100) or (posecount >= 9) then -- Won him over.
         if not canspare then
             table.insert(comments, "Poseur is impressed by your posing power.")
         end
@@ -124,15 +125,15 @@ function HandleCustomCommand(user, command)
         text = text .. "\nPoseur is finally impressed by your endeavors!"
         currentdialogue = {"Not bad..."}
 
-    elseif posecount > 4 then     -- winning him over.
+    elseif (chapter2 and GetMercyPercent()>=70) or (posecount > 4)  then     -- winning him over.
         text = text .. "\nPoseur is certainly growing more impressed...!"
         currentdialogue = {"Almost!"}
 
     else
-        if command == "Pose" then -- not even close to winning him over
+        if command == "Pose" then      -- not even close to winning him over
             text = text .. "\n...but Poseur was barely impressed."
             currentdialogue = {"Hmm."}
-        else                      -- starting the process of winning him over
+        elseif command ~= "Talk" then  -- starting the process of winning him over
             text = text .. "\n...but Poseur wasn't impressed enough."
             currentdialogue = {"Not bad..."}
         end

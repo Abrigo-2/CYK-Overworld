@@ -313,6 +313,7 @@ return function(self)
             entity.bubbleOffsetY = 0
             entity.sliceAnimOffsetX = 0
             entity.sliceAnimOffsetY = 0
+            entity.currentdialogue = { }
 
             -- Variables related to the flee and spare animations
             entity.spareOrFleeAnim = nil
@@ -326,14 +327,11 @@ return function(self)
             -- Variables related to the mercy counter.
             if chapter2 then
                 if entity.useMercyCounter then
-                    entity.mercyPercent=0
-                    entity.canspare=false
+                    entity.mercyPercent = (entity.canspare) and 100 or 0
                 end
-
-                local getset = require("Libraries/CYK/GetSet")
-                getset.defineProperty(entity, "canspare", {get= function() return entity._canspare end, set = function() error("When chapter2 is set to true, canspare is read-only.") end})
             end
-            entity.sparebegcounter = 0  -- A hidden mechanic in ch1.
+
+            entity.sparebegcounter = 0  -- A hidden mechanic in Ch1.
         end
 
         -- Offset for the green sparkles in the Heal animation.
@@ -557,10 +555,10 @@ return function(self)
         end
 
         -- This would deliberately scramble the text and make it nonsensical. You probably don't want that...
-        --local allText = superText
-        --for i=1, #superText do
-        --    allText[i] = self.scrambleString(superText[i])
-        --end
+        --[[local allText = superText
+        for i=1, #allText do
+            superText[i] = self.scrambleString(allText[i])
+        end --]]
         return superText
     end
 
@@ -589,16 +587,16 @@ return function(self)
     end
 
     -- Get the enemy's bubble sprite
-    function self.GetBubbleSprite(enemy)
+    function self.GetEnemyBubbleSprite(enemy)
         local bubble = enemy.dialogbubble
         if not bubble then
             if CYKDebugLevel > 0 then
-                DEBUG("[WARN] The bubble of the enemy \"" .. enemy.sprite["anim"] .. "\" is nil. Using the bubble DRBubble instead.")
+                DEBUG("[WARN] The bubble of the enemy \"" .. enemy.sprite["anim"] .. "\" is nil. Using DRBubble instead.")
             end
             bubble = "DRBubble"
         elseif not table.containsObj(self.BubbleData, bubble) then
             if CYKDebugLevel > 0 then
-                DEBUG("[WARN] The bubble \"" .. enemy.dialogbubble .. "\" of the enemy \"" .. enemy.sprite["anim"] .. "\" isn't in the file BubbleData. Using the bubble DRBubble instead.")
+                DEBUG("[WARN] The bubble \"" .. enemy.dialogbubble .. "\" of the enemy \"" .. enemy.sprite["anim"] .. "\" isn't in the file BubbleData. Using DRBubble instead.")
             end
             bubble = "DRBubble"
         end
@@ -618,10 +616,10 @@ return function(self)
         bubbleSprite.y = (bubbleData.side == "up"    and bubbleSprite.height or
                           bubbleData.side == "down"  and -enemy.sprite.height or
                                                          (bubbleSprite.height - enemy.sprite.height) / 2) + enemy.bubbleOffsetY + 0.01
-        return bubbleSprite, bubbleData
+        return {bubbleSprite, bubbleData}
     end
 
-    -- Updates the entity's position if they're hurt. Different animation according to enemy type.
+    -- Updates the entity's position if they're hurt. Different animation according to target type.
     function self.UpdateEntityHurting()
         local pools = { self.players, self.enemies }
         for i = 1, #pools do
@@ -642,7 +640,8 @@ return function(self)
                         else
                             entity.sprite.absx = entity.posX
                         end
-                    -- Hurt animation for monster
+                    
+                    -- Hurt animation for enemy
                     else
                         local totalHurtAnimTime = entity.animations["Hurt"][2]
                         local currentTime = Time.time - entity.sprite["lastAnimTime"]
@@ -661,7 +660,6 @@ return function(self)
                             entity.sprite["hurtMovePlus"] = not hurtMovePlus
                         end
                     end
-
                     
                 end
             end

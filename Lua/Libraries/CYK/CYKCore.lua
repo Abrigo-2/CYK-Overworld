@@ -424,10 +424,9 @@ return function ()
                     local enemy = nextPlayer.target
 
                     -- Use a temporary value unaffected by HandleSpare to prevent sparing despite the text saying "But its name was not YELLOW"
-                    local tempMercyPercent=enemy.mercyPercent
                     ProtectedCYKCall(HandleSpare, nextPlayer, enemy)
                     
-                    if (chapter2 and tempMercyPercent>=100) or (not chapter2 and enemy.canspare) then
+                    if enemy.canspare then
                         -- Actually spare the enemy
                         enemy.TrySpare()
                     else
@@ -606,12 +605,14 @@ return function ()
         elseif state == "ENEMYDIALOGUE" then
             for i = 1, #self.enemies do
                 local enemy = self.enemies[i]
-                local bubbleData = nil
-                enemy.bubble, bubbleData = self.GetBubbleSprite(enemy)
+                
+                local bubbleReturn = self.GetEnemyBubbleSprite(enemy)
+                local bubbleData = bubbleReturn[2]
+                enemy.bubble = bubbleReturn[1]
 
                 -- Choose a text for the enemy
                 enemy.lastBubbleText = self.GetEnemyBubbleText(enemy)
-                enemy.currentdialogue = nil
+                enemy.currentdialogue = { }
                 local text = table.copy(enemy.lastBubbleText)
                 for j = 1, #text do
                     text[j] = "[effect:none]" .. text[j]

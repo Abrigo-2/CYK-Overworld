@@ -713,7 +713,7 @@ return function(CYK)
             if CYK.enemies[i].tired then
                 isAnyTired = true
             end
-            if (chapter2 and CYK.enemies[i].mercyPercent>=100) or (not chapter2 and CYK.enemies[i].canspare) then
+            if CYK.enemies[i].canspare then
                 isAnySpareable = true
             end
         end

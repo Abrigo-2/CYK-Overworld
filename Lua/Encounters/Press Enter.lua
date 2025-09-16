@@ -27,6 +27,8 @@ enemypositions = {
     { 492, 250 },
 }
 
+chapter2 = true  -- Toggles Chapter 2 functionality.
+
 --unescape = false -- Uncomment me to remove the pesky QUITTING text when trying to exit the encounter!
 
 -- Preloads all of CYK's animations to reduce loading times in-game, at the price of an increasing loading time at the start of the encounter
@@ -48,6 +50,7 @@ skipintro = false      -- Skips the battle intro animation.
 pauseowmusic = true    -- Pause the overworld's background track when a fight starts.
 background = false     -- Set this variable to false to disable the square-grid background. (or whatever is the default background)
 backgroundfade = true  -- Set this variable to false to disable the fade effect on the background when entering a wave. Advised to keep as true.
+
 
 -- A custom list with attacks to choose from. Actual selection happens in EnemyDialogueEnding(). Put here in case you want to use it.
 possible_attacks = { }
@@ -125,9 +128,10 @@ function EncounterStarting()
 
     -- For playtesting purposes...
     -- Uncoment these functions to mute the game's background music.
-    --NewAudio.SetVolume("BGM", 0)
-    --NewAudio.Stop( "BGM")
-    --Audio.Volume(0)
+    --[[Overworld.BGM.volumeMax = 0
+    NewAudio.SetVolume("BGM", Overworld.BGM.volumeMax)
+    NewAudio.Stop( "BGM")
+    Audio.Volume(0)--]]
 
 end
 
@@ -203,12 +207,9 @@ end
 
 -- ...and *this* is called once the Item animation stops running.
 function HandleItem(user, targets, itemID, itemData)
-    if itemID == "Dark Candy" then
-        targets[1].Heal(40)
-    elseif itemID == "Dark Burger" then
-        targets[1].Heal(70)
-    elseif itemID == "Bandage" then
-        targets[1].Heal(100)
+    if itemID == "Dark Candy" then    targets[1].Heal(40)
+    elseif itemID == "Dark Burger" then   targets[1].Heal(70)
+    elseif itemID == "Bandage" then    targets[1].Heal(100)
     
     elseif itemID == "Nut" then
         for i = 1, #targets do
