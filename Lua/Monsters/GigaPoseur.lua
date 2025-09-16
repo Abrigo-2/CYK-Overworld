@@ -54,14 +54,32 @@ end
 function HandleAttack(attacker, attackstatus)
     if attackstatus == -1 then
         -- Player pressed fight but didn't press Z afterwards
-        table.insert(currentdialogue, "Do no harm, " .. attacker.name .. ".\n")
+        AddBubbleToTurn("Do no harm, " .. attacker.name .. ".\n")
+        AddBubbleToTurn("")
+        InstantBubbleToTurn("[voice:v_ralsei]Cripes!", true, 2)
+        InstantBubbleToTurn("[voice:v_susie]$!$?", true, 3)
     else
         -- Player did actually attack
         if attackstatus < 50 then
-            table.insert(currentdialogue, "You're strong, " .. attacker.name .. "!\n")
+            AddBubbleToTurn("You're strong, " .. attacker.name .. "!\n")
+
+            if (hp > maxhp*7/10) then
+                if attacker.name == "Ralsei" then
+                    AddBubbleToTurn("[voice:v_ralsei]Thank you!", true, attacker.ID)
+                elseif attacker.name == "Susie" then
+                    AddBubbleToTurn("[voice:v_susie]Heh.", true, attacker.ID) end
+            end
         else
-            table.insert(currentdialogue, "Too strong, " .. attacker.name .. "...\n")
+            AddBubbleToTurn("Too strong, " .. attacker.name .. "...\n")
+
+            if (hp > maxhp*7/10) then
+                if attacker.name == "Ralsei" then
+                    AddBubbleToTurn("[voice:v_ralsei]Sorry...!!", true, attacker.ID)
+                elseif attacker.name == "Susie" then
+                    AddBubbleToTurn("[voice:v_susie]You bet!!", true, attacker.ID) end
+            end
         end
+
     end
 end
 

@@ -308,14 +308,11 @@ return function(self)
             -- Set to nil to remove CYF's UI object
             entity.UI = nil
 
-            -- Bubble and animation related variables
-            entity.bubbleOffsetX = 0
-            entity.bubbleOffsetY = 0
+            -- Offsets the slice sprite shown when a player attacks.
             entity.sliceAnimOffsetX = 0
             entity.sliceAnimOffsetY = 0
-            entity.currentdialogue = { }
 
-            -- Variables related to the flee and spare animations
+            -- These take care of the flee and spare animations
             entity.spareOrFleeAnim = nil
             entity.spareOrFleeStart = 0
             entity.spareStars = { }
@@ -324,7 +321,7 @@ return function(self)
             entity.fleeSpritesEnabled = 0
             entity.fleeDrops = nil
 
-            -- Variables related to the mercy counter.
+            -- Mercy counter.
             if chapter2 then
                 if entity.useMercyCounter then
                     entity.mercyPercent = (entity.canspare) and 100 or 0
@@ -334,6 +331,11 @@ return function(self)
             entity.sparebegcounter = 0  -- A hidden mechanic in Ch1.
         end
 
+        -- The entity's Bubble object. Both players and enemies can have one.
+        entity.bubbleOffsetX = entity.bubbleOffsetX and entity.bubbleOffsetX or 0
+        entity.bubbleOffsetY = entity.bubbleOffsetY and entity.bubbleOffsetY or 0
+        entity.currentdialogue = { }
+
         -- Offset for the green sparkles in the Heal animation.
         entity.healAnimOffsetX = (entity.healAnimOffsetX and entity.healAnimOffsetX) or 0
         entity.healAnimOffsetY = (entity.healAnimOffsetY and entity.healAnimOffsetY) or 0
@@ -341,9 +343,7 @@ return function(self)
         -- Target of this entity
         entity.target = nil
 
-        if entity.maxhp == nil then
-            entity.maxhp = entity.hp
-        end
+        if entity.maxhp == nil then  entity.maxhp = entity.hp  end
 
         -- Variables related to the damage texts of this entity
         entity.HPChangeTexts = { }
@@ -486,7 +486,7 @@ return function(self)
         return tab
     end
 
-    -- Gets the speech bubble's dialogue of an enemy
+    -- Gets the speech bubble's dialogue of an "enemy" (or player)
     function self.GetEnemyBubbleText(enemy)
         --- Test if currentdialogue is a valid text
         local isText, text = CheckText(enemy.currentdialogue, true)
@@ -586,17 +586,17 @@ return function(self)
         end
     end
 
-    -- Get the enemy's bubble sprite
-    function self.GetEnemyBubbleSprite(enemy)
-        local bubble = enemy.dialogbubble
+    -- Get the entity's bubble sprite. This can be used by players too.
+    function self.GetEnemyBubbleSprite(entity)
+        local bubble = entity.dialogbubble
         if not bubble then
             if CYKDebugLevel > 0 then
-                DEBUG("[WARN] The bubble of the enemy \"" .. enemy.sprite["anim"] .. "\" is nil. Using DRBubble instead.")
+                DEBUG("[WARN] The bubble of the entity \"" .. entity.sprite["anim"] .. "\" is nil. Using DRBubble instead.")
             end
             bubble = "DRBubble"
         elseif not table.containsObj(self.BubbleData, bubble) then
             if CYKDebugLevel > 0 then
-                DEBUG("[WARN] The bubble \"" .. enemy.dialogbubble .. "\" of the enemy \"" .. enemy.sprite["anim"] .. "\" isn't in the file BubbleData. Using DRBubble instead.")
+                DEBUG("[WARN] The bubble \"" .. entity.dialogbubble .. "\" of the entity \"" .. entity.sprite["anim"] .. "\" isn't in the file BubbleData. Using DRBubble instead.")
             end
             bubble = "DRBubble"
         end
@@ -606,16 +606,19 @@ return function(self)
             error("The bubble DRBubble is missing from the BubbleData file!")
         end
 
+        
         local bubbleSprite = CreateSprite("UI/SpeechBubbles/" .. bubble)
-        bubbleSprite.SetParent(enemy.sprite)
-        bubbleSprite.SetAnchor(0, 1)
-        bubbleSprite.SetPivot(0, 1)
-        bubbleSprite.x = (bubbleData.side == "right" and enemy.sprite.width or
-                          bubbleData.side == "left"  and -bubbleSprite.width or
-                                                         (bubbleSprite.width - enemy.sprite.width) / 2) + enemy.bubbleOffsetX + 0.01
+        bubbleSprite.SetParent( entity.sprite )
+        bubbleSprite.SetAnchor( entity.UI and  1 or 0, 1 )
+        bubbleSprite.SetPivot(  entity.UI and  1 or 0, 1 )
+        bubbleSprite.Scale(     entity.UI and -1 or 1, 1 )
+
+        bubbleSprite.x = (bubbleData.side == "right" and (entity.UI and 0 or entity.sprite.width) or
+                          bubbleData.side == "left"  and (entity.UI and 0 or -bubbleSprite.width) or
+                                                         (bubbleSprite.width - entity.sprite.width) / 2) + entity.bubbleOffsetX + 0.01
         bubbleSprite.y = (bubbleData.side == "up"    and bubbleSprite.height or
-                          bubbleData.side == "down"  and -enemy.sprite.height or
-                                                         (bubbleSprite.height - enemy.sprite.height) / 2) + enemy.bubbleOffsetY + 0.01
+                          bubbleData.side == "down"  and -entity.sprite.height or
+                                                         (bubbleSprite.height - entity.sprite.height) / 2) + entity.bubbleOffsetY + 0.01
         return {bubbleSprite, bubbleData}
     end
 

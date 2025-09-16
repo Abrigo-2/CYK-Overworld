@@ -175,17 +175,61 @@ end
 
 -- Moves this enemy's bubble from where it originally was
 function SetBubbleOffset(x, y)
-    if UI then
-        if CYKDebugLevel > 1 then
-            DEBUG("[WARN] entity.SetBubbleOffset() only has an effect on an enemy entity, however you used it on a Player entity.")
-        end
-        return
-    end
     if type(x) ~= "number" or type(y) ~= "number" then
         error("entity.SetBubbleOffset() needs two numbers as arguments.", 2)
     end
     bubbleOffsetX = x
     bubbleOffsetY = y
+end
+
+-- If you want to have different characters interject at different times in a turn, you should use this.
+function AddBubbleToTurn(string, isPlayer, _ID)
+    local isPlayer = (isPlayer) and isPlayer or (UI ~= nil)
+    local _ID = (_ID) and _ID or ID
+
+    local nextDialogue = { string, isPlayer, _ID }
+    -- This dialogue is for a player.
+    if nextDialogue[2] then
+        for j=1, #CYK.players do
+            -- The selected player gets the dialogue added.
+            if j==nextDialogue[3] then
+                table.insert(CYK.players[j].currentdialogue, nextDialogue[1])
+            -- Other players get a blank dialogue.
+            else table.insert(CYK.players[j].currentdialogue, "")  end
+        end
+        -- All enemies get a blank dialogue
+        for j=1, #CYK.enemies do
+            table.insert(CYK.enemies[j].currentdialogue, "")  end
+        
+    -- It's for an enemy.
+    else
+        for j=1, #CYK.players do
+            table.insert(CYK.players[j].currentdialogue, "")  end
+        for j=1, #CYK.enemies do
+            if j==nextDialogue[3] then
+                table.insert(CYK.enemies[j].currentdialogue, nextDialogue[1])
+            else table.insert(CYK.enemies[j].currentdialogue, "")  end
+        end
+    end
+
+end
+
+-- Hard to explain. Point is, you use this to make characters send multiple speech bubbles at once.
+function InstantBubbleToTurn(string, isPlayer, _ID)
+    local isPlayer = (isPlayer) and isPlayer or (UI ~= nil)
+    local _ID = (_ID) and _ID or ID
+
+    local nextDialogue = { string, isPlayer, _ID }
+    -- This dialogue is for a player.
+    if nextDialogue[2] then
+        local j = nextDialogue[3]
+        CYK.players[j].currentdialogue[#CYK.players[j].currentdialogue] = nextDialogue[1]
+    -- It's for an enemy.
+    else
+        local j = nextDialogue[3]
+        CYK.enemies[j].currentdialogue[#CYK.enemies[j].currentdialogue] = nextDialogue[1]
+    end
+
 end
 
 -- Moves this entity's damage text spawn position from where it originally was

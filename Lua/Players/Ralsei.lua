@@ -40,6 +40,8 @@ animations = {
 }
 healAnimOffsetX = 0
 healAnimOffsetY = 6
+bubbleOffsetX = -36
+bubbleOffsetY = 10
 
 -- Started when this Player casts a spell through the MAGIC command
 -- This is called at the start of the turn.

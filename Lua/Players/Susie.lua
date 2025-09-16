@@ -21,7 +21,9 @@ AddSpell("Ultra Heal",  "Best Healing", 13*5/2, "Player")
 -- Check the "Special Variables" page of the documentation to learn how to modify this mess
 animations = {
     RudeBuster =    { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 },                     1 / 14, { next = "Idle" },                              },
-    Defend =        { { 0, 1, 2, 3, 4, 5 },                                                     1 / 15, { loop = "ONESHOT", targetShift = { -7, -20 } } },
+    Defend =        { { 0, 1, 2, 3, 4, 5 },                                                     1 / 15, { next = "DefendEnd", targetShift = { -7, -20 } } },
+    DefendEnd =     { { 0 },                                                                    1,      { loop = "ONESHOT", targetShift = { -7, -20 } } },
+    DefendSpeech =  { { 0 },                                                                    1,      { loop = "ONESHOT", targetShift = { -7, -20 } } },
     Down =          { { 0 },                                                                    1,      { loop = "ONESHOT" },                           },
     EndBattle =     { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }, 2 / 15, { loop = "ONESHOT" }                            },
     Fight =         { { 0, 1, 2, 3, 4, 5 },                                                     1 / 15, { loop = "ONESHOT" }                            },
@@ -40,6 +42,8 @@ animations = {
 }
 healAnimOffsetX = -2
 healAnimOffsetY = -10
+bubbleOffsetX = -84
+bubbleOffsetY = -25
 
 
 rudeBusterEndMagic = -1
@@ -238,7 +242,18 @@ end
 
 -- Function called whenever this entity's animation is changed.
 -- Make it return true if you want the animation to be changed like normal, otherwise do your own stuff here!
-function HandleAnimationChange(newAnim) end
+function HandleAnimationChange(newAnim)
+    local oldAnim = self.sprite["currAnim"]
+    -- Susie has a special animation in case she gets a speechbubble while defending.
+    if (oldAnim == "DefendEnd" or oldAnim == "DefendSpeech") and newAnim == "DefendEnd" then
+        if bubble == nil then  return true end
+        
+        local isSpeaking = ( bubble.alpha > 0 )
+        SetCYKAnimation( isSpeaking and "DefendSpeech" or "DefendEnd" )
+        return false
+    end
+    return true
+end
 
 blurs = {}
 function Update()

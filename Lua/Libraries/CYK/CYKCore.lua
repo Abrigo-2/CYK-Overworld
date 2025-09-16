@@ -344,17 +344,23 @@ return function ()
         elseif self.state == "ENEMYDIALOGUE" then
             local allLinesComplete = true
             local lineComplete = true
-            for i = 1, #self.enemies do
-                local enemy = self.enemies[i]
-                -- Check if this enemy's text is finished
-                if enemy.bubbleTextObject then
-                    if not enemy.bubbleTextObject.allLinesComplete then
-                        allLinesComplete = false
+            
+            local pools = { self.players, self.enemies }
+            for h = 1, #pools do
+                local pool = pools[h]
+                for i = 1, #pool do
+                    local entity = pool[i]
+                    -- Check if this enemy's text is finished
+                    if entity.bubbleTextObject then
+                        if not entity.bubbleTextObject.allLinesComplete then
+                            allLinesComplete = false
+                        end
+                        if not entity.bubbleTextObject.lineComplete then
+                            lineComplete = false
+                            break
+                        end
                     end
-                    if not enemy.bubbleTextObject.lineComplete then
-                        lineComplete = false
-                        break
-                    end
+
                 end
             end
 
@@ -363,22 +369,31 @@ return function ()
                 self.State("DEFENDING")
             -- If not all the texts are finished, go to their next line
             elseif lineComplete or force then
-                for i = 1, #self.enemies do
-                    local enemy = self.enemies[i]
-                    if enemy.bubbleTextObject then
-                        local _bubble = enemy.bubbleTextObject
-                        -- If this text object is finished, destroy it early
-                        if _bubble.allLinesComplete or (force and _bubble.currentLine == _bubble.lineCount()-1) then
-                            enemy.bubbleTextObject.DestroyText()
-                            enemy.bubbleTextObject = nil
-                            enemy.bubble.Remove()
-                            enemy.bubble = nil
-                        else
-                            enemy.bubbleTextObject.NextLine()
-                            enemy.bubble.alpha = (enemy.lastBubbleText[_bubble.currentLine + 1] == "" and 0 or 1)
+                for h = 1, #pools do
+                    local pool = pools[h]
+                    for i = 1, #pool do
+                        local entity = pool[i]
+                        if entity.bubbleTextObject then
+                            local _bubble = entity.bubbleTextObject
+                            -- If this text object is finished, destroy it early
+                            if _bubble.allLinesComplete or (force and _bubble.currentLine == _bubble.lineCount()-1) then
+                                entity.bubbleTextObject.DestroyText()
+                                entity.bubbleTextObject = nil
+                                entity.bubble.Remove()
+                                entity.bubble = nil
+                            else
+                                entity.bubbleTextObject.NextLine()
+                                entity.bubble.alpha = (entity.lastBubbleText[_bubble.currentLine + 1] == "" and 0 or 1)
+                            end
+
+                            -- Susie speech eye thingy.
+                            if entity.name == "Susie" and entity.action == "Defend" then
+                                entity.SetCYKAnimation("DefendEnd")  end
                         end
+
                     end
                 end
+
             end
         -- State just before the encounter is done
         elseif self.state == "BEFOREDONE" then
@@ -603,30 +618,35 @@ return function ()
             end
         -- State when the enemies are talking
         elseif state == "ENEMYDIALOGUE" then
-            for i = 1, #self.enemies do
-                local enemy = self.enemies[i]
-                
-                local bubbleReturn = self.GetEnemyBubbleSprite(enemy)
-                local bubbleData = bubbleReturn[2]
-                enemy.bubble = bubbleReturn[1]
+            
+            local pools = { self.players, self.enemies }
+            for h = 1, #pools do
+                local pool = pools[h]
+                for i = 1, #pool do
+                    local entity = pool[i]
+                    
+                    local bubbleReturn = self.GetEnemyBubbleSprite(entity)
+                    local bubbleData = bubbleReturn[2]
+                    entity.bubble = bubbleReturn[1]
 
-                -- Choose a text for the enemy
-                enemy.lastBubbleText = self.GetEnemyBubbleText(enemy)
-                enemy.currentdialogue = { }
-                local text = table.copy(enemy.lastBubbleText)
-                for j = 1, #text do
-                    text[j] = "[effect:none]" .. text[j]
+                    -- Choose a text for the entity
+                    entity.lastBubbleText = self.GetEnemyBubbleText(entity)
+                    entity.currentdialogue = { }
+                    local text = table.copy(entity.lastBubbleText)
+                    for j = 1, #text do
+                        text[j] = "[effect:none]" .. text[j]
+                    end
+
+                    entity.bubble.alpha = (entity.lastBubbleText[1] == "" and 0 or 1)
+
+                    -- Creates the entity's bubble text
+                    entity.bubbleTextObject = CreateText(text, {600, 200}, bubbleData.wideness, "Top")
+                    entity.bubbleTextObject.SetParent(entity.bubble)
+                    entity.bubbleTextObject.progressmode = "none"
+                    entity.bubbleTextObject.HideBubble()
+                    entity.bubbleTextObject.x = bubbleData.x - (entity.UI and entity.bubble.width/4 or 0)
+                    entity.bubbleTextObject.y = -bubbleData.y
                 end
-
-                enemy.bubble.alpha = (enemy.lastBubbleText[1] == "" and 0 or 1)
-
-                -- Creates the enemy's bubble text
-                enemy.bubbleTextObject = CreateText(text, {600, 200}, bubbleData.wideness, "Top")
-                enemy.bubbleTextObject.SetParent(enemy.bubble)
-                enemy.bubbleTextObject.progressmode = "none"
-                enemy.bubbleTextObject.HideBubble()
-                enemy.bubbleTextObject.x = bubbleData.x
-                enemy.bubbleTextObject.y = -bubbleData.y
             end
             self.ResetEnemyTargets()
         end
@@ -917,13 +937,23 @@ return function ()
         elseif oldState == "ENEMYDIALOGUE" then
             -- Hide the background
             self.Background.Display(true, 0)
-            -- Destroy all of the enemies' bubble text objects if they haven't been destroyed before
-            for i = 1, #self.enemies do
-                if self.enemies[i].bubbleTextObject then
-                    self.enemies[i].bubbleTextObject.DestroyText()
-                    self.enemies[i].bubbleTextObject = nil
-                    self.enemies[i].bubble.Remove()
-                    self.enemies[i].bubble = nil
+            
+            -- Destroy all of the entities' bubble text objects if they haven't been destroyed before
+            local pools = { self.players, self.enemies }
+            for h = 1, #pools do
+                local pool = pools[h]
+                for i = 1, #pool do
+                    local entity = pool[i]
+                    if entity.bubbleTextObject then
+                        entity.bubbleTextObject.DestroyText()
+                        entity.bubbleTextObject = nil
+                        entity.bubble.Remove()
+                        entity.bubble = nil
+                    end
+
+                    -- Susie speech eye thingy.
+                    if entity.name == "Susie" and entity.action == "Defend" then
+                        entity.SetCYKAnimation("DefendEnd")  end
                 end
             end
 
