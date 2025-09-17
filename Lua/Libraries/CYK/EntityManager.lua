@@ -484,7 +484,7 @@ return function(self)
         return tab
     end
 
-    -- Gets the speech bubble's dialogue of an enemy
+    -- Gets the speech bubble's dialogue of an enemy.
     function self.GetEnemyBubbleText(enemy)
         --- Test if currentdialogue is a valid text
         local isText, text = CheckText(enemy.currentdialogue, true)
@@ -705,6 +705,46 @@ return function(self)
         bubbleSprite.x = ( (entity.UI~=nil) and ( entity.sprite.width/2 + bubbleSprite["tail"].width )
                             or -bubbleWidth ) + entity.bubbleOffsetX + 0.01
         bubbleSprite.y = ( height / 2 ) + entity.bubbleOffsetY + 0.01
+    end
+
+    -- If you want to have different characters interject sequentially after each other in a turn, you should use this.
+    function self.AddBubbleToTurn(string, isPlayer, entityID)
+        -- This dialogue is for a player.
+        if isPlayer then
+            for j=1, #self.players do
+                -- The selected player gets the dialogue added.
+                if j==entityID then
+                    table.insert(self.players[j].currentdialogue, string)
+                -- Other players get a blank dialogue.
+                else table.insert(self.players[j].currentdialogue, "")  end
+            end
+            -- All enemies get a blank dialogue
+            for j=1, #self.enemies do
+                table.insert(self.enemies[j].currentdialogue, "")  end
+            
+        -- It's for an enemy.
+        else
+            for j=1, #self.players do
+                table.insert(self.players[j].currentdialogue, "")  end
+            for j=1, #self.enemies do
+                if j==entityID then
+                    table.insert(self.enemies[j].currentdialogue, string)
+                else table.insert(self.enemies[j].currentdialogue, "")  end
+            end
+        end
+
+    end
+
+    -- Hard to explain. Point is, you use this to make multiple characters interject at once along each other.
+    function self.InstantBubbleToTurn(string, isPlayer, entityID)
+        -- This dialogue is for a player.
+        if isPlayer then
+            self.players[entityID].currentdialogue[#self.players[entityID].currentdialogue] = string
+        -- It's for an enemy.
+        else
+            self.enemies[entityID].currentdialogue[#self.enemies[entityID].currentdialogue] = string
+        end
+
     end
 
     -- Updates the entity's position if they're hurt. Different animation according to target type.

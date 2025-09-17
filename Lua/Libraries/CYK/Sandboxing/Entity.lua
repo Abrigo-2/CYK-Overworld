@@ -182,54 +182,14 @@ function SetBubbleOffset(x, y)
     bubbleOffsetY = y
 end
 
--- If you want to have different characters interject sequentially after each other in a turn, you should use this.
-function AddBubbleToTurn(string, isPlayer, _ID)
-    local isPlayer = (isPlayer) and isPlayer or (UI ~= nil)
-    local _ID = (_ID) and _ID or ID
-
-    local nextDialogue = { string, isPlayer, _ID }
-    -- This dialogue is for a player.
-    if nextDialogue[2] then
-        for j=1, #CYK.players do
-            -- The selected player gets the dialogue added.
-            if j==nextDialogue[3] then
-                table.insert(CYK.players[j].currentdialogue, nextDialogue[1])
-            -- Other players get a blank dialogue.
-            else table.insert(CYK.players[j].currentdialogue, "")  end
-        end
-        -- All enemies get a blank dialogue
-        for j=1, #CYK.enemies do
-            table.insert(CYK.enemies[j].currentdialogue, "")  end
-        
-    -- It's for an enemy.
-    else
-        for j=1, #CYK.players do
-            table.insert(CYK.players[j].currentdialogue, "")  end
-        for j=1, #CYK.enemies do
-            if j==nextDialogue[3] then
-                table.insert(CYK.enemies[j].currentdialogue, nextDialogue[1])
-            else table.insert(CYK.enemies[j].currentdialogue, "")  end
-        end
-    end
-
+-- These are the same as in EntityManager, just that they'll automatically targets this entity.
+function AddBubbleToTurn(string)
+    local isPlayer = (UI ~= nil)
+    CYK.AddBubbleToTurn(string, isPlayer, ID)
 end
-
--- Hard to explain. Point is, you use this to make multiple characters interject at once along each other.
-function InstantBubbleToTurn(string, isPlayer, _ID)
-    local isPlayer = (isPlayer) and isPlayer or (UI ~= nil)
-    local _ID = (_ID) and _ID or ID
-
-    local nextDialogue = { string, isPlayer, _ID }
-    -- This dialogue is for a player.
-    if nextDialogue[2] then
-        local j = nextDialogue[3]
-        CYK.players[j].currentdialogue[#CYK.players[j].currentdialogue] = nextDialogue[1]
-    -- It's for an enemy.
-    else
-        local j = nextDialogue[3]
-        CYK.enemies[j].currentdialogue[#CYK.enemies[j].currentdialogue] = nextDialogue[1]
-    end
-
+function InstantBubbleToTurn(string)
+    local isPlayer = (UI ~= nil)
+    CYK.InstantBubbleToTurn(string, isPlayer, ID)
 end
 
 -- Shows/Hides the entity's speech bubble.

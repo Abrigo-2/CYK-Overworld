@@ -56,8 +56,8 @@ function HandleAttack(attacker, attackstatus)
         -- Player pressed fight but didn't press Z afterwards
         AddBubbleToTurn("Do no harm, " .. attacker.name .. ".\n")
         AddBubbleToTurn("")
-        InstantBubbleToTurn("[voice:v_ralsei]Cripes!", true, 2)
-        InstantBubbleToTurn("[voice:v_susie]$!$?", true, 3)
+        CYK.InstantBubbleToTurn("[voice:v_ralsei]Cripes!", true, 2)
+        CYK.InstantBubbleToTurn("[voice:v_susie]$!$?", true, 3)
     else
         -- Player did actually attack
         if attackstatus < 50 then
@@ -65,18 +65,18 @@ function HandleAttack(attacker, attackstatus)
 
             if (hp > maxhp*7/10) then
                 if attacker.name == "Ralsei" then
-                    AddBubbleToTurn("[voice:v_ralsei]Thank you!", true, attacker.ID)
+                    attacker.AddBubbleToTurn("[voice:v_ralsei]Thank you!")
                 elseif attacker.name == "Susie" then
-                    AddBubbleToTurn("[voice:v_susie]Heh.", true, attacker.ID) end
+                    attacker.AddBubbleToTurn("[voice:v_susie]Heh.") end
             end
         else
             AddBubbleToTurn("Too strong, " .. attacker.name .. "...\n")
 
             if (hp > maxhp*7/10) then
                 if attacker.name == "Ralsei" then
-                    AddBubbleToTurn("[voice:v_ralsei]Sorry...!!", true, attacker.ID)
+                    attacker.AddBubbleToTurn("[voice:v_ralsei]Sorry...!!")
                 elseif attacker.name == "Susie" then
-                    AddBubbleToTurn("[voice:v_susie]You bet!!", true, attacker.ID) end
+                    attacker.AddBubbleToTurn("[voice:v_susie]You bet!!") end
             end
         end
 
