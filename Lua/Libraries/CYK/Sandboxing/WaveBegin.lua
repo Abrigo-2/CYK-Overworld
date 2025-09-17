@@ -20,22 +20,6 @@ _CreateProjectileAbs = CreateProjectileAbs
 function CreateProjectileAbs(spritename, initial_x, initial_y, layer)
     return CreateProjectileForReal(spritename, initial_x, initial_y, layer, true)
 end
---[[
-function _PlayerMovement()
-    local direction = {x=0, y=0}
-
-    if Input.Down > 0 then
-        direction.y = direction.y -1  end
-    if Input.Up > 0 then
-        direction.y = direction.y +1  end
-
-    if Input.Left > 0 then
-        direction.x = direction.x -1  end
-    if Input.Right > 0 then
-        direction.x = direction.x +1  end
-    
-end
-]]--
 
 -- Actually does the thing CreateProjectile and CreateProjectileAbs is supposed to do
 function CreateProjectileForReal(spritename, initial_x, initial_y, layer, isAbs)
