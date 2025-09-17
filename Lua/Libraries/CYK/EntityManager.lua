@@ -646,7 +646,7 @@ return function(self)
     end
 
     -- Resizes the speech bubble to fit its contents. Only applies to 1 kind of speechbubble thus far. ("CH2Resize")
-    function ResizeChapter2Bubble(entity, width, linecount)
+    function self.ResizeChapter2Bubble(entity, width, linecount)
         local bubbleSprite = entity.bubble
         
         -- Multiplied by lineheight.

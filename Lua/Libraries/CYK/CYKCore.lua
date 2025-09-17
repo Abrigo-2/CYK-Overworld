@@ -383,7 +383,12 @@ return function ()
                                 
                                 -- Check if there's any text to resize the bubble around.
                                 if (entity.bubble["name"] == "CH2Resize") then
-                                    ResizeChapter2Bubble( entity, entity.bubbleTextObject.GetTextWidth(), 1 )
+                                    local linecount = 1
+                                    local str = entity.bubbleTextObject.text[entity.bubbleTextObject.currentLine+1]
+                                    for x in str:gmatch("\n") do    linecount = linecount + 1  end
+                                    self.ResizeChapter2Bubble( entity, entity.bubbleTextObject.GetTextWidth(), linecount )
+                                    entity.bubbleTextObject.y = -17 + linecount*2
+
                                     entity.bubbleTextObject.x = 0  -- This apparently resets the text's postion. In a helpful way!
                                 end
                     
@@ -649,9 +654,13 @@ return function ()
                     entity.bubbleTextObject.HideBubble()
 
                     if entity.bubble["name"] == "CH2Resize" then
-                        ResizeChapter2Bubble( entity, entity.bubbleTextObject.GetTextWidth(), 1 )
-                        entity.bubbleTextObject.x =  bubbleData.x
-                        entity.bubbleTextObject.y = -bubbleData.y
+                        local linecount = 1
+                        local str = entity.bubbleTextObject.text[entity.bubbleTextObject.currentLine+1]
+                        for x in str:gmatch("\n") do    linecount = linecount + 1  end
+                        self.ResizeChapter2Bubble( entity, entity.bubbleTextObject.GetTextWidth(), linecount )
+                        entity.bubbleTextObject.y = -17 + linecount*2
+
+                        entity.bubbleTextObject.x = 0
                     else
                         entity.bubbleTextObject.x =  bubbleData.x - (entity.UI and entity.bubble.width/4 or 0)
                         entity.bubbleTextObject.y = -bubbleData.y

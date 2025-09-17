@@ -7,7 +7,7 @@ return {
     CH1 =             { side = "left",   x = 8,  y = 20,  wideness = 69 },
     CH1wide =         { side = "left",   x = 8,  y = 18,  wideness = 120 },
     CH1large =        { side = "left",   x = 7,  y = 20,  wideness = 120 },
-    CH2Resize =       { side = "left",   x = 0,  y = 14,  wideness = 1/0 },
+    CH2Resize =       { side = "left",   x = 0,  y =  0,  wideness = 1/0 },  -- decoy values...
 
     left =            { side = "left",   x = 9,  y = 21, wideness = 70  },
     leftwide =        { side = "left",   x = 12, y = 25, wideness = 194 },
