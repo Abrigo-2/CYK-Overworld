@@ -66,6 +66,32 @@ function string.split(inputstr, sep, isPattern)
     return t
 end
 
+-- Scrambles a string in such way it's rendered nonsensical.
+function string.scramble(str)
+    -- Ignore scrambling.
+    if str[1] == "°" then
+        return str:sub(2)
+    else
+        local posit = {}
+        for i=1, #str do
+            table.insert(posit, i)
+        end
+
+        local newstring = ""
+        local len = #posit
+        for j=1, #posit do
+            local is = math.random(len)
+            local inter = posit[is]
+            newstring = newstring .. str[inter]
+
+            table.remove(posit, is)
+            len = len-1
+        end
+
+        return newstring
+    end
+end
+
 function table.read(table)
     local decoytext = ""
     for key, value in pairs(table) do

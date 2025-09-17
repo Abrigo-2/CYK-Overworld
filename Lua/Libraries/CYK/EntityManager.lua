@@ -552,36 +552,12 @@ return function(self)
             end
         end
 
-        -- This would deliberately scramble the text and make it nonsensical. You probably don't want that...
+        -- This would deliberately scramble the text into garbage. You probably don't want that...
         --[[local allText = superText
         for i=1, #allText do
-            superText[i] = self.scrambleString(allText[i])
+            superText[i] = string.scramble(allText[i])
         end --]]
         return superText
-    end
-
-    function self.scrambleString(string)
-        if string[1] == "°" then
-            return string:sub(2)
-        else
-            local posit = {}
-            for i=1, #string do
-                table.insert(posit, i)
-            end
-
-            local newstring = ""
-            local len = #posit
-            for j=1, #posit do
-                local is = math.random(len)
-                local inter = posit[is]
-                newstring = newstring .. string[inter]
-
-                table.remove(posit, is)
-                len = len-1
-            end
-
-            return newstring
-        end
     end
 
     -- Get the entity's bubble sprite. This can be used by players too.
