@@ -29,7 +29,7 @@ return function()
     self.backgroundfade = true -- Set this variable to false to disable the fade effect on the background when entering a wave
     
     -- A custom list with attacks to choose from. Actual selection happens in EnemyDialogueEnding(). Put here in case you want to use it.
-    self.possible_attacks = { "bullettest_bouncy", "bullettest_touhou", "bullettest_chaserorb" }
+    self.possible_attacks = { "bullettest_bouncy", "bullettest_chaserorb", "bullettest_tunnel" }
     self.nextwaves = { "bullettest_bouncy" }
 
     --#endregion
@@ -54,7 +54,7 @@ return function()
         if nextwave == "bullettest_bouncy" then
             -- Nothing.
         elseif nextwave == "bullettest_touhou" then
-            wavetimer = 6
+            wavetimer = 3
             arenasize = { 180, 146 }
             arenapos = { 320, 200 }
         
@@ -62,6 +62,11 @@ return function()
             wavetimer = 3
             arenasize = { 160, 128 }
             arenapos = { 320, 200 }
+        
+        elseif nextwave == "bullettest_tunnel" then
+            wavetimer = 6
+            arenasize = { 196, 158 }
+            arenapos = { 320, 218 }
 
         elseif nextwave == "empty" then
             wavetimer = 0
