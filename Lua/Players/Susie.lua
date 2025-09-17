@@ -245,13 +245,19 @@ end
 function HandleAnimationChange(newAnim)
     local oldAnim = self.sprite["currAnim"]
     -- Susie has a special animation in case she gets a speechbubble while defending.
-    if (oldAnim == "DefendEnd" or oldAnim == "DefendSpeech") and newAnim == "DefendEnd" then
-        if bubble == nil then  return true end
-        
-        local isSpeaking = ( bubble.alpha > 0 )
-        SetCYKAnimation( isSpeaking and "DefendSpeech" or "DefendEnd" )
-        return false
+    if newAnim == "DefendEnd" then
+        local isDefendAndEnded = (oldAnim == "Defend") and self.sprite.animcomplete
+        if (oldAnim == "DefendEnd" or oldAnim == "DefendSpeech") or isDefendAndEnded then
+            if bubble == nil then  return true end
+            
+            local isSpeaking = ( bubble.alpha > 0 )
+            if isSpeaking then
+                SetCYKAnimation("DefendSpeech")
+                return false
+            end
+        end
     end
+    
     return true
 end
 

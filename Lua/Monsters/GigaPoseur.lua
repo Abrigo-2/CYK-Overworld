@@ -151,7 +151,7 @@ function HandleCustomCommand(user, command)
         if command == "Pose" then      -- not even close to winning him over
             text = text .. "\n...but Poseur was barely impressed."
             AddBubbleToTurn("Hmm.")
-        elseif command ~= "Talk" then  -- starting the process of winning him over
+        elseif command == "Z-Pose" and command == "S-Pose" then  -- starting the process of winning him over
             text = text .. "\n...but Poseur wasn't impressed enough."
             AddBubbleToTurn("Not bad...")
         end

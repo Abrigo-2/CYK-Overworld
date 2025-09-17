@@ -14,9 +14,9 @@ return function()
 
     self.players = {  "Kris", "Ralsei", "Susie" }
     self.playerpositions = {
-        { 78, 372 },
-        { 78, 278 },
-        { 16, 200 }
+        { 62, 372 },
+        { 60, 278 },
+        { -2, 200 }
     }
     
     
@@ -36,11 +36,23 @@ return function()
     function self.EncounterStarting()
     end
 
+    self.susieRant = false
     function self.EnemyDialogueStarting()
+        if (CYK.players[1].hp<1 and CYK.players[2].hp<1) and (not self.susieRant) then
+            local sus = CYK.players[3]
+            sus.AddBubbleToTurn("[voice:v_susie]Heheh...")
+            sus.AddBubbleToTurn("[voice:v_susie][speed:1.5]Didn't... think\nwe'd still be \nstanding, did you?")
+            sus.AddBubbleToTurn("[voice:v_susie][speed:1.5]Thing is,[w:3] \nyou actually...")
+            
+            CYK.AddBubbleToTurn("[voice:v_susie][speed:1.5]You actually messed up,[w:4] \npicking a fight with US!", true, 3)
+            
+            self.susieRant = true
+        end
     end
     
     function self.EnemyDialogueEnding()
         nextwaves = { possible_attacks[math.random(1, #possible_attacks)] }
+        nextwaves = { "bullettest_tunnel" }
         self.SetArena(nextwaves[1])
     end
 
