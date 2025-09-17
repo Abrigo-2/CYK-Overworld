@@ -484,7 +484,7 @@ return function(self)
         return tab
     end
 
-    -- Gets the speech bubble's dialogue of an "enemy" (or player)
+    -- Gets the speech bubble's dialogue of an enemy
     function self.GetEnemyBubbleText(enemy)
         --- Test if currentdialogue is a valid text
         local isText, text = CheckText(enemy.currentdialogue, true)
@@ -604,20 +604,131 @@ return function(self)
             error("The bubble " .. bubble .. " is missing from the BubbleData file!")
         end
 
-        
-        local bubbleSprite = CreateSprite("UI/SpeechBubbles/" .. bubble)
-        bubbleSprite.SetParent( entity.sprite )
-        bubbleSprite.SetAnchor( entity.UI and  1 or 0, 1 )
-        bubbleSprite.SetPivot(  entity.UI and  1 or 0, 1 )
-        bubbleSprite.Scale(     entity.UI and -1 or 1, 1 )
+        local bubbleSprite
+        -- Ch2's resizable.
+        if bubble == "CH2Resize" then
+            bubbleSprite = CreateSprite("px")
+            bubbleSprite.SetParent( entity.sprite )
+            bubbleSprite.SetPivot(  0, 1 )
 
-        bubbleSprite.x = (bubbleData.side == "right" and (entity.UI and 0 or entity.sprite.width) or
-                          bubbleData.side == "left"  and (entity.UI and 0 or -bubbleSprite.width) or
-                                                         (bubbleSprite.width - entity.sprite.width) / 2) + entity.bubbleOffsetX + 0.01
-        bubbleSprite.y = (bubbleData.side == "up"    and bubbleSprite.height or
-                          bubbleData.side == "down"  and -entity.sprite.height or
-                                                         (bubbleSprite.height - entity.sprite.height) / 2) + entity.bubbleOffsetY + 0.01
+            -- The top and bottom sides
+            bubbleSprite["wide"]   = { }
+            for i=1, 2 do
+                local bubbleWide = CreateSprite("UI/SpeechBubbles/CH2Resize/wide")
+                bubbleWide.SetParent( bubbleSprite )
+                bubbleWide.SetPivot(  0.5, 0 )
+                bubbleWide.rotation = (i==1) and 0 or 180
+
+                table.insert(bubbleSprite["wide"], bubbleWide)
+            end
+
+            -- The left and right sides.
+            bubbleSprite["large"]   = { }
+            for i=1, 2 do
+                local bubbleLarge = CreateSprite("UI/SpeechBubbles/CH2Resize/large")
+                bubbleLarge.SetParent( bubbleSprite )
+                bubbleLarge.SetPivot(  0, 0.5 )
+                bubbleLarge.rotation = (i==1) and 0 or 180
+
+                table.insert(bubbleSprite["large"], bubbleLarge)
+            end
+
+            bubbleSprite["corner"] = { }
+            for i=1, 4 do
+                local bubbleCorner = CreateSprite("UI/SpeechBubbles/CH2Resize/corner")
+                bubbleCorner.SetParent( bubbleSprite )
+                bubbleCorner.SetPivot(  1, 0 )
+                bubbleCorner.rotation = (i-1) * -90
+
+                table.insert(bubbleSprite["corner"], bubbleCorner)
+            end
+            
+            local tailSpriteName = (bubbleSprite.yscale < 48) and "tailBig" or "tail"
+            bubbleSprite["tail"] = CreateSprite("UI/SpeechBubbles/CH2Resize/" .. tailSpriteName)
+            bubbleSprite["tail"].SetParent( bubbleSprite )
+            bubbleSprite["tail"].SetPivot(  0, 0.5 )
+            
+        -- Normal sprite bubbles with fixed size.
+        else
+            bubbleSprite = CreateSprite("UI/SpeechBubbles/" .. bubble)
+            bubbleSprite.SetParent( entity.sprite )
+            bubbleSprite.SetAnchor( entity.UI and  1 or 0, 1 )
+            bubbleSprite.SetPivot(  entity.UI and  1 or 0, 1 )
+            bubbleSprite.Scale(     entity.UI and -1 or 1, 1 )
+
+            bubbleSprite.x = (bubbleData.side == "right" and (entity.UI and 0 or entity.sprite.width) or
+                            bubbleData.side == "left"  and (entity.UI and 0 or -bubbleSprite.width) or
+                                                            (bubbleSprite.width - entity.sprite.width) / 2)   + entity.bubbleOffsetX + 0.01
+            bubbleSprite.y = (bubbleData.side == "up"  and bubbleSprite.height or
+                            bubbleData.side == "down"  and -entity.sprite.height or
+                                                            (bubbleSprite.height - entity.sprite.height) / 2) + entity.bubbleOffsetY + 0.01
+        end
+
+        bubbleSprite["name"] = bubble 
+
         return {bubbleSprite, bubbleData}
+    end
+
+    -- Resizes the speech bubble to fit its contents. Only applies to 1 kind of speechbubble thus far. ("CH2Resize")
+    function ResizeChapter2Bubble(entity, width, linecount)
+        local bubbleSprite = entity.bubble
+        
+        -- Multiplied by lineheight.
+        local height = linecount * bubbleSprite["large"][1].height
+
+        bubbleSprite.xscale = width
+        bubbleSprite.yscale = height
+
+        -- The top and bottom sides
+        for i=1, 2 do
+            local bubbleWide = bubbleSprite["wide"][i]
+
+            -- Scale X to fit content.
+            local proportionalScaleX = width / bubbleWide.width
+            bubbleWide.xscale = math.ceil(proportionalScaleX)
+
+            -- Move up or down, according to bubble's size.
+            bubbleWide.y = height * ( (i==1) and .5 or -.5 )
+        end
+
+        -- The left and right sides.
+        for i=1, 2 do
+            local bubbleLarge = bubbleSprite["large"][i]
+
+            -- Scaling the bubble's Y is a bit more strict.
+            local fixedScaleY = math.floor( height / bubbleLarge.height)
+            bubbleLarge.yscale = math.ceil(fixedScaleY)
+
+            -- Move to the sides.
+            bubbleLarge.x = width * ((i==1) and .5 or -.5)
+            bubbleLarge.y = 0
+        end
+
+        -- The corners.
+        for i=1, 4 do
+            local bubbleCorner = bubbleSprite["corner"][i]
+
+            -- Adjust position of each corner according to bubble's size. 
+            bubbleCorner.x = width  * ( (i==2 or i==3) and .5 or -.5 )
+            bubbleCorner.y = height * ( (i>2) and -.5 or .5 )
+        end
+        
+        -- The "Speech Thing" (a.k.a. the bubble's tail).
+        local tailSpriteName = (bubbleSprite.yscale < 48) and "tailBig" or "tail"
+        bubbleSprite["tail"].Set("UI/SpeechBubbles/CH2Resize/" .. tailSpriteName)
+        
+        -- Move to the respective side.
+        local newTailPosition  = width/2 + bubbleSprite["large"][1].width - 1
+        bubbleSprite["tail"].x = (entity.UI~=nil) and -newTailPosition or newTailPosition
+        bubbleSprite["tail"].rotation = (entity.UI~=nil) and 180 or 0
+
+        -- Move the speech bubble.
+        local bubbleWidth  = width + 2*( (bubbleSprite["wide"][1].width-1) + bubbleSprite["tail"].width )
+        bubbleSprite["width"]  = bubbleWidth
+
+        bubbleSprite.x = ( (entity.UI~=nil) and ( entity.sprite.width/2 + bubbleSprite["tail"].width )
+                            or -bubbleWidth ) + entity.bubbleOffsetX + 0.01
+        bubbleSprite.y = ( height / 2 ) + entity.bubbleOffsetY + 0.01
     end
 
     -- Updates the entity's position if they're hurt. Different animation according to target type.

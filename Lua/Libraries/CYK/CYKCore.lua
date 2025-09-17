@@ -383,7 +383,14 @@ return function ()
                                 entity.bubble = nil
                             else
                                 entity.bubbleTextObject.NextLine()
-                                entity.bubble.alpha = (entity.lastBubbleText[_bubble.currentLine + 1] == "" and 0 or 1)
+                                entity.ToggleBubbleAlpha( (entity.lastBubbleText[_bubble.currentLine + 1] == "") and 0 or 1 )
+                                
+                                -- Check if there's any text to resize the bubble around.
+                                if (entity.bubble["name"] == "CH2Resize") then
+                                    ResizeChapter2Bubble( entity, entity.bubbleTextObject.GetTextWidth(), 1 )
+                                    entity.bubbleTextObject.x = 0  -- This apparently resets the text's postion. In a helpful way!
+                                end
+                    
                             end
 
                             -- Susie speech eye thingy.
@@ -637,15 +644,23 @@ return function ()
                         text[j] = "[effect:none]" .. text[j]
                     end
 
-                    entity.bubble.alpha = (entity.lastBubbleText[1] == "" and 0 or 1)
+                    entity.ToggleBubbleAlpha( (entity.lastBubbleText[1] == "") and 0 or 1 )
 
                     -- Creates the entity's bubble text
                     entity.bubbleTextObject = CreateText(text, {600, 200}, bubbleData.wideness, "Top")
                     entity.bubbleTextObject.SetParent(entity.bubble)
                     entity.bubbleTextObject.progressmode = "none"
                     entity.bubbleTextObject.HideBubble()
-                    entity.bubbleTextObject.x = bubbleData.x - (entity.UI and entity.bubble.width/4 or 0)
-                    entity.bubbleTextObject.y = -bubbleData.y
+
+                    if entity.bubble["name"] == "CH2Resize" then
+                        ResizeChapter2Bubble( entity, entity.bubbleTextObject.GetTextWidth(), 1 )
+                        entity.bubbleTextObject.x =  bubbleData.x
+                        entity.bubbleTextObject.y = -bubbleData.y
+                    else
+                        entity.bubbleTextObject.x =  bubbleData.x - (entity.UI and entity.bubble.width/4 or 0)
+                        entity.bubbleTextObject.y = -bubbleData.y
+                    end
+                    
                 end
             end
             self.ResetEnemyTargets()

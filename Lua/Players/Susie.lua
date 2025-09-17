@@ -44,6 +44,7 @@ healAnimOffsetX = -2
 healAnimOffsetY = -10
 bubbleOffsetX = -84
 bubbleOffsetY = -25
+dialogbubble  = "CH2Resize"
 
 
 rudeBusterEndMagic = -1

@@ -232,6 +232,26 @@ function InstantBubbleToTurn(string, isPlayer, _ID)
 
 end
 
+-- Shows/Hides the entity's speech bubble.
+function ToggleBubbleAlpha(alpha)
+    if bubble == nil then  return  end
+
+    bubble.alpha = alpha
+    
+    -- CH2Resize is made up of multiple sprites. They need to be hidden individually.
+    if bubble["name"] == "CH2Resize" then
+        for i=1, 2 do
+            bubble["wide"][i].alpha = alpha  end
+        for i=1, 2 do
+            bubble["large"][i].alpha = alpha  end
+        for i=1, 4 do
+            bubble["corner"][i].alpha = alpha  end
+        
+        bubble["tail"].alpha = alpha
+    end
+
+end
+
 -- Moves this entity's damage text spawn position from where it originally was
 function SetDamageUIOffset(x, y)
     if type(x) ~= "number" or type(y) ~= "number" then
