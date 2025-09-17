@@ -135,7 +135,7 @@ return function(CYK)
         self.state = self.States.DIALOGUE
         
 
-        -- This would be a good place to pause your animation!!
+        -- This would be a good place to pause your cutscene/animation!!
         Overworld.canControl = false
         self.isActive = true
 
@@ -252,8 +252,14 @@ return function(CYK)
     end
 
 
-    -- Called each time the dialogue ends.
+    -- Called when all of the dialogue's lines have been read.
     function self.TextboxEnd()
+        -- Takes care of an Overworld bug.
+        for k, id in pairs(Overworld.talkingSprites) do
+            if id ~= nil then  TalkingSprite(id, false)  end
+        end
+
+        -- Textbox related.
         self.cold = 0
         if  self.closingMode == self.closingModeEnum.toChoice then
             self.text.SetText("[novoice]")
@@ -275,7 +281,7 @@ return function(CYK)
         end
     end
 
-    -- Set the Textbox's labels blank, then hides the its sprites. 
+    -- Set the Textbox's labels blank, then hides its sprites. 
     function self.Close()
         self.SetText({ "[novoice]" }, false, self.closingMode)
         self.textstar.SetText("[novoice]")
@@ -287,8 +293,14 @@ return function(CYK)
         self.isActive = false
     end
 
-    self.cold = 0 --cooldown for skipping text
+    self.cold = 0 -- cooldown for skipping text.
     function self.ScanTextLine(nextLine)
+        -- Takes care of an Overworld bug.
+        for k, id in pairs(Overworld.talkingSprites) do
+            if id ~= nil then  TalkingSprite(id, false)  end
+        end
+
+        -- Textbox related.
         local doNextLine = false
         self.faceSprite.alpha = 0
         if nextLine then
@@ -437,7 +449,7 @@ return function(CYK)
                         self.TextboxEnd()
                     else
                         self.ScanTextLine(true)
-                        self.cold = 4
+                        self.cold = 6
                     end
                 end
 

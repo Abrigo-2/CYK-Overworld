@@ -628,13 +628,16 @@ return function(self)
         if object["sprite"] ~= nil then
             if talking then
                 object["sprite"].SetAnimation( object["talking"], object["animspeed"], object["animPrefix"] )
+                self.talkingSprites[id] = id
             else
                 object["sprite"].SetAnimation( object["quiet"],   object["animspeed"], object["animPrefix"] )
+                self.talkingSprites[id] = nil
             end
         else
             error("Object within Triggers layer with an ID of " .. id .. ": \"sprite\" property doesn't exist. You may add one yourself at the function OnRoomSetup")
         end
     end
-    
+    self.talkingSprites = { }  -- Fixes a bug. You'll see.
+
 
 end
