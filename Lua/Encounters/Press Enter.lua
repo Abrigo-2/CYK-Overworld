@@ -54,7 +54,7 @@ backgroundfade = true  -- Set this variable to false to disable the fade effect 
 
 -- A custom list with attacks to choose from. Actual selection happens in EnemyDialogueEnding(). Put here in case you want to use it.
 possible_attacks = { }
-nextwaves = { }
+nextwaves = { "empty" }
 
 encounterLastLoaded = ""
 
@@ -128,10 +128,13 @@ function EncounterStarting()
 
     -- For playtesting purposes...
     -- Uncoment these functions to mute the game's background music.
-    --[[Overworld.BGM.volumeMax = 0
+    --[[
+    Overworld.BGM.volumeMax = 0
     NewAudio.SetVolume("BGM", Overworld.BGM.volumeMax)
     NewAudio.Stop( "BGM")
-    Audio.Volume(0)--]]
+    Audio.Volume(0)
+    --]]
+    
 
 end
 
@@ -173,7 +176,6 @@ function LoadBattleValues()
     skipintro           = encounterFile.skipintro or false
 
     possible_attacks    = encounterFile.possible_attacks
-    nextwaves           = encounterFile.nextwaves
 end
 
 function EnemyDialogueStarting() encounterFile.EnemyDialogueStarting()
@@ -194,7 +196,7 @@ function EnteringState(newstate, oldstate)
     encounterFile.EnteringState(newstate, oldstate)
 end
 
--- The code for this is run in two bits: *This* happens as soon as the player's turn begins
+-- The code for this is run in two bits: *This* happens as soon as the player's turn begins.
 function HandleItemDialogue(user, targets, itemID)
     if itemID == "Manual" then
         BattleDialog({ user.name .. " reads the Manual." })
@@ -232,7 +234,7 @@ end
 
 --#region Section for functions that tbh would be nice if they could be run from their respective scripts, but there doesn't seem to be a way so I've hodgepodged them all here.
 
--- Call this function in text so that a sprite in the Overworld will play a little animation while the Textbox is typing.
+-- Call this function within text so that a sprite in the Overworld will play a little animation while the Textbox is typing.
 function TalkingSprite(id, talking)
     -- This function only looks for an object within the Triggers layer that's got a sprite property. You can add one manually.
     local object = Overworld.FindObjectInRoom("Triggers", id)

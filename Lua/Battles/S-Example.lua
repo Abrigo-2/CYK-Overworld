@@ -30,7 +30,6 @@ return function()
     
     -- A custom list with attacks to choose from. Actual selection happens in EnemyDialogueEnding(). Put here in case you want to use it.
     self.possible_attacks = { "bullettest_bouncy", "bullettest_chaserorb", "bullettest_tunnel" }
-    self.nextwaves = { "bullettest_bouncy" }
 
     --#endregion
 
