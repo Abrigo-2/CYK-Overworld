@@ -5,8 +5,8 @@
 return {
     DRBubble =        { side = "left",   x = 8,  y = 21, wideness = 120 },
     CH1 =             { side = "left",   x = 8,  y = 20,  wideness = 69 },
-    CH1large =        { side = "left",   x = 7,  y = 20,  wideness = 150 },
-    CH1wide =         { side = "left",   x = 8,  y = 18,  wideness = 150 },
+    CH1wide =         { side = "left",   x = 8,  y = 18,  wideness = 120 },
+    CH1large =        { side = "left",   x = 7,  y = 20,  wideness = 120 },
     CH2Resize =       { side = "left",   x = 0,  y = 14,  wideness = 1/0 },
 
     left =            { side = "left",   x = 9,  y = 21, wideness = 70  },

@@ -39,8 +39,6 @@ function Update()
         if tooHigh or tooLow then
             newYoffset = targetYoffset - increment  end
         
-        DEBUG(newYoffset)
-
         targetYoffset = newYoffset
     end
 
