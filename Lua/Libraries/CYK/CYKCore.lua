@@ -253,7 +253,7 @@ return function ()
                     local player = self.players[self.turn]
                     local enemy = player.target
 
-                    -- If the player is Defending or Fighting, however, nothing is done. The flavor text is skipped.
+                    -- If the player is Defending or Fighting, skip their flavor text.
                     if player.action == "Defend" or player.action == "Fight" or player.action == "" then
                         self.Confirm( true )
                     
@@ -272,7 +272,7 @@ return function ()
                                     if availableActions.commands[i] == player.subAction then
                                         for j = 1, #availableActions.IDs[i] do
                                             local player = self.allPlayers[availableActions.IDs[i][j]]
-                                            player.action = ""
+                                            player.action = ""  -- Empty to prevent the required players from acting again.
                                             self.SetAnim(player, playerAnim)
                                         end
                                     end
@@ -283,10 +283,8 @@ return function ()
                         end
 
                         -- Do something for this Player!
-                        if player.action == "Fight" then
-                            player.action = ""
                         -- ACT
-                        elseif player.action == "Act" and enemy and player.subAction ~= "" then
+                        if     player.action == "Act" and enemy and player.subAction ~= "" then
                             ProtectedCYKCall(enemy.HandleCustomCommand, player, player.subAction)
                             player.action = ""
                         -- MAGIC
@@ -327,11 +325,9 @@ return function ()
 
                             -- Add the actual enemy sparing to the queue.
                             table.insert( self.currentPlayerActionQueue, player )
-
                         end
 
                     end
-
                 end
             -- If the text is not completely done, go to the next line
             elseif self.TxtMgr.text.lineComplete then
@@ -1001,32 +997,28 @@ return function ()
 
         if oldState == "PLAYERTURN" then
             self.TxtMgr.HideText()
+            
             -- Case a Player attacks: enter the state ATTACKING
-            local inAttacking = false
-            for i = 1, #self.players do
-                if self.players[i].action == "Fight" then
-                    -- Empty the current attackingPlayers table and finish any existing animation
-                    if not inAttacking then
-                        --[[while #self.AtkMgr.attackingPlayers > 0 do
-                            local attackingPlayer = self.AtkMgr.attackingPlayers[1]
-                            while #attackingPlayer.perfectStars > 0 do
-                                local star = attackingPlayer.perfectStars[0]
-                                if star.isactive then star.Remove() end
-                                table.remove(attackingPlayer.perfectStars, 1)
-                            end
-                        end--]]
+            -- Needs to check if the new state *isn't* ATTACKING, otherwise the attackingPlayers table gets wiped twice.
+            if newState ~= "ATTACKING" then
+                local inAttacking = false
+                -- Empty the current attackingPlayers table.
+                self.AtkMgr.attackingPlayers = { }
+                for i = 1, #self.players do
+                    if self.players[i].action == "Fight" then
+                        self.players[i].UI.faceSprite.Set("CreateYourKris/Players/" .. self.players[i].sprite["anim"] .. "/UI/Fight")
+                        self.players[i].action = ""
+                        table.insert(self.AtkMgr.attackingPlayers, i)
+                        inAttacking = true
                     end
-                    self.players[i].UI.faceSprite.Set("CreateYourKris/Players/" .. self.players[i].sprite["anim"] .. "/UI/Fight")
-                    self.players[i].action = ""
-                    table.insert(self.AtkMgr.attackingPlayers, i)
-                    inAttacking = true
                 end
-            end
-            -- If any Player is attacking, enter the state ATTACKING
-            if #self.AtkMgr.attackingPlayers > 0 and inAttacking then
-                self.state = "PLAYERTURN"
-                self.State("ATTACKING")
-                return
+                
+                -- If any Player is attacking, enter the state ATTACKING
+                if #self.AtkMgr.attackingPlayers > 0 and inAttacking then
+                    self.state = "PLAYERTURN"
+                    self.State("ATTACKING")
+                    return
+                end
             end
 
             -- Reset the players' animation and action unless they're defending

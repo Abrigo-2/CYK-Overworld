@@ -9,22 +9,11 @@ return function(CYK)
     -- Sets a Player attack up
     function self.SetupAttack()
         -- If a player's target entity is not active, take an active entity instead
-        local deleteQueue = { }
         for i = 1, #self.attackingPlayers do
             local player = CYK.players[self.attackingPlayers[i]]
-            if player == nil then
-                table.insert(deleteQueue, i)
-            else
-                if player.target == nil then
-                    error(table.read(self.attackingPlayers))
-                end
-                if not player.target.isactive then
-                    player.target = CYK.enemies[CYK.GetEntityUp(player.target, true)]
-                end
+            if not player.target.isactive then
+                player.target = CYK.enemies[CYK.GetEntityUp(player.target, true)]
             end
-        end
-        for i = #deleteQueue, 1, -1 do
-            table.remove(self.attackingPlayers, deleteQueue[i])
         end
 
         -- Nobody attacking
