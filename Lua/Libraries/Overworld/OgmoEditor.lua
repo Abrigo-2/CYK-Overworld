@@ -620,4 +620,21 @@ return function(self)
         error("Object " ..type.." id " ..tostring(id).. " doesn't exist in room" .. self.roomName)
     end
 
+    -- Call this function within text so that a sprite in the Overworld will play a little animation while the Textbox is typing.
+    function TalkingSprite(id, talking)
+        -- This function only looks for an object within the Triggers layer that's got a sprite property. You can add one manually.
+        local object = Overworld.FindObjectInRoom("Triggers", id)
+
+        if object["sprite"] ~= nil then
+            if talking then
+                object["sprite"].SetAnimation( object["talking"], object["animspeed"], object["animPrefix"] )
+            else
+                object["sprite"].SetAnimation( object["quiet"],   object["animspeed"], object["animPrefix"] )
+            end
+        else
+            error("Object within Triggers layer with an ID of " .. id .. ": \"sprite\" property doesn't exist. You may add one yourself at the function OnRoomSetup")
+        end
+    end
+    
+
 end

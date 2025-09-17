@@ -230,27 +230,4 @@ function HandleItem(user, targets, itemID, itemData)
 end
 
 
---#endregion
-
---#region Section for functions that tbh would be nice if they could be run from their respective scripts, but there doesn't seem to be a way so I've hodgepodged them all here.
-
--- Call this function within text so that a sprite in the Overworld will play a little animation while the Textbox is typing.
-function TalkingSprite(id, talking)
-    -- This function only looks for an object within the Triggers layer that's got a sprite property. You can add one manually.
-    local object = Overworld.FindObjectInRoom("Triggers", id)
-
-    if object["sprite"] ~= nil then
-        if talking then
-            object["sprite"].SetAnimation( object["talking"], object["animspeed"], object["animPrefix"] )
-        else
-            object["sprite"].SetAnimation( object["quiet"],   object["animspeed"], object["animPrefix"] )
-        end
-    else
-        error("Object within Triggers layer with an ID of " .. id .. ": \"sprite\" property doesn't exist. You may add one yourself at the function OnRoomSetup")
-    end
-end
-
---#endregion
-
-
 require "Libraries/CYK/CYKPreProcessing"  -- NEEDED FOR CYK TO RUN
