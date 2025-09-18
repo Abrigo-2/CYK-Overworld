@@ -661,7 +661,7 @@ return function(self)
 
             -- Scale X to fit content.
             local proportionalScaleX = width / bubbleWide.width
-            bubbleWide.xscale = math.ceil(proportionalScaleX)
+            bubbleWide.xscale = math.ceil(proportionalScaleX) + 0.5
 
             -- Move up or down, according to bubble's size.
             bubbleWide.y = height * ( (i==1) and .5 or -.5 )

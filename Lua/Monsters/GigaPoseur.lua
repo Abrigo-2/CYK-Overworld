@@ -57,7 +57,8 @@ function HandleAttack(attacker, attackstatus)
         AddBubbleToTurn("Do no harm, " .. attacker.name .. ".\n")
         AddBubbleToTurn("")
         CYK.InstantBubbleToTurn("[voice:v_ralsei]Cripes!", true, 2)
-        CYK.InstantBubbleToTurn("[voice:v_susie]$!$?", true, 3)
+        if CYK.players[3].name == "Susie" then
+            CYK.InstantBubbleToTurn("[voice:v_susie]$!$?", true, 3)  end
     else
         -- Player did actually attack
         if attackstatus < 50 then

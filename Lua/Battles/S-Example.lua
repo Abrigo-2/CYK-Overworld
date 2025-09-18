@@ -52,7 +52,6 @@ return function()
     
     function self.EnemyDialogueEnding()
         nextwaves = { possible_attacks[math.random(1, #possible_attacks)] }
-        nextwaves = { "bullettest_tunnel" }
         self.SetArena(nextwaves[1])
     end
 
