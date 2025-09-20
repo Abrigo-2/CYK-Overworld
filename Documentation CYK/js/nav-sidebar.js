@@ -45,10 +45,15 @@ function createSideBarItems(isIndexPage, currentPage) {
         navigation.appendChild(listItem) 
     }
 
-    const headerUGuide = document.createElement("li");
-    headerUGuide.textContent = "Setup and Usage Guide";
-    headerUGuide.className = "li-header";
-    navigation.appendChild(headerUGuide)
+    function addSectionHeader (section) {
+        const sectionHeader = document.createElement("li");
+        sectionHeader.textContent = section;
+        sectionHeader.className = "li-header";
+        navigation.appendChild(sectionHeader)
+    }
+
+    
+    addSectionHeader( "Setup and Usage Guide")
     addHeader("Welcome", "documentation.html" )
     addHeader("Keyboard Controls", "controls.html" )
     addHeader("Understanding your Files and Directories", "basic.html" )
@@ -59,30 +64,38 @@ function createSideBarItems(isIndexPage, currentPage) {
     addHeader("Working with CYF's Scripts", "api-functions-script.html" )
     addHeader("-", "-" )
 
-    const headerProperDocs = document.createElement("li");
-    headerProperDocs.textContent = "Pinpoint Reference";
-    headerProperDocs.className = "li-header";
-    navigation.appendChild(headerProperDocs)
+    addSectionHeader( "Pinpoint Reference")
     addHeader("Text commands", "api-text.html" )
-    addHeader("Misc. Functions", "api-functions-main.html" )
-    addHeader("The Player('s Soul) Object", "api-functions-player.html" )
-    addHeader("The Entity Object", "api-functions-entity.html" )
+    addHeader("Working with Sprites", "api-animation.html" )
+    addHeader("-", "-" )
+
     addHeader("The Audio Object", "api-functions-audio.html" )
     addHeader("The NewAudio Object", "api-functions-newaudio.html" )
     addHeader("-", "-" )
+
     addHeader("The Input Object", "api-functions-input.html" )
     addHeader("Key List", "cyf-keys.html" )
     addHeader("-", "-" )
+
+    addSectionHeader( "Player and Monster Entities")
+    addHeader("Entities, broadly speaking.", "api-functions-entity.html" )
+    addHeader("Player Entities", "api-functions-entity.html" )
+    addHeader("Monster Entities", "api-functions-entity.html" )
+    addHeader("-", "-" )
+
+    addSectionHeader( "Miscelaneous")
+    addHeader("Misc. Functions", "api-functions-main.html" )
     addHeader("The Time Object", "api-functions-time.html" )
-    addHeader("The Misc Object", "api-functions-misc.html" )
-    addHeader("Camera and Screen Functions", "api-functions-camera.html" )
+    addHeader("Program's Window and Computer functions", "api-functions-misc.html" )
+    addHeader("Camera and Game Screen functions", "api-functions-camera.html" )
     addHeader("Items and Inventory", "cyf-inventory.html" )
     addHeader("-", "-" )
+
+    addSectionHeader( "DEFENDING phase, Arena and Bullets")
+    addHeader("The Player('s Soul) Object", "api-functions-player.html" )
     addHeader("Wave Scripts", "api-functions-waves.html" )
     addHeader("Projectile management", "api-projectile.html" )
     addHeader("The Pixel-Perfect Collision System", "cyf-ppcollision.html" )
-    addHeader("-", "-" )
-    addHeader("Working with Sprites", "api-animation.html" )
     addHeader("-", "-" )
     
 
