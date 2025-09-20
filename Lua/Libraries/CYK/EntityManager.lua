@@ -315,11 +315,11 @@ return function(self)
             -- These take care of the flee and spare animations
             entity.spareOrFleeAnim = nil
             entity.spareOrFleeStart = 0
-            entity.spareStars = { }
-            entity.fleeSprites = { }
-            entity.fleeSpritesNeeded = 0
-            entity.fleeSpritesEnabled = 0
-            entity.fleeDrops = nil
+            entity.spareStars = { }  -- Sprite pool.
+            entity.fleeSprites = { } -- Sprite pool.
+            entity.fleeSpritesNeeded = 0  -- Counts how many sprites are needed to display the flee animation correctly.
+            entity.fleeSpritesEnabled = 0 -- Counts how many sprites have been activated by the flee animation.
+            entity.fleeDrops = nil  -- Sprite.
 
             -- Mercy counter.
             if chapter2 and entity.useMercyCounter then
@@ -902,8 +902,8 @@ return function(self)
         if frame % 2 == 0 and frame >= 10 and frame < 30 then
             local star = CreateSprite("CreateYourKris/SpareStars/0", "Entity")
             star.MoveBelow(entity.sprite)
-            star.absx = Misc.cameraX + entity.posX + math.random(0, entity.sprite.width)
-            star.absy = Misc.cameraY + entity.posY + math.random(0, entity.sprite.height)
+            star.absx = entity.posX + math.random(0, entity.sprite.width)
+            star.absy = entity.posY + math.random(0, entity.sprite.height)
             star["startFrame"] = frame
             star.MoveAbove(entity.sprite)
             table.insert(entity.spareStars, star)

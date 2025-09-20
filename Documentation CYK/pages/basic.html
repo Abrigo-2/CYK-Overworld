@@ -15,8 +15,8 @@ it's w3c valid, at least
     <link rel="icon" href="favicon.ico">
 
     <title>CYK Documentation - Basic Setup</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
     <link href="../css/shThemeRDark.css" rel="stylesheet">
 
@@ -28,125 +28,90 @@ it's w3c valid, at least
 <body>
 <img src="../img/bg2.png" alt="Undertale background" class="backimg">
 <div class="container arena black">
+    <!--navigation-->
     <div class="col-md-2">
-        <!--navigation-->
         <nav class="nav-sidebar">
-            <ul class="nav tabs">
-                <li class="li-header">Basics</li>
-                    <li><a href="../documentation.html">Welcome</a></li>
-                    <li><a href="howtoread.html">How to read this documentation</a></li>
-                    <hr style="margin-top:-2.5px;margin-bottom:2.5px;">
-                    <li><a href="controls.html">Controls</a></li>
-                    <li class="active" style="margin-left:5px;">> Basic setup <</li>
-                    <li><a href="variables.html">Special Variables</a></li>
-                    <li><a href="terms.html">Terminology</a></li>
-                <li class="li-header">API</li>
-                    <li><a href="api-text.html">Text commands</a></li>
-                    <li><a href="api-events.html">Game events</a></li>
-                    <hr style="margin-top:-2.5px;margin-bottom:2.5px;">
-                    <li class="li-indent">Functions &amp; Objects:</li>
-                        <li class="li-indent"><a href="api-functions-main.html">Misc. Functions</a></li>
-                        <li class="li-indent"><a href="api-functions-player.html">The Player Object</a></li>
-                        <li class="li-indent"><a href="api-functions-entity.html"><span class="CYK"></span> The Entity Object</a></li>
-                        <li class="li-indent"><a href="api-functions-script.html">The Script Object</a></li>
-                        <li class="li-indent"><a href="api-functions-audio.html">The Audio Object</a></li>
-                        <li class="li-indent"><a href="api-functions-newaudio.html"><span class="CYF"></span> The NewAudio Object</a></li>
-                        <li class="li-indent"><a href="api-functions-input.html">The Input Object</a></li>
-                        <li class="li-indent"><a href="api-functions-time.html">The Time Object</a></li>
-                        <li class="li-indent"><a href="api-functions-misc.html"><span class="CYF"></span>The Misc Object</a></li>
-                        <li class="li-indent"><a href="api-functions-waves.html">Wave Scripts</a></li>
-                        <li class="li-indent"><a href="cyf-inventory.html"><span class="CYF"></span> The Inventory Object</a></li>
-                        <li class="li-indent"><a href="cyf-text.html"><span class="CYF"></span> The Text Object</a></li>
-                    <hr style="margin-top:-2.5px;margin-bottom:2.5px;">
-                    <li><a href="api-projectile.html">Projectile management</a></li>
-                    <li><a href="api-animation.html">Sprites &amp; Animation</a></li>
-                    <li><a href="cyf-ppcollision.html"><span class="CYF"></span> The Pixel-Perfect Collision System</a></li>
-                    <li><a href="api-keys.html"><span class="CYF"></span> Key List</a></li>
-                <li class="li-header">Resources</li>
-                    <li><a href="../media/dialogoptions.png">Dialog bubble names</a></li>
-            </ul>
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "basic.html")</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="basic">
-            <h2>Basic setup</h2><br><br>
-            <p>IMPORTANT NOTE: Due to the hasty implementation of file loading, your encounter will currently break if
-                certain folders are missing. To make sure this doesn't happen, please preserve the folder structure of
-                the example mods, <i>even if you have no files in a certain folder.</i> It's an early alpha and we're
-                working on it!</p>
+            <h2>Understanding your Files and Directories</h2><br><br>
 
-            <p>By this point you'll probably want to set up an encounter of your own. Right now, we only have encounters
-                implemented, and even that's still a work in progress! Currently, scripts are set up like this:</p>
-            <ul>
-                <li><u>Enemy files</u> - will contain information about your enemies. Here, you'll set things like their
-                    ATK, DEF, HP, MAG, random comments that might show up as encounter texts, random dialogue, animations, and what ACT
-                    commands they have.
-                </li><br>
-                <li><span class="CYK"></span> <u>Player files</u> - will contain information about your players. Here, you'll set things like their
-                    ATK, DEF, HP, MAG, spells, animations and what ACT commands they have.
-                </li><br>
-                <li><u>Encounter scripts</u> - will contain a set of monsters, a set of players, a set of wave scripts (that you can modify at
-                    any point), size of the arena, custom interactions for items, etc.
-                </li><br>
-                <li><u>Wave scripts</u> - will contain an update function. You may use these to spawn, track, modify and
-                    otherwise interact with bullets during the defending phase of the game.
-                </li><br>
-            </ul>
+            <p>Create Your Kris specializes in developing brief to long Deltarune-esque battles. As such, it may not be the most ideal 
+                engine for developing mods that go beyond that. Regardless, it's got some allure to it: It's easy to and straigthforward
+                to work with, and you can quickly get started on mods, even with minimal Lua knowledge. Just make sure to look
+                up how to work with Lua's or CYK's syntax as you go on.<br><br>
+                First off, we'll start with a quick overview of the scripts you'll be primarily working with:
+                <ul>
+                    <li><u>Monster files</u>: will contain information about your enemies, but the term "Monster" is most recurrent within the engine.
+                        Here, you'll set their stats, flavor text, dialogues shown via speech bubbles, sprite animations, and ACT behaviour.
+                    </li><br>
+                    <li><span class="CYK"></span> <u>Player files</u>: will contain information about your players. Here, you'll set things 
+                        like their stats, sprite animations, spells and other sorts of custom behaviour.
+                    </li><br>
+                    <li><u>Encounter scripts</u>: The +Overworld library doesn't support multiple Encounter files. Ideally, you'll only
+                        ever need one. Adding more probably won't get you what you're looking for.
+                    </li><br>
+                    <li><span class="OW"></span> <u>Battle scripts</u>: will contain the involved monsters, players, wave scripts (which you can modify at
+                        any point) and other behaviour that pertains that encounter in particular.<br>
+                        Whenever the term <b>Encounter</b> is thrown around, assume it's addressing <i>these</i> files instead.
+                    </li><br>
+                    <li><u>Wave scripts</u>: Empirically known as the scripts that control those white bullets which spawn during the defending phase of the game.
+                    </li><br>
+                </ul>
+            </p>
+
             <hr>
-            <h3>Files and directories</h3><br><br>
-            <p>This is fairly self-explanatory. If you just want to move on fast, feel free to skip this section and go to
-                the next one. If for any reason some of your files don't work, you might want to read this anyway.</p>
+
+            <h3>Files and directories</h3><br>
+
+            <p>
+                Whenever you're passing down a file as an argument to a function, say, <span class="term">CreateSprite()</span>, <span class="term">Audio.LoadFile()</span>
+                or an <b>include</b> statement, you mustn't add the file's extention. This is done for you by the engine.<br><br>
+            </p>
+
             <h4>Scripts</h4>
-            <p>The <i>Encounter scripts</i> are located in <span class="term"><i>YOUR MOD/Lua/Encounters/</i></span>. The <i>Monster files</i>
-                are in <span class="term"><i>YOUR MOD/Lua/Monsters/</i></span>, the <span class="CYK"></span> <i>Players files</i> are in
-                <span class="term"><i>YOUR MOD/Lua/Players/</i></span>, and your wave scripts at <span class="term"><i>YOUR MOD/Lua/Waves/</i></span>.
-                <br><br>
-                If you're getting started, check out these files in the example encounter to see how they're put together.
-                <br><br>
-                There's also an optional <span class="term"><i>YOUR MOD/Lua/Libraries/</i></span> folder. You can put libraries other
-                people have made in here (or create your own) for use in your other scripts. Libraries/modules are more
-                Lua functionality than they are Unitale functionality, so please read up about them
-                <a href="http://lua-users.org/wiki/ModulesTutorial">here</a> instead.
+            <p>
+                <b>Battle, Monster, Player and Wave</b> scripts are only loaded from within their respective <span class="term">Lua/</span> folders.
                 <br><br>
                 <span class="CYK"></span> <span class="term">YOUR MOD/Lua/Libraries</span> comes with a folder named <span class="term">CYK</span> included.<br>
-                <font style="color:#fff;text-decoration:underline">DO NOT MODIFY OR DELETE ANYTHING IN THIS FOLDER!</font><br>
-                It is required for CYK's functionality.
-            <h4>Music</h4>
-            <p>Music can be put in <span class="term"><i>YOUR MOD/Audio/</i></span>. Your music must be in .ogg or .wav format. <a
-                    href="http://audacityteam.org/download/">Audacity</a> can export to .ogg if you're missing the
-                appropriate software.</p>
-            <h4>Sounds</h4>
-            <p>Sounds can be put in <span class="term"><i>YOUR MOD/Sounds/</i></span>. They must be in .ogg or .wav format. You can play them with
-                <span class="term">Audio.PlaySound(filename)</span>; more on this in <span class="ref">API - Functions &amp; Objects</span>.</p>
-            <h4>Voices</h4>
-            <p>Voices can be put in <span class="term"><i>YOUR MOD/Voices/</i></span>. They must be in .ogg or .wav format, although .wav is
-                generally recommended. You can use them with the <span class="term">[voice]</span> text command; more on this in <span class="ref">API - Text
-                    commands</span>.</p>
-            <h4>Sprites</h4>
-            <p>Sprites can be put in <span class="term"><i>YOUR MOD/Sprites/</i></span>. They must be in the .png format. Note that most vanilla
-                Undertale monster sprites start with a small base resolution, then resize the sprite to 2x its original
-                resolution for an oldschool look.
-                <br><br>
-                <span class="CYK"></span> Some sprites used in CYK must be placed in given folders:<br>
-                <ul>
-                    <li>
-                        All sprites related to a Player entity must be placed in the folder
-                        <span class="term">YOURMOD/CreateYourKris/Players/ENTITYNAME</span>, with <span class="term">ENTITYNAME</span>
-                        being the name of your player.
-                    </li><br>
-                    <li>
-                        All sprites related to an Monster entity must be placed in the folder
-                        <span class="term">YOURMOD/CreateYourKris/Monsters/ENTITYNAME</span>, with <span class="term">ENTITYNAME</span>
-                        being the name of your monster.
-                    </li><br>
-                    <li>
-                        For players and enemies, each of their animations must have its own folder.
-                        <br><br>
-                        For example, if you want to add sprites for the animation "Idle" for the Player "Kris",
-                        you'll want to put your sprites in the folder <span class="term">YOURMOD/CreateYourKris/Players/Kris/Idle</span>.
-                    </li>
-                </ul>
+                
+                <font style="color:#fff;text-decoration:underline">DO NOT DELETE ANYTHING IN THIS FOLDER!</font><br>
+                It is required for CYK's functionality. You're free to modify the library, for further enhanced or particular functionality to your mod.
+                However, you ideally shouldn't need to.<br>
+                You can find a tutorial on Lua libraries/modules 
+                <a href="http://lua-users.org/wiki/ModulesTutorial">here</a>.
+            </p><br>
+
+            <h4>Audio Files</h4>
+            <p>
+                Only the .wav and .ogg formats are supported.<br>
+                <b>Sound</b> effects must be located within their respective folder. <b>Voice</b> sound effects (those brief sputtering noises that 
+                play while the text is being shown) must be located within <span class="term">Sounds/Voices/</span>.<br>
+                <b>Song/Music</b> files, on the other hand, are solely located inside <span class="term">Audio/</span>.
+            </p><br>
+
+            <h4>Sprite files</h4>
+            
+            <p>
+                <p>They must be in the .png format, and will only load from their respective folder.<br>
+                    Most of these sprites are manually scaled by 2 in order be adequately used. You may use a tool such as IrfanViewer
+                    to batch resize your files. Be careful handling it, though.
+                </p><br>
+
+                <span class="CYK"></span> Sprites for Players/Monsters must be located within <span class="term">Sprites/CreateYourKris/</span>.<br>
+                <br>
+
+                <p>
+                    There is no spritesheet support in this engine, so every animation needs a separate folder containing all involved sprite frames.
+                    <br>
+                    For example, if you want to add sprites for the animation "Idle" for the Player "Kris",
+                    you'll put all your individual frames inside the folder <span class="term">YOURMOD/CreateYourKris/Players/Kris/Idle</span>.
+                </p>
             </p>
         </div>
 
@@ -177,7 +142,7 @@ it's w3c valid, at least
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="../js/show_hide_comments.js"></script>
 
 <script type="text/javascript" src="../js/FontToggleButton.js"></script>

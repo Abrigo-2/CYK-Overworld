@@ -1,27 +1,3 @@
-/*var ToggleButton = document.createElement("button");
-
-ToggleButton.style.fontFamily = "8bitoperator";
-ToggleButton.style.color = "white";
-ToggleButton.style.textShadow = "1px 1px rgba(0, 0, 0, 0.5)";
-ToggleButton.style.backgroundColor = "#aaaaaa";
-ToggleButton.style.marginLeft = "-10px";
-ToggleButton.style.marginBottom = "5px";
-
-ToggleButton.innerHTML = "Toggle Font";
-ToggleButton.onclick = SwapFonts;
-
-var node = document.getElementsByClassName("tabs")[0];
-
-node.insertBefore(ToggleButton, node.firstChild);*/
-
-/*var link = document.createElement("a");
-link.href = "javascript:SwapFonts();";
-
-var node = document.getElementsByClassName("col-xs-3")[0];
-var img = node.getElementsByClassName("centerbt")[0];
-
-node.appendChild(link);
-link.appendChild(img);*/
 
 var node = document.getElementsByClassName("tabs")[0];
 
@@ -41,7 +17,7 @@ img.src = src;
 link.href = "javascript:SwapFonts();";
 
 img.style = "margin-bottom: 10px; margin-top: 5px;";
-link.style = "left: 12.5%; position: relative;";
+link.style = "left: 12.5%; position: relative; outline: none;";
 
 link.onmouseover = function() {img.src = img.src.replace("_0", "_1");}
 link.onmouseout = function() {img.src = img.src.replace("_1", "_0");}
@@ -54,6 +30,9 @@ var fontsSwapped = false;
 function getCSS(element, property) {
     return window.getComputedStyle(element, null).getPropertyValue(property);
 }
+
+// Putting it here because yes.
+const cookiename = "isFontChanged";
 
 function SwapFonts() {
     var i;
@@ -71,5 +50,18 @@ function SwapFonts() {
             }
         }
     }
+    
     fontsSwapped = !fontsSwapped;
+
+    if (fontsSwapped) {
+        localStorage.setItem(cookiename, "swapped");
+    } else {
+        localStorage.setItem(cookiename, "notswapped");
+    }
+}
+
+// Automatically applies the font change.
+if (localStorage.getItem(cookiename) == "swapped") {
+    SwapFonts();
+    localStorage.setItem(cookiename, "swapped");
 }

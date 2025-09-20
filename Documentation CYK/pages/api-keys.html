@@ -15,8 +15,8 @@ it's w3c valid, at least
     <link rel="icon" href="favicon.ico">
 
     <title>CYK Documentation - Key List</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
     <link href="../css/shThemeRDark.css" rel="stylesheet">
 
@@ -28,43 +28,12 @@ it's w3c valid, at least
 <body>
 <img src="../img/bg2.png" alt="Undertale background" class="backimg">
 <div class="container arena black">
+    <!--navigation-->
     <div class="col-md-2">
-        <!--navigation-->
         <nav class="nav-sidebar">
-            <ul class="nav tabs">
-                <li class="li-header">Basics</li>
-                    <li><a href="../documentation.html">Welcome</a></li>
-                    <li><a href="howtoread.html">How to read this documentation</a></li>
-                    <hr style="margin-top:-2.5px;margin-bottom:2.5px;">
-                    <li><a href="controls.html">Controls</a></li>
-                    <li><a href="basic.html">Basic setup</a></li>
-                    <li><a href="variables.html">Special Variables</a></li>
-                    <li><a href="terms.html">Terminology</a></li>
-                <li class="li-header">API</li>
-                    <li><a href="api-text.html">Text commands</a></li>
-                    <li><a href="api-events.html">Game events</a></li>
-                    <hr style="margin-top:-2.5px;margin-bottom:2.5px;">
-                    <li class="li-indent">Functions &amp; Objects:</li>
-                        <li class="li-indent"><a href="api-functions-main.html">Misc. Functions</a></li>
-                        <li class="li-indent"><a href="api-functions-player.html">The Player Object</a></li>
-                        <li class="li-indent"><a href="api-functions-entity.html"><span class="CYK"></span> The Entity Object</a></li>
-                        <li class="li-indent"><a href="api-functions-script.html">The Script Object</a></li>
-                        <li class="li-indent"><a href="api-functions-audio.html">The Audio Object</a></li>
-                        <li class="li-indent"><a href="api-functions-newaudio.html"><span class="CYF"></span> The NewAudio Object</a></li>
-                        <li class="li-indent"><a href="api-functions-input.html">The Input Object</a></li>
-						<li class="li-indent"><a href="api-functions-time.html">The Time Object</a></li>
-                        <li class="li-indent"><a href="api-functions-misc.html"><span class="CYF"></span>The Misc Object</a></li>
-                        <li class="li-indent"><a href="api-functions-waves.html">Wave Scripts</a></li>
-                        <li class="li-indent"><a href="cyf-inventory.html"><span class="CYF"></span> The Inventory Object</a></li>
-                        <li class="li-indent"><a href="cyf-text.html"><span class="CYF"></span> The Text Object</a></li>
-                    <hr style="margin-top:-2.5px;margin-bottom:2.5px;">
-                    <li><a href="api-projectile.html">Projectile management</a></li>
-                    <li><a href="api-animation.html">Sprites &amp; Animation</a></li>
-                    <li><a href="cyf-ppcollision.html"><span class="CYF"></span> The Pixel-Perfect Collision System</a></li>
-                    <li class="active" style="margin-left:5px;">> <span class="CYF"></span> Key List <</li>
-                <li class="li-header">Resources</li>
-                    <li><a href="../media/dialogoptions.png">Dialog bubble names</a></li>
-            </ul>
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "api-keys.html")</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
@@ -77,22 +46,59 @@ it's w3c valid, at least
 
             <br><br>
 
-            <p>
-            <h4>Regular Alphabet:</h4>
+            <p><h4>Input Objet's shorthands:</h4>
+                (Certain keys regularly used by the UI can be easily checked by simply using the respective
+                <span class="term">Input.KEYNAME</span> property, instead of <span class="term">Input.GetKey</span>)
+                <br>
+            <table class="keys">
+                <tr>
+                    <th>Keyboard Keys</th>
+                    <th>Input Object's property name</th>
+                </tr>
+                <tr>
+                    <td>Z or Enter</td>
+                    <td>Input.Confirm</td>
+                </tr>
+                <tr>
+                    <td>X or Left Shift</td>
+                    <td>Input.Cancel</td>
+                </tr>
+                <tr>
+                    <td>C or Left Control</td>
+                    <td>Input.Menu</td>
+                </tr>
+                <tr>
+                    <td>Up Arrow or W</td>
+                    <td>Input.Up</td>
+                </tr>
+                <tr>
+                    <td>Down Arrow or S</td>
+                    <td>Input.Down</td>
+                </tr>
+                <tr>
+                    <td>Left Arrow or A</td>
+                    <td>Input.Left</td>
+                </tr>
+                <tr>
+                    <td>Right Arrow or D</td>
+                    <td>Input.Left</td>
+                </tr>
+            </table>
+            </p><br>
+
+            <p><h4>Regular Alphabet:</h4>
             (All regular alphabet characters are exactly the same between their key names and CYF Key IDs.<br>For instance, the "A"
             key will be <span class="term">A</span> in CYF.<br>Note that using <span class="term">Input.GetKey("A")</span>, for instance,
 			will detect the lowercase "a".)
-            </p>
+            </p><br>
 
-            <br><p>
-            <h4>F-keys:</h4>
+            <p><h4>F-keys:</h4>
             (All F-keys are exactly the same between their key names and CYF Key IDs.<br>For instance, the <span class="term">F12</span>
             key will be <span class="term">F12</span> in CYF.<br>For reference, the supported F-keys are <span class="term">F1</span> through
             <span class="term">F15</span>.)
-            </p>
-
-            <br><p>
-            <h4>Keyboard Number Keys:</h4>
+            </p><br>
+            
+            <p><h4>Keyboard Number Keys:</h4>
             <table class="keys">
                 <tr>
                     <th>Keyboard Key</th>
@@ -139,10 +145,9 @@ it's w3c valid, at least
                     <td>Alpha0</td>
                 </tr>
             </table>
-            </p>
-
-            <br><p>
-            <h4>Keypad Keys:</h4>
+            </p><br>
+            
+            <p><h4>Keypad Keys:</h4>
             <table class="keys">
                 <tr>
                     <th>Keyboard Key</th>
@@ -217,10 +222,9 @@ it's w3c valid, at least
                     <td>KeypadEquals</td>
                 </tr>
             </table>
-            </p>
-
-            <br><p>
-            <h4>Keyboard Number Keys:</h4>
+            </p><br>
+            
+            <p><h4>Keyboard Number Keys:</h4>
             <table class="keys">
                 <tr>
                     <th>Keyboard Key</th>
@@ -243,10 +247,9 @@ it's w3c valid, at least
                     <td>LeftArrow</td>
                 </tr>
             </table>
-            </p>
-
-            <br><p>
-            <h4>Special Keyboard Keys:</h4>
+            </p><br>
+            
+            <p><h4>Special Keyboard Keys:</h4>
             <i>Note: the</i> <span class="term">%</span> <i>key cannot be detected as of this moment.</i><br><br>
             <table class="keys">
                 <tr>
@@ -386,10 +389,9 @@ it's w3c valid, at least
                     <td>BackQuote</td>
                 </tr>
             </table>
-            </p>
-
-            <br><p>
-            <h4>Misc. Keyboard Keys:</h4>
+            </p><br>
+            
+            <p><h4>Misc. Keyboard Keys:</h4>
             <table class="keys">
                 <tr>
                     <th>Keyboard Key</th>
@@ -496,10 +498,9 @@ it's w3c valid, at least
                     <td>Menu</td>
                 </tr>
             </table>
-            </p>
-
-            <br><p>
-            <h4>Mouse Inputs:</h4>
+            </p><br>
+            
+            <p><h4>Mouse Inputs:</h4>
             <table class="keys">
                 <tr>
                     <th>Mouse Input</th>
@@ -563,7 +564,7 @@ it's w3c valid, at least
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="../js/show_hide_comments.js"></script>
 
 <script type="text/javascript" src="../js/FontToggleButton.js"></script>

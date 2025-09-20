@@ -1077,13 +1077,13 @@ th {
           box-sizing: border-box;
 }
 html {
-  font-size: 10px;
+  font-size: 1rem;
 
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 1rem - 4;  /* 14px...  */
   line-height: 1.42857143;
   color: #333;
   background-color: #fff;
@@ -1535,11 +1535,12 @@ samp {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 code {
-  padding: 2px 4px;
-  font-size: 90%;
   color: #c7254e;
-  background-color: #f9f2f4;
+  padding: 1px 2px;
+  /*
+  padding: 2px 4px;
   border-radius: 4px;
+  */
 }
 kbd {
   padding: 2px 4px;
@@ -6758,4 +6759,3 @@ button.close {
     display: none !important;
   }
 }
-/*# sourceMappingURL=bootstrap.css.map */

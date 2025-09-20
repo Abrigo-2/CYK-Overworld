@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>CYK Documentation - The Pixel-Perfect Collision System</title>
+    <title>CYK Documentation - The Misc Object</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -33,51 +33,72 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "cyf-ppcollision.html")</script>
+            <script type="text/javascript">createSideBarItems(false, "api-functions-camera.html")</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
-        <div class="tab-pane active text-style" id="cyf-ppcollision">
-            <h2><span class="CYF"></span> Create Your Frisk: The Pixel-Perfect Collision System</h2><br><br>
+        <div class="tab-pane active text-style" id="api-functions-misc">
+            <p>
+                <br><span class="function"><span class="CYF"></span> Camera and Screen Functions [E/M/P/W]</span>
+                These are addressed via the Misc object. 
+			</p>
+
+            <hr>
 
             <p>
-                Have you had enough of Unitale's default rectangular collisions and having to use thousands of lines
-                of <span class="term">if</span> statements in <span class="term">OnHit</span> just to get precise
-                collisions? Then the Pixel-Perfect Collision System is for YOU!
-            </p>
+                <span class="function">Misc.ShakeScreen(<span class="number"></span> durationInFrames, <span class="number"></span>
+                intensity = 3, <span class="boolean"></span> isIntensityDecreasing = false)</span>
+                Shakes the screen for <span class="term">durationInFrames</span> frames, with a maximum of <span class="term">intensity
+                </span> pixels away from the normal position.<br>
+                Set <span class="term">isIntensityDecreasing</span> as true to reduce the intensity over time.
+			</p><br>
 
             <p>
-                You can use this system for your entire encounter with <span class="term">SetPPCollision(bool)</span>,
-                or you can apply it just to a bullet with <span class="term">bullet.ppcollision</span>.
-                The bullet's <span class="term">ppcollision</span> value will override the encounter's
-                <span class="term">ppcollision</span> value.
-            </p>
+                <span class="function">Misc.StopShake()</span></span>
+				Stops a previous <span class="term">Misc.ShakeScreen</span> call, does nothing otherwise.
+			</p><br>
 
             <p>
-                The Pixel-Perfect Collision System now supports bullets with scale! You can rotate and move bullets
-                like always and collision will still work! (this is why it took me one week to make this feature)
-            </p>
+                <span class="function"><span class="number"></span> Misc.cameraX</span></span>
+				 Gets or sets the current x position of the bottom-left corner of the camera.
+			</p><br>
 
             <p>
-                One last tip: The Pixel-Perfect Collision System is more resource-intensive than the Normal Collision
-                System. Don't use Pixel-Perfect for bullets that won't damage you, as that will just waste resources!
-            </p>
+                <span class="function"><span class="number"></span> Misc.cameraY</span></span>
+				 Gets or sets the current y position of the bottom-left corner of the camera.
+			</p><br>
 
             <p>
-                <br><span class="function"><span class="boolean"></span> Bullet.ppcollision</span>
-                The collision system of the bullet. If true, this bullet will use Pixel-Perfect Collision.<br><br>
-                <i>From <span class="ref">Projectile management</ref></i>.
-            </p>
+                <span class="function">Misc.MoveCamera(<span class="number"></span> x, <span class="number"></span> y)</span></span>
+				Moves the camera right <span class="term">x</span> pixels and up <span class="term">y</span> pixels.
+			</p><br>
 
             <p>
-                <br><span class="function">SetPPCollision(<span class="boolean"></span> bool) [E/M/P/W]</span>
-                Setting this to true will force all bullets that don't have a specified collision type to be Pixel-Perfect bullets.
-                <br>False by default.
-            </p>
+                <span class="function">Misc.MoveCameraTo(<span class="number"></span> x, <span class="number"></span> y)</span></span>
+				Moves the bottom-left of the camera directly to the point (<span class="term">x</span>, <span class="term">y</span>).<br>
+                <span class="term">(0, 0)</span> is the starting position.
+			</p><br>
 
-            <br>
-            <img src="../img/PP.png">
+            <p>
+                <span class="function">Misc.ResetCamera()</span></span>
+				Resets the position of the camera. Same as calling <span class="term">MoveCameraTo(0, 0)</span>.
+			</p><br>
+
+            <p>
+                <span class="function"><span class="boolean"></span> Misc.FullScreen</span></span>
+				 Gets or sets whether the user is in fullscreen mode.
+			</p><br>
+
+            <p>
+                <span class="function"><span class="number"></span> Misc.ScreenWidth</span>
+                (read-only) - Returns the width of the user's screen.
+			</p><br>
+
+            <p>
+                <span class="function"><span class="number"></span> Misc.ScreenHeight</span>
+                (read-only) - Returns the height of the user's screen.
+			</p><br>
         </div>
 
 		<div class="tab-pane text-style" id="mercy">
