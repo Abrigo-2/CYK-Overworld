@@ -33,23 +33,15 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "api-functions-waves.html")</script>
+            <script type="text/javascript">createSideBarItems(false, "waves.html")</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="api-functions-waves">
-            <h3>Wave scripts</h3><br><br>
-
-            <p>The following section is dedicated exclusively to wave scripts. We'll go over special functions and the
-                arena object. As you can now create projectiles from the encounter as well, information about
-                projectiles and their examples have been moved to the <span class="ref">API - Projectile management</span>
-                section.
-            </p>
-
-            <hr>
+            
+            <br><span class="function">The Arena object [W]</span><br>
             <p>
-                <br><span class="function">The Arena object [W]</span>
                 You can use this object to obtain information about the arena, resize it or move it.<br>
                 Don't forget that the Arena's position is reset at the beginning of the next wave!
             </p>
@@ -110,8 +102,8 @@ it's w3c valid, at least
             <p>
                 <span class="function"><span class="CYF"></span> <span class="boolean"></span> <span class="term">
                 Arena.isResizing</span></span>
-                (readonly) - Tells you if the Arena is currently being resized.
-                <br><span class="unitale"></span>: There's an equivalent of this in 0.2.1a - just use<br>
+                (readonly) - Tells you if the Arena is currently being resized.<br><br>
+                <span class="unitale"></span>: There's an equivalent of this in 0.2.1a - just use<br>
                 <span class="term" style="line-height:28px;">Arena.currentwidth ~= Arena.width or Arena.currentheight ~=
                 Arena.height</span>.
             </p><br>
@@ -196,21 +188,6 @@ it's w3c valid, at least
                 <span class="term">movePlayer</span> to true if you want the Player to move with the Arena and set
                 <span class="term">immediate</span> to true if you want to move the Arena immediately.
             </p><br>
-
-            <p>
-                <span class="function"><span class="CYF"></span> <span class="term">Arena.Update()</span></span>
-				Function used to update the arena's library. It shouldn't be used, but it's there for transparency.
-            </p><br>
-
-            <p>
-                <br><span class="function">EndWave() [W]</span>
-                Ends this wave immediately. You can only call this function from the Update function.
-            </p><br>
-
-            <p>
-                <br><span class="function"><span class="CYF"></span> <span class="string"></span> wavename [W]</span>
-                Returns the name of the wave file, without the extension, from the Waves folder.
-            </p>
 
         </div>
 

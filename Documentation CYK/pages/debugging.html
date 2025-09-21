@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>CYK Documentation - Special Variables</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <div class="col-md-2">
+        <!--navigation-->
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "debugging.html")</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="variables">
+            <h3>Engine and Debugging tools</h3><br><br>
+            <hr>
+
+            <details open="">
+                <summary><h4>Engine tools</h4></summary>
+                <div>
+                <p>
+                    <span class="function"><span class="CYF"> </span><span class="boolean"></span> isCYF [E/M/P/W]</span>
+                    A value - true by default - that indicates that if you're on CYF. Meant to help differentiate this engine
+                    from Unitale. You won't use it.
+                </p>
+
+                <p>
+                    <br><span class="function"><span class="CYF"></span><span class="string"></span> CYFversion [E/M/P/W]</span>
+                    Returns a different string based on the version of CYF you are using.<br>
+                    <ul>
+                        <li><span class="term">Versions before v0.6</span>: Previous version's number.<br>
+                        For example, in CYF v0.5.5, this will be "0.5.4".</li>
+                        <br>
+                        <li><span class="term">Versions between v0.6 and v0.6.1.2</span>: always "1.0".</li>
+                        <br>
+                        <li><span class="term">Versions after v0.6.1.2</span>: Current version's number.<br>
+                        For example, in CYF v0.6.2, this will be "0.6.2".</li>
+                    </ul>
+
+                    <h5>TIP: Lua has a very useful built-in string comparing function.</h5>
+                    You can very easily check for <span class="term">if CYFversion &lt; "0.6.2.2" then</span>, <span class="term">if CYFversion &gt;= "0.6.1.2" then</span> and other combinations.
+                </p>
+
+                <p>
+                    <br><span class="function"><span class="CYF"></span><span class="boolean"></span> safe [E/M/P/W]</span>
+                    True if CYF's safe mode is enabled, false otherwise.
+                </p>
+
+                <p>
+                    <br><span class="function"><span class="CYK"></span> <span class="boolean"></span> <span class="term">
+                    preloadAnimations</span></span>
+                    False by default.
+                    <br><br>
+                    If this value is set to true, all player and monster animations will be pre-loaded when the battle starts.<br>
+                    This will make the mod take longer to start, but it will be smoother while playing.
+                </p>
+
+                </div>
+            </details>
+            <br>
+
+            <details open="">
+                <summary><h4>Debugging tools</h4></summary>
+                <div>
+                <p>
+                    <span class="function">DEBUG(<span class="string"></span> text) [E/M/P/W]</span>
+                    Write text to the debug console (toggleable with <span class="term">F9</span>). It will appear automatically the first time you
+                    write text to it. You can use this to check values in your code, or make sure some pieces of code are
+                    actually running.
+                </p><br>
+
+                <p>
+                    <br><span class="function"><span class="CYK"></span> <span class="number"></span> <span class="term">CYKDebugLevel</span>
+                    </span>
+                    This value regulates the amount of warnings and debug messages CYK prints out in CYF's console. Feel free to use this
+                    variable to create your own debug messages if needed.
+                    <br><br>
+                    It can have several values:
+                    <ul>
+                        <li><span class="term">0 or less</span></span> No warnings are displayed. <span style="font-weight: bold; color:#ff0000">
+                            CYKDebugLevel should have this value when releasing a mod with it.</span></li>
+                        <li><span class="term">1</span></span> Only important warnings are displayed: missing variables or functions at startup,
+                            and unintended behaviors.<br>
+                            <span class="OW"></span> If CYKDebugLevel is equal or higher than 1, collision shapes for interactable objects in the Overworld
+                            will be displayed. This includes: things i've yet to name.</li>
+                        <li><span class="term">2</span></span> Lesser warnings are displayed: functions or behaviors with no effects, item or
+                            spell data duplication.</li>
+                        <li><span class="term">3 or more</span></span> All warnings and all of CYK's debug messages are shown. It is not
+                            recommended to use this as your debugger will be filled with text.</li>
+                    </ul>
+                </p>
+
+
+                </div>
+            </details>
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

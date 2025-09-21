@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>CYK Documentation - Special Variables</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <div class="col-md-2">
+        <!--navigation-->
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "encounters.html")</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="variables">
+            <h3>Setting up the Encounter</h3><br><br>
+            <hr>
+
+            <h4>Encounter boilerplate</h4>
+            <div class="code-container">
+<pre class="brush: lua;">music = "yourmusicname_without_extension"
+encountertext = "Vegetoids came out of\rthe earth!"
+nextwaves = { "bullettest_wavy", "bullettest_homing" }
+wavetimer = 4.0
+arenasize = { 155, 130 }
+
+players = { "Kris", "Susie", "Ralsei" }
+
+playerpositions = {
+    { 60, 350 },
+    { -2, 256 },
+    { 60, 174 }
+}
+
+enemies = { "vegetoid", "vegetoid" }
+
+enemypositions = {
+    { 480, 340 },
+    { 520, 260 }
+}
+
+</pre>
+            </div>
+
+            <p>
+                <br><span class="function"><span class="CYK"></span><span class="boolean"></span> chapter2 [E/M/P]</span>
+                If it's set to true, the encounter will be played as if it was made in Deltarune's Chapter 2 with its various features enabled. Otherwise, CYK will look and play like an encounter made in Deltarune's Chapter 1<br>
+
+                <div style="color:red;font-weight:bold;">Note: Changing this variable while the mod is running could lead to unwanted behavior!</div>
+            </p>
+            
+            <p>
+                <br><span class="function"><span class="string"></span> <span class="term">music</span></span>
+                Name of your encounter's starting music, without the file extension.
+                If this variable isn't present, it'll play Deltarune's default battle theme. If you don't want any music, call
+                <span class="term">Audio.Stop()</span> in the <span class="term">EncounterStarting()</span> function.
+                For more information see <span class="ref">API - Game events</span>.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYF"></span> <span class="string"></span> <span class="term">deathmusic</span>
+                </span>
+                Sets the Game Over's screen music.
+			</p>
+
+            <p>
+                <br><span class="function"><span class="string"></span> <span class="term">encountertext</span></span>
+                Set the initial text of your encounter here.
+                After that, you can modify it at any time in preparation for the next turn. <span class="term">encountertext</span> gets
+                read out at the start of every new turn (i.e. you going back to the FIGHT/ACT/ITEM/MERCY selection).
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYF"></span> <span class="luatable"><span class="string"></span></span>
+                <span class="term">deathtext</span></span>
+                Text displayed when the player dies, according to Undertale's Game Over screen. <br>
+                <span class="CYK"></span> Unused. The Game Over screen's code can be fiddled with instead.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYF"></span> <span class="luatable"><span class="userdata">script</span></span>
+                <span class="term">Wave</span></span>
+                A table returning the current wave scripts used. Returns a table with a length of 0 if not in the state DEFENDING.
+                You normally <i>won't</i> be setting this variable manually. Check <span class="term">nextwaves</span> instead.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">nextwaves</span>
+                </span>
+                A list of all simultaneous attack waves you want when the monsters start their attacks. You can modify this at any time,
+                and it'll get read out before the enemies start their attack. For most boss-type encounters, you'll likely only want one
+                wave simultaneously - but you can stack.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="boolean"></span> <span class="term">background</span>
+                </span>
+                True by default. If this boolean is set to false, Deltarune's usual background won't be shown in the Encounter.
+                <br><br>
+                Useful if you want to add your own background. Only used at the beginning of the encounter, you cannot disable or enable the
+                background during an encounter.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="boolean"></span> <span class="term">backgroundfade</span>
+                </span>
+                True by default. If this boolean is set to false, there won't be a fading effect on the background when in a wave.
+                <br><br>
+                Useful to keep on at all times, unless you plan to handle your own fading effect. Only used at the beginning of the encounter,
+                you cannot disable or enable the fade effect during an encounter.
+			</p><br>
+
+            <hr>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="string"></span></span> <span class="term">players</span>
+                </span>
+                Defines the names of your Player scripts that will be used in your encounter. In the example, <span class="term">Kris.lua
+                </span>, <span class="term">Susie.lua</span> and <span class="term">Ralsei.lua</span> will be used from the Players folder.
+                <br><br>
+                After initialization, the names will be replaced by Entity objects you can use to control your
+                Player scripts.<br>
+                Refer to <span class="ref">Entity Objects</span> for more information.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="luatable"><span class="number"></span>, <span class="number">
+                </span></span></span> <span class="term">playerpositions</span></span>
+                Defines where the bottom left corner of the Players' sprites are on the screen.
+                <br><br>
+                <span class="term">{0, 0}</span> means the
+                bottom left corner of the Player's sprite is at the bottom left corner of the screen.<br>
+                <span class="term">{100, 100}</span>
+                means the bottom left corner of the Player's sprite is 100 pixels to the right and 100 pixels above the bottom left corner.
+                <br><br>
+                You will always need as many Player positions as Players in your encounter. In the example above we have 3 Player positions
+                set to show you how you can define more than one.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">enemies</span>
+                </span>
+                Defines the names of your enemy scripts that will be used in your encounter. In the example, <span class="term">
+                vegetoid.lua</span> will be used from the Monsters folder.
+                <br><br>
+                <span class="CYK"></span> After initialization, the names will be replaced by Entity objects you can use to control your
+                monster scripts.<br>
+                Refer to <span class="ref">Entity Objects</span> for more information.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="luatable"><span class="number"></span>,
+                <span class="number"></span></span></span> <span class="term">enemypositions</span></span>
+                Defines where the bottom left corner of the enemies' sprites are on the screen.
+                <br><br>
+                <span class="term">{0, 0}</span> means the
+                bottom left corner of the enemy's sprite is at the bottom left corner of the screen.<br>
+                <span class="term">{100, 100}</span>
+                means the bottom left corner of the enemy's sprite is 100 pixels to the right and 100 pixels above the bottom left corner.
+                <br><br>
+                You will always need as many enemy positions as enemies in your encounter. In the example above we have 2 enemy positions
+                set to show you how you can define more than one.
+			</p><br>
+
+            <h4>Arena parameters</h4>
+
+            <p>
+				<br><span class="function"><span class="number"></span> <span class="term">wavetimer</span></span> How long it takes for
+                the defending step to end. If this isn't set anywhere, it'll be the default <i>4.0 seconds</i>.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">arenasize</span>
+                </span>
+                The inner size of the box the player's constrained to. <span class="term">{155, 130}</span> is the default size for a lot
+                of basic Undertale encounters. Papyrus' battle, for instance, has this at <span class="term">{245, 130}</span> most of the
+                time. You may modify this at any time - it'll only get read out before the enemies start their attack.
+                <br><br>
+                Note: lowest possible setting is <span class="term">{16, 16}</span></span> as this is the size of the player's soul. Anything
+                lower will be set to 16 anyway.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="number"></span></span>
+                <span class="term">arenapos</span></span>
+                The starting position of the bottom of the box the player's constrained to. <span class="term">{320, 200}</span> is the
+                default position for CYK's encounters.
+                You may modify this at any time - it'll only get read out before the enemies start their attack.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="number"></span></span>
+                <span class="term">arenacolor</span></span>
+                The color of the box the player's constrained to. <span class="term">{0, 1, 0}</span> is the default color used for CYK's
+                encounters.<br>
+                This value is only used at the start of a wave, if you want to set the color of the Arena in a wave, you'll have to do
+                so by setting the <span class="term">color</span> value of the sprite <span class="term">Arena.outer</span>.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="number"></span> <span class="term">arenarotation</span>
+                </span>
+                The rotation of the box the player's constrained to. <span class="term">0</span> is the default value used for CYK's
+                encounters.<br>
+                This value is only used at the start of a wave, if you want to set the rotation of the Arena's borders in a wave, you'll have
+                to do so by setting the value of <span class="term">Arena.rotation</span>.
+			</p><br>
+
+            <hr>
+
+            <p>
+                You'll ideally want to set these parameters manually for each upcoming wave. Look at the following code.
+            </p>
+
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

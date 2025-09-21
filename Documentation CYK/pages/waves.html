@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>CYK Documentation - Wave Scripts</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "waves.html")</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="api-functions-waves">
+            <h3>Wave scripts</h3><br><br>
+
+            <p>The following section is dedicated exclusively to wave scripts. We'll go over special functions and the
+                arena object. As you can now create projectiles from the encounter as well, information about
+                projectiles and their examples have been moved to the <a href="waves-bullet.html">Creating and Handling Bullets</a>
+                section.
+            </p>
+
+            <p>
+                Wave scripts don't have any variables that are read out from the start, but you can define your own. An instance of a wave script is
+                made when you start defending, and is destroyed when the defending step ends. As such, you can't store variables in a wave script for
+                reusing later. Use the Encounter script to keep track of things.
+			</p><br>
+
+            <p>
+                Do note, in the Encounter script, the <span class="term">Wave</span> table is filled with Script objects when entering the 
+                state <span class="term">DEFENDING</span>.
+            </p><br>
+
+            <h4>While the debug console is active, you can hit the H key to make bullet's collision shapes visible!
+            </h4>
+
+            <hr>
+
+            <p>
+                <span class="function"><span class="CYK"></span> GetTargetEntityFromBullet(<span class="userdata">bullet</span> bullet) returns
+                <span class="luatable"><span class="entity"></span></span> [W] </span>
+                Returns a table containing one or several Player entities this bullet will damage if it collides with the Player's soul.<br>
+                Uses the variable <span class="term">bullet["from"]</span> or <span class="term">bullet["target"]</span>, more information about
+                these variables is available in the <span class="ref">Projectile Management</span> page.
+            </p>
+
+            <p>
+                <br><span class="function">EndWave() [W]</span>
+                Ends this wave immediately. You can only call this function from the Update function.
+            </p><br>
+
+            <p>
+                <br><span class="function"><span class="CYF"></span> <span class="string"></span> wavename [W]</span>
+                Returns the name of the wave file, without the extension, from the Waves folder.
+            </p>
+
+        </div>
+
+		<div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+	</div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

@@ -200,7 +200,7 @@ function GrazeUpdate()
                         lastGrazeFrame = Encounter["CYK"].frame
                         PlaySoundOnceThisFrame("graze")
                         bullet["grazed"] = true
-                        SuperCall(Encounter, "CYK.TP.Set", bullet["TPGain"] and bullet["TPGain"] or 2, true)
+                        SuperCall(Encounter, "CYK.TP.Set", bullet["TPGain"] and bullet["TPGain"] or 5, true)
                     end
                 -- Grazed last a second ago: reset the graze
                 elseif bullet["grazed"] and Time.time - bullet["grazeTime"] >= 1 then

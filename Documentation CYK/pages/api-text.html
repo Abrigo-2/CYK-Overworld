@@ -43,7 +43,7 @@ it's w3c valid, at least
             <p>
                 There are <b>two types</b> of text commands: commands that get executed <u>instantly</u>, like text color
                 and effects; and commands that get executed <u>inline</u>, as they're displayed, like wait commands and
-                character voices. Note that currently, if you skip a text command (with X), it'll also skip all inline
+                character voices. Note that currently, if you skip a text command (with the Cancel key), it'll also skip all inline
                 commands that were still in your text.<span class="CYF"></span>
                 <i>Unless</i>, that is, you use <span class="term">playerskipdocommand</span> :P
             </p>
@@ -57,9 +57,42 @@ it's w3c valid, at least
             <p>
                 This is different for monster dialogue that isn't prefixed with asterisks: <i>Always</i> use
                 <span class="term">\n</span> for line breaks here.
-                <span class="CYF"></span> Or use <span class="term">autolinebreak</span>! See <span class="ref">
-                Special Variables</span>.
+                <span class="CYF"></span> Or use <span class="term">autolinebreak</span>! See below.
             </p>
+
+            <p>
+                <br><span class="function"><span class="CYF"></span> <span class="boolean"></span> <span class="term">autolinebreak [E]</span>
+                </span>
+                False by default. If this value is set to true, the auto linebreak system will automatically add line breaks
+                (<span class="term">\r</span>) to the text. No need to use <span class="term">\r</span> or <span class="term">\n</span>
+                anymore!
+            </p>
+
+            <p>
+                <br><span class="function"><span class="CYF"></span> <span class="boolean"></span> <span class="term">playerskipdocommand [E]
+                </span></span>
+                False by default. If this value is set to true, the text commands will be called even if the player skips the text, except
+                for <span class="term">[w]</span> and <span class="term">[letters]</span> commands and commands with the tag
+                "<span class="term">skipover</span>".
+            </p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="string"></span></span>
+                <span class="term">fontCharUsedForPlayer</span></span>
+                This table's goal is to register the characters bound to a Player's UI face sprite in the font <span class="term">
+                uidialog</span>.
+                <br><br>
+                It allows the engine to display a Player's UI face sprite when it is needed in an act command.
+                <br><br>
+                For example: if the command "X-Anything" of an enemy requires the Player "Susie", then the name of the act
+                command will contain the UI face sprite of the Player "Susie", if this table contains a value for its Susie variable.
+                <br><br>
+                In order to add your the face sprite of your own Player, you must add it in the font "uidialog", and choose an unused
+                character to bind to your Player's UI sprite.
+                <br><br>
+                If the use of this table is still unclear, feel free to check the examples provided with CYK or ask for some help in
+                Discord or Reddit.
+			</p>
 
             <h3>Instant commands</h3><br>
 

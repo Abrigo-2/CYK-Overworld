@@ -39,17 +39,14 @@ it's w3c valid, at least
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="api-functions-player">
-            <br><p>
-                <h4><span class="CYK"></span> The Entity Object</span></h4>
-                Entities are objects replacing CYF's usual Monster scripts. They can be used much like them, except some things have been added,
-                and others have been changed.
+            <br>
+            <span class="function"><span class="CYK"></span> The Entity Object</span></span>
+            <p>
+                Entity objects are the main parties involved during an Encounter, both as Players and Enemies. They also 
+                replace CYF's usual Monster scripts. 
                 <br><br>
-                Entity objects can also be used for Players, as Create Your Kris allows you to manage your own Player team.
+                Player and Monster objects have plenty of properties in common, which are pointed out in the following page.
                 <br><br>
-                We will now see what variables Player objects and enemy objects have in common, then we'll glance at the differences between the
-                two types of Entity objects.
-                <br><br>
-                <h4 style="line-height:30px;">Note: You can find other variables and functions usable in these scripts in <span class="ref">Special Variables</span>.</h4>
             </p>
 
             <hr>
@@ -59,29 +56,32 @@ it's w3c valid, at least
                 <span class="function"><span class="string"></span> <span class="term">name</span></span>
                 Name of the entity. Is automatically created using the script's name.
                 <br><br>
-                If used on a Player, its name shown in the Player UI won't be modified accordingly. To update it, you must use the
-                function <span class="term">UpdateUI()</span> (see <span class="ref">Player-specific variables and functions</span>).
-                <br><br>
-                * Should not be modified for monster scripts.
+                If you plan to rename this property on a Player, you must call <span class="term">UpdateUI()</span> afterward
+                in order for it to apply in the UI.
             </p><br>
 
             <p>
                 <span class="function"><span class="entity"></span> <span class="term">self</span></span>
                 The entity itself.
                 <br><br>
-                It allows the user to spare themselves from searching through the entity tables in the Encounter when referencing this entity.
-                <br><br>
-                Example: If you want to call <span class="term">Hurt(damage, from)</span>, the second argument is an entity file.
-                Pass <span class="term">self</span> as the second argument to easily reference the current script.
+                Conventionally used for referencing properties inside the entity's own script. For instance,
+                <span class="term">Hurt(20, self)</span>, <span class="term">self.sprite["currAnim"]</span>.
                 <br><br>
                 * Should not be modified.
             </p><br>
 
             <p>
                 <span class="function"><span class="boolean"></span> <span class="term">isactive</span></span>
-				Is the entity currently active?
+				Read-only. Set via <span class="term">SetActive()</span> instead.
+            </p><br>
+            <p>
+                <span class="function">SetActive(<span class="boolean"></span> active) [M/P]</span>
+                Either true or false. If false, this entity will stay on screen but will not show up in menus, do its
+                dialogue or run any of its events. You can use this to introduce entities to an encounter at a later
+                point. 
                 <br><br>
-                * Shouldn't be changed manually, use <span class="term">SetActive()</span> instead.
+                The battle will end when a monster is killed or spared and there are no active monsters left.
+                Having no active monsters at all will likely cause errors.
             </p><br>
 
             <p>
@@ -104,7 +104,7 @@ it's w3c valid, at least
 
             <p>
                 <span class="function"><span class="userdata">sprite</span> <span class="term">sprite</span></span>
-				Main sprite of the entity. Nothing here should be tampered with.<br>
+				Main sprite of the entity. None of these properties should be modified.<br>
                 This sprite object contains other variables useful for CYK<br><br>
                 <ul>
                     <li><span class="userdata">sprite</span> <span class="term">sprite["mask"]</span> - Sprite used to display several effects on the main sprite. When needed, it must
@@ -288,6 +288,504 @@ it's w3c valid, at least
                 <span class="function"><span class="CYK2"></span> <span class="term">GetMercyPercent(<span class="entity"></span> target = self) returns <span class="number"></span></span></span>
                 Returns the mercy percentage of the <span class="term">target</span>.<br>
                 If the mercy counter of the <span class="term">target</span> is disabled, it'll return -1.
+            </p>
+
+            <hr>
+
+            <h4><span class="CYK"></span> Entity scripts</h4>
+            <p>
+                There are two different types of Entity objects, and they both share values. We will first see the values they share, then
+                we will see which differences they have.
+			</p>
+            <br>
+            <h5>Example of a Player script</h5>
+            <div class="code-container">
+<pre class="brush: lua;">hp = 90
+atk = 10
+def = 2
+mag = 0
+
+powers = { "Guts" }
+abilities = { "Act" }
+playerColor = { 0, 1, 1 }
+atkBarColor = { 0, 0, .5 }
+damageColor = { 0, 162/255, 232/255 }
+
+animations = {
+    Defend =        { { 0, 1, 2, 3, 4, 5 },                 1 / 15, { loop = "ONESHOT", heartShift = { -30, -30 }, targetShift = { -14, -22 } }, true },
+    Down =          { { 0 },                                1,      { loop = "ONESHOT", heartShift = { -40, -50 } },                             true },
+    EndBattle =     { { 0, 1, 2, 3, 4, 5, 6, 7, 8 },        2 / 15, { loop = "ONESHOT" }                                                              },
+    Fight =         { { 0, 1, 2, 3, 4, 5, 6 },              1 / 15, { loop = "ONESHOT", posShift = { 0, -12 } }                                       },
+    Hurt =          { { 0 },                                1,      { next = "Idle", heartShift = { -30, -30 } },                                true },
+    Intro =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8 },        1 / 15, { next = "Idle" },                                                                },
+    Idle =          { { 0, 1, 2, 3, 4, 5 },                 2 / 15, { heartShift = { -30, -30 }, targetShift = { -14, -22 } }                         },
+    Item =          { { 0, 1, 2, 3, 4, 5 },                 1 / 15, { next = "Idle" }                                                                 },
+    PrepareAct =    { { 0, 1 },                             2 / 15, { },                                                                         true },
+    PrepareFight =  { { 0 },                                1,      { },                                                                         true },
+    PrepareItem =   { { 0 },                                1,      { },                                                                         true },
+    PrepareSpare =  { { 0, 1 },                             2 / 15, { },                                                                         true },
+    Spare =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 1 / 15, { next = "Idle" }                                                                 },
+    SliceAnim =     { { 0, 1, 2 },                          2 / 15, { loop = "ONESHOTEMPTY" }                                                         },
+}</pre>
+            </div>
+            <br>
+            <h5>Example of an enemy script</h5>
+            <div class="code-container">
+<pre class="brush: lua;">comments = { "Smells like the work of an enemy stand.", "Poseur is posing like his life depends on it.", "Poseur's limbs shouldn't be moving in this way." }
+commands = { "Check", "Act 1", "Act 2", "Act 3", "Act 4", "Act 5", "Act 6" }
+randomdialogue = {
+    { "Check it out.",            "Please"                     },
+    { "Check it out again.",      "",         "For real now"   },
+    { "I'll show you something.", "Trust me."                  },
+    { "Keep looking!",            "Harder!",  "I SAID HARDER!" },
+      "It's working."
+}
+
+hp = 1
+atk = 24
+def = 2
+mag = 9001
+dialogbubble = "DRBubble"
+targetType = "all"
+check = "Check message goes here."
+canspare = false
+tired = false
+
+animations = {
+    Hurt      = { { 0 },                                           1     , { next = "Idle" }, true },
+    Idle      = { { 0, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 1 / 15, { }              , true },
+    Spareable = { { 0, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 1 / 15, { }              , true },
+}</pre>
+            </div>
+
+            <h4>Entity object basic variables</h4>
+            <br>
+
+            <p>
+                <br><span class="function"><span class="entity"></span> <span class="term">self</span></span>
+                The entity itself.
+                <br><br>
+                It allows the user to spare themselves from searching through the entity tables in the Encounter when referencing this entity.
+                <br><br>
+                Example: If you want to call <span class="term">Entity.Hurt(damage, from)</span>, the second argument is an entity file.
+                Pass <span class="term">self</span> as the second argument to easily reference the current script.
+                <br><br>
+                * Should not be modified.
+            </p>
+
+            <p>
+                <br><span class="function"><span class="string"></span> <span class="term">name</span></span>
+                Entity name. Fairly self-explanatory; shows up in the menus. Can also be changed at any time.
+                <br><br>
+                If used on a Player, its name shown in the Player UI won't be modified accordingly. To update it, you must use the
+                function <span class="term">Player.UpdateUI()</span>. See the <span class="ref">Entity Object</span> page.
+                <br><br>
+                * Do not modify this for monster scripts.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="number"></span> <span class="term">hp</span></span>
+                Your entity's max HP, initially. After the fight has started, this value will always accurately reflect your entity's
+                current HP. You can then modify this value to change your entity's current HP.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYF"></span> <span class="number"></span> <span class="term">maxhp</span></span>
+                Your entity's max HP. After the fight has started this value will be always the same, unless you change it. It is mainly
+                used for lifebars and such. You better not set it as 0 or as a negative number, though.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="number"></span> <span class="term">atk</span></span>
+                Your entity's ATK.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="number"></span> <span class="term">def</span></span>
+                Your entity's DEF.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="number"></span> <span class="term">mag</span></span>
+                Your entity's MAG.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="userdata">sprite</span> <span class="term">sprite</span>
+                </span>
+                Sprite handler of the entity. You can change an entity's animation by calling the function
+                <span class="term">SetCYKAnimation()</span>.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="userdata">sprite</span> <span class="term">monstersprite
+                </span></span>
+                Points to <span class="term">Entity.sprite</span>. Handy shortcut, allowing CYK's syntax to stay close to CYF's.
+			</p>
+
+            <p>
+                <br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="userdata">animations</span></span> <span class="term">
+                animations</span></span>
+                This table is complex.
+                <br><br>
+                Basically, it holds all the data related to this entity's animations. Do not be afraid, it is actually very easy to use.
+                <br><br>
+                Each animation is a named table. The name of the table corresponds to the folder the animation is contained in.
+                <br><br>
+                For example, if we were to define the <span class="term">Player</span> <span class="term">Kris</span>'s
+                <span class="term">Idle</span> animation, then we'd have to create a table named "Idle" inside the
+                <span class="term">animations</span> table, and all the sprites that'd be used in this animation would
+                have to be in the folder <span class="term">YOURMOD/Sprites/CreateYourKris/Players/Kris/Idle</span>.
+                <br><br>
+                Now that your sprites are set up, we can start creating the animation itself.<br><br>
+                Here are the different elements an animation table needs:
+                <ol>
+                    <li><span class="luatable"><span class="string"></span> <span class="userdata">OR</span> <span class="number"></span>
+                        </span>
+                        The first element of an animation table must be a table containing all the names of the sprites you want to use for
+                        your animation, kind of like how you'd normally use <span class="term">sprite.SetAnimation()</span>, except you only
+                        have to enter the sprite's name.
+                        <br><br>
+                        In the example files, all the "sprite names" are numbers because the sprites used are named
+                        <span class="term">0.png</span>, <span class="term">1.png</span> and so on, but you can use strings, like
+                        <span class="term">sushi</span> if you want to use a sprite named <span class="term">sushi.png</span>.</li><br>
+                    <li><span class="number"></span> The second element is exactly like <span class="term">sprite.SetAnimation()</span>'s
+                        second argument: it is the time in seconds between each frame. If this value is 1,
+                    it takes 1 second to move to the next sprite.</li><br>
+                    <li><span class="luatablesolo"></span> The third element is important, as it is a table that gathers all the data necessary
+                        for CYK to run the animation properly.
+                        <br><br>
+                        This table can contain numerous named values, here is the list:
+                        <ul>
+                            <br><li><span class="string"></span> <span class="term">loop</span></span>
+                                Loop mode of the animation. Has the same values as <span class="term">sprite.loopmode</span>.
+                                (<span class="term">"LOOP"</span>, <span class="term">"ONESHOT"</span> and <span class="term">"ONESHOTEMPTY"
+                                </span>)
+                                <br><br>
+                                Will be forced to <span class="term">ONESHOT</span> if <span class="term">next</span> is set.</li>
+                            <br><li><span class="string"></span> <span class="term">next</span></span>
+                                Next animation to start after the end of this one. Overrides <span class="term">loop</span> and sets it to
+                                <span class="term">ONESHOT</span>.</li>
+                            <br><li><span class="luatable"><span class="number"></span></span> <span class="term">posShift</span></span>
+                                Contains two number values. Moves the entity's sprite by the first number value horizontally and by the second
+                                number vertically, for this animation.</li>
+                            <br><li><span class="luatable"><span class="number"></span></span> <span class="term">heartShift</span></span>
+                                Only affects Players. Contains two number values. Moves the spawn point of the soul sprite by the first number
+                                value horizontally and by the second number vertically, for this animation.
+                                <br><br>
+                                The soul's spawn point is centered if this value is not set or is <span class="term">{0, 0}</span>.</li>
+                            <br><li><span class="luatable"><span class="number"></span></span> <span class="term">targetShift</span></span>
+                                Only affects Players. Contains two number values. Moves the spawn point of the "TARGET" sprite when targeted
+                                in the next, wave during the state ENEMYDIALOGUE, by the first number value horizontally
+                                and by the second number vertically, for this animation.
+                                <br><br>
+                                The "TARGET" sprite is centered if this value is not set or is <span class="term">{0, 0}</span>.</li><br>
+                        </ul>
+                    </li>
+                </ol>
+			</p>
+
+            <br>
+            <h4>Player object variables</h4>
+            <br>
+
+            <p>
+                <br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">powers</span></span> A list of powers of this Player.
+                Currently has no purpose at all. Feel free to add your own purpose to it!
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">abilities</span></span>
+                A list of spells this Player can use in the MAGIC menu.
+                <br><br>
+                If the Player has an ability named <span class="term">"Act"</span> exactly, then the MAGIC menu won't be accessible for them, having
+                access to the ACT menu instead.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">playerColor</span></span>
+                Main color of this Player's UI. Used for the Player's HP bar and status UI.
+                <br><br>
+                This is normally only applied at the start of the battle.
+                <br><br>
+                To change the UI's color, you must set this, then use the function <span class="term">Player.UpdateUI()</span>.
+                See the <span class="ref">Entity Object</span> page.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">atkBarColor</span></span>
+                Color used for the attack bar of this Player in the state ATTACKING.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">damageColor</span></span>
+                Color used for the damage text spawning next to an enemy when this Player damages it.
+			</p>
+
+            <br>
+            <h4>Enemy object variables</h4>
+            <br>
+
+            <p><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">comments</span></span> A list of random comments
+                attached to this monster. You can retrieve one at random using the <span class="term">RandomEncounterText()</span> function in your
+                Encounter script. See <span class="ref">API - Functions &amp; Objects</span> for details.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">commands</span></span>
+                A list of ACT commands that can be used on this monster. Listed in the ACT menu and used in <span class="term">HandleCustomCommand()</span>.
+                See <span class="ref">API - Game events</span> for details.
+                <br><br>
+                <span class="term">"Check"</span> shows the monster's <span class="term">name</span> followed by its
+                <span class="term">ATK</span> and <span class="term">DEF</span>, and then the <span class="term">check</span>
+                variable.
+                <br><br>
+                <span class="CYK"></span> Note that, contrary to CYF, the behaviour for <span class="term">Check</span>
+                is not built-in, and you have to add it manually to this table in order to show it.
+                <span class="term">Check</span>'s behavior should be replicated in all the basic enemy scripts given with CYK.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="luatable"><span class="string"></span></span>
+                <span class="userdata">OR</span> <span class="string"></span></span> <span class="term">randomdialogue</span></span>
+                A list of random dialogue the monster can say. One of these is selected at random if <span class="term">currentdialogue</span> is
+                <span class="term">nil</span> (i.e. has no value).
+                <br><br>
+                <span class="CYK"></span> This table can contain tables of strings for multiple lines, single strings for single lines,
+                or a mix of both.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">currentdialogue</span>
+                </span>
+                The dialogue this monster will say next. This overrides the random dialogue and is meant for special actions (e.g. you hit Vegetoid's
+                green carrots after selecting Dinner from the ACT menu). This variable gets <i>cleared every time after it's read out in the monster
+                dialogue phase</i>. This is done so you don't have to take care of managing it manually.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="string"></span> <span class="term">dialogbubble</span></span>
+                What dialogue bubble will be used for the monster's dialogue. You can change this at any time, but this <i>must</i> be initially set
+                to something. For a list of all possible options, check the <a href="../media/dialogoptions.png">dialog bubble names</a> chart;
+                it's also in the sidebar. Positioning of the bubbles is done automatically.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="string"></span> <span class="userdata">OR</span>
+                <span class="number"></span> <span class="term">targetType</span></span>
+                How many or which Players will be hit, if a bullet fired by this enemy in a wave collides with the soul. Can be changed at any
+                time, even in waves.
+                <br><br>
+                Possible values:
+                <ul>
+                    <li><span class="string"></span> <span class="term">"single"</span>:
+                        Will only target a random Player, chosen when the state ENEMYDIALOGUE is entered or when a wave is started, whichever comes
+                        first.</li>
+                    <li><span class="string"></span> <span class="term">"all"</span>:
+                        Targets all Players at the same time, splitting the total damage over all the Players.</li>
+                    <li><span class="number"></span> <span class="term">Player's ID</span>:
+                        Between 1 and the number of total Players in the encounter, even disabled ones.
+                </ul>
+
+			</p>
+
+            <p>
+				<br><span class="function"><span class="string"></span> <span class="term">check</span></span>
+                When checking with the <span class="term">Check</span> option, this is what's listed under the monster's name, ATK and DEF.
+                <br><br>
+                <span class="CYK"></span> Note: you'll have to add the <span class="term">Check</span> command directly into this enemy's
+                <span class="term">commands</span> table, as <span class="term">cancheck</span> does nothing in CYK.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="boolean"></span> <span class="term">canspare</span></span>
+                False by default. If you change this to true, your monster's name will turn yellow and it will be spareable.
+                <br><br>
+                <span class="CYK2"></span> If <span class="term">useMercyCounter</span> is set to true, <span class="term">canspare</span> will automatically be change accordingly to the percentage when <span class="term">ChangeMercyPercent()</span> is called. It can however still be use freely.
+            </p>
+
+            <p>
+                <br><span class="function"><span class="CYK2"></span><span class="boolean"></span> <span class="term">useMercyCounter</span></span>
+                If this variable is set to true, the enemy will use the mercy counter and will be able to be spared through acts changing its percentage of mercy. If it's set to false, the counter will be deactivated and show a cross instead of a percentage.<br>Do note enemies can still be spared in that condition by calling <span class="term">Spare()</span>. True by default.
+            </p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="boolean"></span> <span class="term">tired</span></span>
+                False by default. If you change this to true, your monster's name will turn blue and it can be spared by casting Ralsei's
+                <span class="term">"PACIFY"</span> spell, if you haven't modified the code related to this spell.
+			</p>
+
+            <hr>
+            <h4>Entity object functions</h4><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span>SetDamage(<span class="number"></span> amount) [M/P]</span>
+                Set the amount of damage the entity will take the next time it is attacked. Can be negative.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> Move(<span class="number"></span> x, <span class="number"></span> y) [M/P]</span>
+                Moves the entity's sprite from its current position.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> MoveTo(<span class="number"></span> x, <span class="number"></span> y) [M/P]</span>
+                Moves the entity's sprite relative to its parent's position.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> MoveToAbs(<span class="number"></span> x, <span class="number"></span> y) [M/P]</span>
+                Moves the entity's sprite relative to the bottom left corner of the screen.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> Attack(<span class="entity"></span> target, <span class="number"></span> coeff = 1) [M/P]</span>
+                Damages the <span class="term">target</span> entity as the calling entity, by an amount of damage following
+                Deltarune's damage calculation formula.
+                <br><br>
+                <span class="term">coeff</span> is a number representing how close the attack cursor is to the square target.<br>
+                It is a value between 0 and 1, 0 being "Miss" and 1 being a perfect attack.
+                <br><br>
+                You can use the function <span class="term">SetDamage()</span> to set the amount of damage the target entity will
+                receive if you need to deal a precise amount of damage to it.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> SetCYKAnimation(<span class="string"></span> animName) [M/P]</span>
+                Starts an animation for this entity. This animation must have been created in the entity's
+                <span class="term">animations</span> table.
+                <br><br>
+                Any calls to this function will call this entity's event function <span class="term">HandleAnimationChange()</span>.
+                <br><br>
+                Here are the default animations used by the engine:
+                <ul>
+                    <li><span class="term">Defend</span> - Started when a Player uses the action Defend.</li><br>
+                    <li><span class="term">Down</span> - Started when a Player's HP falls to 0 or below.</li><br>
+                    <li><span class="term">EndBattle</span> - Started on Players when the battle ends.</li><br>
+                    <li><span class="term">Fight</span> - Started when a Player attacks an enemy, after you press Z or miss.</li><br>
+                    <li><span class="term">Hurt</span> - Started when the entity is attacked and loses HP.
+                        <br><br>
+                        <b>Has to have a valid "next" option, such as "Idle".</b>
+                        <br><br>
+                        <font style="color:#fff;font-size:14px"><b><u>This animation is required.</b></u></font></li><br>
+                    <li><span class="term">Intro</span> - Started on Players when the battle starts.</li><br>
+                    <li><span class="term">Idle</span> - Basic animation of an entity.
+                        <br><br>
+                        <font style="color:#fff;font-size:14px"><b><u>This animation is required.</b></u></font></li><br>
+                    <li><span class="term">Item</span> - Started when a Player uses an item.</li><br>
+                    <li><span class="term">PrepareAct</span> - Started when a Player has selected an Act command, but is waiting.
+                        <br><br>
+                        This animation is used by players with an ability named "Act",<br>
+                        <b>as well as players used in multi-commands</b>.</li><br>
+                    <li><span class="term">PrepareFight</span> - Started when a Player has selected a Fight command, but is waiting.</li><br>
+                    <li><span class="term">PrepareItem</span> - Started when a Player has selected an Item command, but is waiting.</li><br>
+                    <li><span class="term">PrepareMagic</span> - Started when a Player has selected a Magic command, but is waiting.</li><br>
+                    <li><span class="term">PrepareSpare</span> - Started when a Player has selected a Spare command, but is waiting.</li><br>
+                    <li><span class="term">Spare</span> - Started when a Player is performing a Spare command <b>or an Act command</b>.<br><br>
+                    
+                </ul>
+            </p><br>
+
+            <hr>
+            <h4>Player script functions</h4><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> AddSpell(<span class="string"></span> name, <span class="string"></span> description,
+                <span class="number"></span> tpCost, <span class="string"></span> targetType) [P]</span>
+                Adds a usable spell with the name <span class="term">name</span>. Using this spell will use
+                <span class="term">tpCost</span> net amount of the TP bar, so it must be between 0 and 250.
+                <br><br>
+                You can add a short description to it using <span class="term">description</span>, and the parameter
+                <span class="term">targetType</span> tells the engine which entities this item should target.
+                <br><br>
+                Usage:
+                <ul>
+                    <li><span class="term">name</span>: The name of your custom spell.</li>
+                    <li><span class="term">description</span>: Short description of your custom spell.</li>
+                    <li><span class="term">tpCost</span>: Cost of the act command in net TP. Goes from 0 and 250.<br>
+                    You can easily convert a value from %TP to net TP by multiplying it for 2.5</li>
+                    <li><span class="term">targetType</span>: Type of entities the spell will target.<br>
+                        Can be <span class="term">"Player"</span> for a single player,
+                        or <span class="term">"Enemy"</span> for a single enemy.</li>
+                </ul>
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> WaitBeforeNextPlayerTurn() [P]</span>
+                Makes CYK wait before ending this player's turn, when entering <span class="term">PLAYERTURN</span>.
+                <br><br>
+                After calling this, the function <span class="term">UpdateTurn()</span> will be called once per
+                frame until the function <span class="term">EndPlayerTurn()</span> is called.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> EndPlayerTurn() [P]</span>
+                After calling <span class="term">WaitBeforeNextPlayerTurn()</span>, you can call this from
+                <span class="term">UpdateTurn()</span> to end the player's turn.
+            </p>
+
+            <hr>
+            <h4>Monster script functions</h4><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> AddAct(<span class="string"></span> name, <span class="string"></span> description,
+                <span class="number"></span> tpCost = 0, <span class="luatable"><span class="string"></span></span> requiredPlayers = { }) [M]</span>
+                Adds a usable act command with the name <span class="term">name</span>.
+                <br><br>You can add a short description to it using <span class="term">description</span>, and the Players with the names given
+                in the parameter <span class="term">requiredPlayers</span> are needed in order to execute this command.
+                <br><br>
+                Usage:
+                <ul>
+                    <li><span class="term">name</span>: The name of your custom act command.</li>
+                    <li><span class="term">description</span>: Short description of your custom act command.</li>
+                    <li><span class="term">tpCost</span>: Cost of the act command in net TP. Goes from 0 and 250.<br>
+                    You can easily convert a value from %TP to net TP by multiplying it for 2.5</li>
+                    <li><span class="term">requiredPlayers</span>: Table containing the names of the Players required to
+                    perform this command. All Players must be present and active. If any Players are down, the action will be grayed out instead.</li>
+                </ul>
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> TryKill() [M]</span>
+                Tries to kill the monster. If this entity has a function named <span class="term">OnDeath()</span>, it will fire it instead.
+                Otherwise, if this was the last monster, the battle ends.
+            </p><br>
+
+            <p>
+                <span class="function">Kill(<span class="boolean"></span> cancelAnim) [M]</span>
+                Kills the monster immediately. If this was the last monster, the battle ends.<br>
+                Setting <span class="term">cancelAnim</span> to false will cancel the usual animation played when the enemy flees, allowing you
+                to handle it manually.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> TrySpare() [M]</span>
+                Tries to spare the monster. If this entity has a function named <span class="term">OnSpare()</span>, it will fire it instead.
+                Otherwise, if this was the last monster, the battle ends.
+            </p><br>
+
+            <p>
+                <span class="function">Spare(<span class="boolean"></span> cancelAnim) [M]</span>
+                Spares the monster immediately. Similar to <span class="term">Kill()</span>, if this was the last monster, the battle ends.<br>
+                Setting <span class="term">cancelAnim</span> to false will cancel the usual animation played when the enemy is spared, allowing you
+                to handle it manually.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> SetBubbleOffset(<span class="number"></span> x, <span class="number"></span> y) [M]</span>
+                Makes the enemy's dialogue bubble appear <span class="term">x</span> pixels horizontally and
+                <span class="term">y</span> pixels vertically relative to its original position.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> SetDamageUIOffset(<span class="number"></span> x, <span class="number"></span>y) [M]</span>
+                Changes the offset of the enemy's damage UI (the enemy's health bar and the red numbers). Note that the damage UI is on a layer
+                above that of the arena.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> SetSliceAnimOffset(<span class="number"></span> x, <span class="number"></span> y) [M]</span>
+                Changes the offset of the attack animation (the red slice by default) for when the player attacks this monster.
             </p>
 
         </div>
