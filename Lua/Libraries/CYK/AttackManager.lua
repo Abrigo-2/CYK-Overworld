@@ -103,16 +103,21 @@ return function(CYK)
                     -- Missed
                     if visor.x <= -500 then
                         attackingPlayer.coeff = 0
-                    -- Perfect hit!!
-                    elseif diff <= self.visorSpeed+1 then
-                        visor.x = 41
-                        diff = 0
-                        attackingPlayer.coeff = 150
+                    -- Perfect hit...?
+                    elseif diff <= self.visorSpeed then
+                        -- Perfect hit!!
+                        if visor.x < 42.5 then
+                            visor.x = 41
+                            diff = 0
+                            attackingPlayer.coeff = 150
 
-                        -- Create the stars displayed during perfect attacks
-                        local player = CYK.players[attackingPlayer.playerID]
-                        CYK.StartSecondaryAnimation(CYK.animationChannelsName.perfectHitStars, player)
-                        
+                            -- Create the stars displayed during perfect attacks
+                            local player = CYK.players[attackingPlayer.playerID]
+                            CYK.StartSecondaryAnimation(CYK.animationChannelsName.perfectHitStars, player)
+                        -- Slightly too early...
+                        else
+                            attackingPlayer.coeff = 120
+                        end
                     -- 2 frame off...
                     elseif diff <= self.visorSpeed*3 then
                         attackingPlayer.coeff = 120
@@ -293,7 +298,7 @@ return function(CYK)
             return false
         end
         -- Shake the screen if a player is hurt.
-        if isTargetPlayer or attacker.name == "Susie" then
+        if isTargetPlayer or (attacker.name == "Susie" and coeff > 0) then
             if damageClass ~= "RudeBuster" then
                 CYK.ScreenShake.Shake(13, 6)
             end

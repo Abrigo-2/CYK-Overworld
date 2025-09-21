@@ -226,6 +226,12 @@ function PrepareCustomSpell(target, spell)
     --if spell == "Ultra Heal" then
     --    SetCYKAnimation("Fight")  end
 
+    -- In Chapter 1, Susie doesn't raise her axe before casting her spell.
+    if spell == "Rude Buster" and not chapter2 then
+        SetCYKAnimation("RudeBuster")
+        HandleCustomSpell(target, spell)
+    end
+
     BattleDialog(text)
 end
 
