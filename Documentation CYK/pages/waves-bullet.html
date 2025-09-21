@@ -52,11 +52,9 @@ it's w3c valid, at least
                 Creates a bullet that you can store and modify, with its spawn position relative to the center of the arena.
                 The hitbox of the bullet is a rectangle around the sprite, unless you use CYF's Pixel-Perfect mode.<br>
                 <span class="CYF"></span> You can specify a layer if you want - otherwise, the bullet will be in the normal
-                bullet layer.
-                <br><br>
-                <h4><span class="CYK"></span> Important!</h4>
-                While bullets can be created in the Encounter, Monster and Player scripts, <font color="#fff"><u>it is not
-                recommended to do so. Things may break.</u></font> Try to use Sprite objects instead.
+                bullet layer.<br>
+                <span class="OW"></span> The root directory in which this method looks up sprites is <span class="term">Sprites/Bullets/</span>.
+                If undesired, just replace your <span class="term">"spritename"</span> with <span class="term">"../spritename"</span>.
             </p><br>
 
             <p>
@@ -67,17 +65,24 @@ it's w3c valid, at least
                 left of the screen instead of the arena's center. The hitbox of the bullet is a rectangle around the sprite,
                 unless you use CYF's Pixel-Perfect mode.<br>
                 <span class="CYF"></span> You can specify a layer if you want - otherwise, the bullet will be in the normal
-                bullet layer.
-            </p><br>
+                bullet layer.<br>
+                <span class="OW"></span> The root directory in which this method looks up sprites is <span class="term">Sprites/Bullets/</span>.
+                If undesired, just replace your <span class="term">"spritename"</span> with <span class="term">"../spritename"</span>.
+                <br><br>
+
+                <h4><span class="CYK"></span> Important!</h4>
+                Albeit possible, <font color="#fff"><u>it is not recommended to create Bullets outside Wave scripts.</u></font>
+                Such behaviour isn't properly supported.
+            </p><br><br>
 
             <h4>To further read upon CYF's <a href="cyf-ppcollision.html">Pixel Perfect collision system</a>, check out its respective page.</h4>
-            <br>
+            <br><br>
 
             <p>
                 <span class="function">The Bullet object</span>
                 This is what you use to move around the arena and store values in. You can store a bunch of bullets in a table
                 and modify them. The functions and variables you can use on a Bullet are as follows.
-            </p><br>
+            </p>
 
             <hr>
             
@@ -213,6 +218,14 @@ it's w3c valid, at least
                 of an monster entity using <span class="term">Bullet["from"]</span>.<br><br>
                 Using the value <span class="term">0</span> will target all Players.
             </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> GetTargetEntityFromBullet(<span class="userdata">bullet</span> bullet) returns
+                <span class="luatable"><span class="entity"></span></span> [W] </span>
+                Returns a table containing one or several Player entities this bullet will damage if it collides with the Player's soul.<br>
+                Uses the variable <span class="term">bullet["from"]</span> or <span class="term">bullet["target"]</span>, more information about
+                these variables is available in the <span class="ref">Projectile Management</span> page.
+            </p>
 
             <p>
                 <span class="function"><span class="CYK"></span> <span class="boolean"></span> <span class="term">

@@ -64,11 +64,8 @@ it's w3c valid, at least
             <hr>
 
             <p>
-                <span class="function"><span class="CYK"></span> GetTargetEntityFromBullet(<span class="userdata">bullet</span> bullet) returns
-                <span class="luatable"><span class="entity"></span></span> [W] </span>
-                Returns a table containing one or several Player entities this bullet will damage if it collides with the Player's soul.<br>
-                Uses the variable <span class="term">bullet["from"]</span> or <span class="term">bullet["target"]</span>, more information about
-                these variables is available in the <span class="ref">Projectile Management</span> page.
+                <br><span class="function"><span class="CYF"></span> <span class="string"></span> wavename [W]</span>
+                Returns the name of the wave file, without the extension, from the Waves folder.
             </p>
 
             <p>
@@ -76,9 +73,83 @@ it's w3c valid, at least
                 Ends this wave immediately. You can only call this function from the Update function.
             </p><br>
 
+            <hr>
+
+            <h4>Pre-Wave Setup [E]</h4>
             <p>
-                <br><span class="function"><span class="CYF"></span> <span class="string"></span> wavename [W]</span>
-                Returns the name of the wave file, without the extension, from the Waves folder.
+                These are variables you'd set inside the Encounter Script, <i>before</i> the beginning of a Wave.<br>
+                Consider the following excerpt as an example:
+                <pre class="brush: lua;">function EnemyDialogueEnding()
+    nextwaves = { possible_attacks[math.random(1, #possible_attacks)] }
+    SetArena(nextwaves[1])
+end
+
+function SetArena(nextwave)
+    -- Consider these the defaults.
+    wavetimer = 4
+    arenasize = { 155, 130 }
+    arenapos = { 320, 200 }
+    arenarotation = 0
+    
+    -- Then, clarify those parameters for each given wave.
+    if nextwave == "bullettest_bouncy" then
+        wavetimer = 3
+        arenasize = { 180, 146 }
+        arenapos = { 320, 200 }
+    
+    elseif nextwave == "bullettest_chaserorb" then
+        arenasize = { 160, 128 }
+        arenapos = { 320, 200 }
+        arenarotation = 45
+
+    elseif nextwave == "empty" then
+        wavetimer = 0
+    end
+end
+
+</pre>
+            </p>
+
+            <p>
+                <br><span class="function"><span class="number"></span> <span class="term">wavetimer</span></span> How long it takes for
+                the defending step to end. If this isn't set anywhere, it'll be the default <i>4.0 seconds</i>.
+            </p>
+
+            <p>
+                <br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">arenasize</span>
+                </span>
+                The inner size of the box the player's constrained to. <span class="term">{155, 130}</span> is the default size for a lot
+                of basic Undertale encounters. Papyrus' battle, for instance, has this at <span class="term">{245, 130}</span> most of the
+                time. You may modify this at any time - it'll only get read out before the enemies start their attack.
+                <br><br>
+                Note: lowest possible setting is <span class="term">{16, 16}</span></span> as this is the size of the player's soul. Anything
+                lower will be set to 16 anyway.
+            </p>
+
+            <p>
+                <br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="number"></span></span>
+                <span class="term">arenapos</span></span>
+                The starting position of the bottom of the box the player's constrained to. <span class="term">{320, 200}</span> is the
+                default position for CYK's encounters.
+                You may modify this at any time - it'll only get read out before the enemies start their attack.
+            </p>
+
+            <p>
+                <br><span class="function"><span class="CYK"></span> <span class="number"></span> <span class="term">arenarotation</span>
+                </span>
+                The rotation of the box the player's constrained to. <span class="term">0</span> is the default value used for CYK's
+                encounters.<br>
+                This value is only used at the start of a wave, if you want to set the rotation of the Arena's borders in a wave, you'll have
+                to do so by setting the value of <span class="term">Arena.rotation</span>.
+            </p>
+
+            <p>
+                <br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="number"></span></span>
+                <span class="term">arenacolor</span></span>
+                The color of the box the player's constrained to. <span class="term">{0, 1, 0}</span> is the default color used for CYK's
+                encounters.<br>
+                This value is only used at the start of a wave, if you want to set the color of the Arena in a wave, you'll have to do
+                so by setting the <span class="term">color</span> value of the sprite <span class="term">Arena.outer</span>.
             </p>
 
         </div>

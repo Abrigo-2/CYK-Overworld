@@ -188,56 +188,6 @@ enemypositions = {
                 set to show you how you can define more than one.
 			</p><br>
 
-            <h4>Arena parameters</h4>
-
-            <p>
-				<br><span class="function"><span class="number"></span> <span class="term">wavetimer</span></span> How long it takes for
-                the defending step to end. If this isn't set anywhere, it'll be the default <i>4.0 seconds</i>.
-			</p>
-
-            <p>
-				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">arenasize</span>
-                </span>
-                The inner size of the box the player's constrained to. <span class="term">{155, 130}</span> is the default size for a lot
-                of basic Undertale encounters. Papyrus' battle, for instance, has this at <span class="term">{245, 130}</span> most of the
-                time. You may modify this at any time - it'll only get read out before the enemies start their attack.
-                <br><br>
-                Note: lowest possible setting is <span class="term">{16, 16}</span></span> as this is the size of the player's soul. Anything
-                lower will be set to 16 anyway.
-			</p>
-
-            <p>
-				<br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="number"></span></span>
-                <span class="term">arenapos</span></span>
-                The starting position of the bottom of the box the player's constrained to. <span class="term">{320, 200}</span> is the
-                default position for CYK's encounters.
-                You may modify this at any time - it'll only get read out before the enemies start their attack.
-			</p>
-
-            <p>
-				<br><span class="function"><span class="CYK"></span> <span class="luatable"><span class="number"></span></span>
-                <span class="term">arenacolor</span></span>
-                The color of the box the player's constrained to. <span class="term">{0, 1, 0}</span> is the default color used for CYK's
-                encounters.<br>
-                This value is only used at the start of a wave, if you want to set the color of the Arena in a wave, you'll have to do
-                so by setting the <span class="term">color</span> value of the sprite <span class="term">Arena.outer</span>.
-			</p>
-
-            <p>
-				<br><span class="function"><span class="CYK"></span> <span class="number"></span> <span class="term">arenarotation</span>
-                </span>
-                The rotation of the box the player's constrained to. <span class="term">0</span> is the default value used for CYK's
-                encounters.<br>
-                This value is only used at the start of a wave, if you want to set the rotation of the Arena's borders in a wave, you'll have
-                to do so by setting the value of <span class="term">Arena.rotation</span>.
-			</p><br>
-
-            <hr>
-
-            <p>
-                You'll ideally want to set these parameters manually for each upcoming wave. Look at the following code.
-            </p>
-
         </div>
 
         <div class="tab-pane text-style" id="mercy">

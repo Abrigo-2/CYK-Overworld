@@ -48,31 +48,32 @@ it's w3c valid, at least
             </p>
 
             <p>
-                You can use this system for your entire encounter with <span class="term">SetPPCollision(bool)</span>,
-                or you can apply it just to a bullet with <span class="term">bullet.ppcollision</span>.
+                You can use this system for your entire encounter by calling <span class="term">SetPPCollision(bool)</span> in your encounter script,
+                or you can apply it to a particular bullet with <span class="term">bullet.ppcollision</span>.
                 The bullet's <span class="term">ppcollision</span> value will override the encounter's
                 <span class="term">ppcollision</span> value.
             </p>
 
             <p>
-                The Pixel-Perfect Collision System now supports bullets with scale! You can rotate and move bullets
+                The Pixel-Perfect Collision System supports scaled bullets! You can rotate and move bullets
                 like always and collision will still work! (this is why it took me one week to make this feature)
-            </p>
+            </p><br>
 
             <p>
                 One last tip: The Pixel-Perfect Collision System is more resource-intensive than the Normal Collision
                 System. Don't use Pixel-Perfect for bullets that won't damage you, as that will just waste resources!
             </p>
 
+            <hr>
+
             <p>
                 <br><span class="function"><span class="boolean"></span> Bullet.ppcollision</span>
-                The collision system of the bullet. If true, this bullet will use Pixel-Perfect Collision.<br><br>
-                <i>From <span class="ref">Projectile management</ref></i>.
+                A property inherent to a bullet object, indicating its collision system. If true, this bullet will use Pixel-Perfect Collision.<br><br>
             </p>
 
             <p>
                 <br><span class="function">SetPPCollision(<span class="boolean"></span> bool) [E/M/P/W]</span>
-                Setting this to true will force all bullets that don't have a specified collision type to be Pixel-Perfect bullets.
+                You may call this from the Encounter's script. If set true, this'll force all bullets that don't have a specified collision type to be Pixel-Perfect bullets.
                 <br>False by default.
             </p>
 
