@@ -28,7 +28,7 @@ animations = {
     Magic =         { { 0, 0, 1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10, 11 },                    1 / 14, { loop = "ONESHOT", posShift = { 0, -2 } }                },
     Power =         { { 0, 1, 1, 2, 3, 4 },                                              1 / 15, { loop = "ONESHOT", posShift = { 0, -2 } }                },
     Hurt =          { { 0 },                                                             .6,      { next = "Idle", heartShift = { -15, -20 } },             },
-    Intro =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8 },                                     1 / 15, { next = "Idle" },                                        },
+    Intro =         { { 1, 2, 3, 4, 5, 6, 7, 8, 9 },                                     1 / 18, { next = "Idle" },                                        },
     Idle =          { { 1, 2, 3, 0 },                                                    1 /  6, { heartShift = { -15, -20 }, targetShift = { -4, -12 } }, },
     Item =          { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },                              1 / 15, { next = "Idle", actionFrame=7 }                          },
     PrepareAct =    { { 0, 1, 2, 3 },                                                    1 /  6, { posShift = { 8,  4 } },                                 },

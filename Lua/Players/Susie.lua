@@ -20,6 +20,8 @@ AddSpell("Ultra Heal",  "Best Healing", 13*5/2, "Player")
 
 -- Check the "Special Variables" page of the documentation to learn how to modify this mess
 animations = {
+    Pose =          { { 4 },                                                    1 /  4, { },                                 },
+
     RudeBuster =    { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 },                     1 / 14, { next = "Idle" },                              },
     Defend =        { { 0, 1, 2, 3, 4, 5 },                                                     1 / 15, { next = "DefendEnd", targetShift = { -7, -20 } } },
     DefendEnd =     { { 0 },                                                                    1,      { loop = "ONESHOT", targetShift = { -7, -20 } } },

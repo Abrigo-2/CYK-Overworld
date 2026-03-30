@@ -120,7 +120,7 @@ function HandleCustomCommand(user, command)
 
     if command == "Pose" or command == "Z-Pose" or command == "S-Pose" then
         for j=1, #posingPlayers do
-            --CYK.SetAnim( posingPlayers[j], "Pose" )
+            CYK.SetAnim( posingPlayers[j], "Pose" )
             for i=1, 6 do
                 local blur = CreateSprite( posingPlayers[j].sprite.spritename, "Background")
                 blur.SetPivot(0, 0)

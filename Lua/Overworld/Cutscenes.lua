@@ -76,14 +76,14 @@ return function(CYK)
                 self.ToggleAvatars(0)
 
                 self.actor[1] = CreateSprite("Overworld/Kris/Idle/2", "OWEntities")
-                self.actor[1].SetAnimation( { "6", "7", "8", "5" }, 3/15, "Overworld/Kris/walk/" )
+                self.actor[1].SetAnimation( { "6", "7", "8", "5" }, 3/15, "Overworld/Kris/Walk/" )
                 self.actor[1].SetPivot(0.5, 0)
                 self.actor[1].MoveTo(Overworld.party[1].posX, Overworld.party[1].posY)
 
                 self.actor[1]["RequiredWalkTimeY"] = math.ceil( (-260 - self.actor[1].absy) / 2 ) + 56
 
                 self.actor[2] = CreateSprite("Overworld/Ralsei/Idle/2", "OWEntities")
-                self.actor[2].SetAnimation( { "6", "7", "8", "5" }, 3/15, "Overworld/Ralsei/walk/" )
+                self.actor[2].SetAnimation( { "6", "7", "8", "5" }, 3/15, "Overworld/Ralsei/Walk/" )
                 self.actor[2].SetPivot(0.5, 0)
                 self.actor[2].MoveTo(Overworld.party[2].posX, Overworld.party[2].posY)
 
@@ -102,7 +102,7 @@ return function(CYK)
                     self.actor[1].Move(3, 0)
 
                     if (self.frame == 56) then
-                        self.actor[1].SetAnimation( { "2", "3", "4", "1" }, 3/15, "Overworld/Kris/walk/" )
+                        self.actor[1].SetAnimation( { "2", "3", "4", "1" }, 3/15, "Overworld/Kris/Walk/" )
                     end
                 elseif (self.frame <= self.actor[1]["RequiredWalkTimeY"]) then
                     self.actor[1].Move(0, 2)
@@ -119,7 +119,7 @@ return function(CYK)
                     self.actor[2].Move(2, 0)
 
                     if (self.frame == self.actor[2]["RequiredWalkTimeX"]) then
-                        self.actor[2].SetAnimation( { "2", "3", "4", "1" }, 3/15, "Overworld/Ralsei/walk/" )
+                        self.actor[2].SetAnimation( { "2", "3", "4", "1" }, 3/15, "Overworld/Ralsei/Walk/" )
                     end
                 elseif (self.frame <= self.actor[2]["RequiredWalkTimeY"]) then
                     self.actor[2].Move(0, 2)
