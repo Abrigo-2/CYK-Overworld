@@ -39,74 +39,20 @@ it's w3c valid, at least
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="api-functions-main">
-            <h2>Functions &amp; Objects</h2><br><br>
+            <h2>Where Do I Put These Guys?</h2><br><br>
             <p>
-                This section details functions Unitale adds to your Lua scripts to interact with the game in various
-                ways. All functions will have a suffix in square brackets to denote in which scripts they may be used.<br>
-                See <span class="ref">How to read this documentation</span> for more details.
+                I'm just gonna leave them here.
             </p>
 
             <hr>
-            <h4>All-script functions</h4><br>
-
-            
-
-            <p>
-                <span class="function">SetGlobal(<span class="string"></span> your_variable_name, value) [E/M/P/W]</span>
-                OUTDATED, as you can set variables in the Encounter script, which can be accessed from anywhere.
-                <br><br>Sets a global variable. After setting, you can retrieve it from all your scripts at any time with
-                <span class="term">GetGlobal(variable_name)</span>.
-            </p><br>
-
-            <p>
-                <span class="function">GetGlobal(<span class="string"></span> your_variable_name) returns variable [E/M/P/W]</span>
-                OUTDATED, as you can set variables in the Encounter script, which can be accessed from anywhere.
-                <br><br>Gets a Global Variable that you previously set using <span class="term">SetGlobal()</span>.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="CYF"></span> SetRealGlobal(<span class="string"></span> your_variable_name, value) [E/M/P/W]</span>
-                Sets a Global variable that is accessible even in the overworld. After setting it, you can retrieve it from all of
-                your scripts at any time with <span class="term">GetRealGlobal(variable_name)</span>.<br>
-                Persists through battles, but not between sessions. These variables can be saved using the overworld save system.<br>
-                Can be used in the overworld.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="CYF"></span> GetRealGlobal(<span class="string"></span> your_variable_name) returns variable [E/M/P/W]</span>
-                Gets a Global that you previously set using <span class="term">SetRealGlobal()</span>.<br>
-                Can be used in the overworld.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="CYF"></span> SetAlMightyGlobal(<span class="string"></span> your_variable_name, value) [E/M/P/W]</span>
-                <i>AlMighty Globals</i> are globals that are instantly saved into a file when set: these globals persist
-                through sessions, even in modDev mode, and can't be removed.<br>
-                However, you can use the <span class="term">Remove AlMighty Globals</span> button in modDev to remove them.<br>
-                Can be used in the overworld.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="CYF"></span> GetAlMightyGlobal(<span class="string"></span> your_variable_name) returns variable [E/M/P/W]</span>
-                Gets an AlMighty Global that you previously set using <span class="term">SetAlMightyGlobal()</span>.<br>
-                Can be used in the overworld.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="CYF"></span> SetFrameBasedMovement(<span class="boolean"></span> bool) [E/M/P/W]</span>
-                Set to <span class="term">true</span> if you want frame-based player movement (2px/frame) instead of time based player movement (120px/s).
-                <br>Set it to <span class="term">false</span> if you already are in frame-based movement and you want to go back to the time based movement.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="CYF"></span> SetPPCollision(<span class="boolean"></span> bool) [E/M/P/W]</span>
-                Setting this to true will force all bullets that don't have a specified collision type to use the Pixel-Perfect collision system.
-                If you want to use it, then I'd highly recommend seeing <span class="ref">The Pixel-Perfect Collision System</span>.
-                <br>False by default.
-            </p><br>
-
+           
             <p>
                 <span class="function">BattleDialog(<span class="luatable"><span class="string"></span></span> list_of_strings) [E/M/P/W]</span>
+            </p>
+
+            <h4>The only purpose of this function is to set the encounter's Flavor Text after performing an action, during a very particular game State. It will not do more than that.</h4>
+
+            <p><br>
                 This makes the list of strings you give to the function appear in the UI dialog box. After skipping through
                 them, you will automatically go to the monster dialogue step by default. Below is a working example of
                 how you could use it for a Vegetoid encounter.
@@ -126,123 +72,7 @@ end
                 <p>(For the Lua specialists; it is indeed a table of strings rather than a list of strings.)</p><br>
             </div>
 
-            <p>
-                <span class="function">State(<span class="string"></span> state_to_go_to, <span class="CYK"></span> arguments...) [E/M/P/W]</span>
-                A powerful function that immediately skips the battle to the specified state, rather than following the
-                default conventions. Below is a list of valid strings you can pass to it, what state you'll be going to
-                and what that state entails. The states you pass to it are case-invariant, but uppercase is recommended
-                for readability.
-            </p><br>
-
-            <p>
-                <span class="CYK"></span> State may also need several other arguments to determine some data related to
-                the states it tries to go to. This data allows the engine to specify which Player is choosing an action,
-                or to specify which part of a state we are in.
-                <br><br>
-                Here is a list of states CYK can enter and what complementary arguments it needs in order to switch to
-                the selected state correctly:
-            </p><br>
-
-            <ul>
-                <li><span class="term">INTRO</span> - This is the first state CYK is in. It hides the main UI of the
-                    battle and the TP bar, and plays the <span class="term">"Intro"</span> animation of all the Players.
-                    The state <span class="term">ACTIONSELECT</span> is entered once all of the Players' animations are done.
-                </li><br>
-                <li><span class="term">ACTIONSELECT</span> - While in this state, you can select FIGHT/ACT/ITEM/SPARE/DEFEND
-                    for the current Player.
-                    <br><br>
-                    <span class="CYK"></span> Needs the id of the Player as argument #1. Must be a number between 1
-                    and the max number of players.
-                    <br><br>
-                    <font color="#fff">* If you're not sure, this is the position of the player in <span class="term">players</span>,
-                    or the value of <span class="term">Entity.ID</span>.</font>
-                </li><br>
-                <li><span class="term">ENEMYSELECT</span> - This state displays a list of all active enemies in the
-                    encounter. This state gets entered automatically after choosing FIGHT, ACT or SPARE.
-                    <br><br>
-                    <span class="CYK"></span> Needs the id of the Player as a argument #1 (same as <span class="term">ACTIONSELECT</span>).<br>
-                    Also needs a a string as argument #2:<br>
-                    <ul>
-                        <li><span class="term">"FIGHT"</span> - Acts the same as manually choosing the FIGHT button.</li><br>
-                        <li><span class="term">"ACT"</span> - Acts the same as manually choosing the ACT button.<br>
-                        Will throw an error if this Player doesn't have an ability named "Act".</li><br>
-                        <li><span class="term">"SPELL"</span> - Acts the same as choosing a target for a spell. Will throw an error if
-                            this Player has an ability named "Act".<br><br>
-                        Needs a third parameter which is the name of the spell this Player will use as a string.</li><br>
-                        <li><span class="term">"ITEM"</span> - Acts the same as choosing the target for an item.<br>
-                        Will throw an error if this item is supposed to target all the Players or all the enemies.</li><br>
-                        <li><span class="term">"SPARE"</span> - Acts the same as manually choosing the SPARE button.</li>
-                    </ul>
-                </li><br>
-                <li><span class="term">ACTMENU</span> - This state displays all of the options from the selected enemy's
-                    <span class="term">commands</span> in order if the current Player has an ability named "Act",
-                    otherwise it will display the different spells of the Player.<br><br>
-                    <span class="CYK"></span> Needs the id of the Player as argument #1 (same as <span class="term">ACTIONSELECT</span>).<br>
-                    Also needs the id of the Enemy as argument #2. Must be a number between 1 and the max number of enemies.
-                </li><br>
-                <li><span class="term">ITEMMENU</span> - This state shows all of the player's available items. It's tied
-                    with the <span class="term">HandleItem</span> function (see <span class="ref">Game events</span> for
-                    more information).
-                    <br><br>
-                    <span class="CYK"></span> Needs the id of the Player as argument #1 (same as <span class="term">ACTIONSELECT</span>).
-                </li><br>
-                <li><span class="CYK"></span> <span class="term">PLAYERTURN</span> - This is the state where all of
-                    the Players' actions are executed, one after the other. Entered when the last Player's action is
-                    selected.
-                </li><br>
-                <li><span class="term">ATTACKING</span> - Starting this state will put you in the screen where you either
-                    deal damage to an enemy by pressing "Z" at the right time, or you wait and miss entirely, for each
-                    Player who selected the FIGHT button.
-                    <br><br>
-                    The enemies each Player attacks is the same as the enemy selected during their own turn in the state
-                    <span class="term">ENEMYSELECT</span>. After this state ends, the encounter moves on to the
-                    <span class="term">ENEMYDIALOGUE</span> state by default.
-                </li><br>
-                <li><span class="term">ENEMYDIALOGUE</span> - When starting this state, <span class="term">
-                    currentdialogue</span> gets read from the Encounter script for every monster and their dialogue is
-                    displayed. If that doesn't exist, it'll return something at random from the <span class="term">
-                    randomdialogue</span> list.
-                </li><br>
-                <li><span class="term">DEFENDING</span> - When starting this state, <span class="term">nextwaves</span> is
-                    read out from the Encounter script and all scripts in the Waves folder with matching names will be part
-                    of this defense step. <span class="term">wavetimer</span> is also read from the Encounter script at this
-                    time.
-                </li><br>
-                <li><span class="CYK"></span> <span class="term">BEFOREDONE</span> - This is the state that is entered
-                    whenever there are no more active enemies. It displays the Players' <span class="term">"EndBattle"</span>
-                    animation and the amount of D$ and EXP they won. This state can't be exited as long as there are no
-                    active enemies.
-                </li><br>
-            </ul>
-
-            <p>
-                Finally, there are two "special" states that evoke behavior in the engine itself:
-            </p><br>
-
-            <ul>
-                <li><span class="term">DONE</span> - Changing state to <span class="term">DONE</span> will instantly force
-                    the player to the mod selection screen.
-                </li><br>
-                <li><span class="term">NONE</span> - This state does nothing. It is entered for the first frame of the
-                    encounter, but entering it manually will completely freeze your encounter. It might be useful if you want
-                    to disable all of Unitale/CYF's basic functionality.
-                </li><br>
-            </ul>
-
-            <p>
-                <span class="function"><span class="CYF"></span> Freezing states</span>
-                As of CYF v0.6.2.1, calling <span class="term">State("PAUSE")</span> will perfectly "pause" an encounter. The last active state will remain active, but in a frozen state, until you call <span class="term">State</span> again.
-                <br><br>
-                * <span style="color:#fff">Only the <span class="term">Update</span> function of the Encounter script will remain active here.
-                <br><br>
-                * To unfreeze a state, you must use <span class="term">State</span> to switch to the last active state.</span> <span class="term">GetCurrentState()</span> will tell you the name of the frozen state.
-                <br><br>
-            </p><br>
-
-            <p>
-                <span class="function"><span class="CYF"></span> GetCurrentState() returns <span class="string"></span> [E/M/P/W]</span>
-                Returns the name of the current state (see above for all states).
-            </p><br>
+            
 
             <hr>
             <h4>Encounter script functions</h4><br>

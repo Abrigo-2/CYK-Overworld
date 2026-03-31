@@ -69,9 +69,9 @@ return function()
     -- Called after the defense round ends
     function self.DefenseEnding()
         -- To be frank, I don't remember why this's ought to be here.
-        if enemies[1].targetType == "all" then
-            enemies[1].targetType = "single"
-        end
+        --if enemies[1].targetType == "all" then
+        --    enemies[1].targetType = "single"
+        --end
     
         encountertext = RandomEncounterText()
     end

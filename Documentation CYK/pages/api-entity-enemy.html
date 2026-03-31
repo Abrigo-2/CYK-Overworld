@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>CYK Documentation - The Entity Object</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "api-entity-enemy.html")</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="api-functions-player">
+            <br>
+            <span class="function"><span class="CYK"></span> Monster Entities.</span></span>
+            <pr><br>
+
+            <h5>Example of a Monster script</h5>
+            <div class="code-container">
+<pre class="brush: lua;">comments = { "Smells like the work of an enemy stand.", "Poseur is posing like his life depends on it.", "Poseur's limbs shouldn't be moving in this way." }
+commands = { "Check", "Act 1", "Act 2", "Act 3", "Act 4", "Act 5", "Act 6" }
+randomdialogue = {
+    { "Check it out.",            "Please"                     },
+    { "Check it out again.",      "",         "For real now"   },
+    { "I'll show you something.", "Trust me."                  },
+    { "Keep looking!",            "Harder!",  "I SAID HARDER!" },
+      "It's working."
+}
+
+hp = 1
+atk = 24
+def = 2
+mag = 9001
+dialogbubble = "DRBubble"
+targetType = "all"
+check = "Check message goes here."
+canspare = false
+tired = false
+
+animations = {
+    Hurt      = { { 0 },                                           1     , { next = "Idle" }, true },
+    Idle      = { { 0, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 1 / 15, { }              , true },
+    Spareable = { { 0, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 1 / 15, { }              , true },
+}</pre>
+            </div>
+            <br>
+            
+            <hr>
+            
+            <h4>Monster-exclusive variables</h4>
+            <br>
+
+            <p><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">comments</span></span> A table storing this Monster's <span class="term">Flavor Text</span>, displayed during the PLAYERTURN phase, at the battle's bottom margin's text field.<br>
+                In order to display said text, you must use in tandem with the <span class="term">RandomEncounterText()</span> function in your
+                Encounter script. See the Encounters page for more information.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="luatable"><span class="string"></span></span>
+                <span class="userdata">OR</span> <span class="string"></span></span> <span class="term">randomdialogue</span></span>
+                A list of random dialogue that may be displayed in this monster's speech bubble in the ENEMYDIALOGUE phase. One of these is selected at random if <span class="term">currentdialogue</span> is
+                <span class="term">nil</span> (i.e. has no value).
+                <br><br>
+                <span class="CYK"></span> This table can contain tables of strings for multiple lines, single strings for single lines,
+                or a mix of both.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">currentdialogue</span>
+                </span>
+                The dialogue this monster will say next. This overrides the random dialogue and is meant for special actions (e.g. you hit Vegetoid's
+                green carrots after selecting Dinner from the ACT menu). This variable gets <i>cleared every time after it's read out in the ENEMYDIALOGUE phase</i>. This is done so you don't have to take care of managing it manually.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="string"></span> <span class="term">dialogbubble</span></span>
+                The dialogue bubble's <span class="term">sprite</span> placed below the monster's speech dialogue, which also restricts the dialogue's available width. You may change it at a later time, just don't leave it nil.
+                <br>For a list of all possible options, check the <a href="../media/dialogoptions.png">dialog bubble names</a> chart.<br><br>
+                
+                <span class="OW"></span>Oh, hey! I built a special bubble that automatically resizes itself by adding in <span class="term">\nl</span> characters. To use it, set this property to <span class="term">"CH2Resize"</span>!
+
+                <br><br>Positioning of the bubbles is done automatically.
+			</p><br>
+
+            <p>
+                <span class="function"><span class="number"></span> <span class="term">bubbleOffsetX</span>, <span class="term">bubbleOffsetY</span></span></span> 
+				Offset of the bubble displayed by this entity during the state ENEMYDIALOGUE.<br>
+                Can be modified directly or using <span class="term">SetBubbleOffset()</span>.
+            </p><br>
+
+
+            <p>
+                <span class="function"><span class="number"></span> <span class="term">sliceAnimOffsetX</span>, <span class="term">sliceAnimOffsetY</span></span>
+				Shifts the starting position of the Slice animation shown when a Player attacks this monster in the state ATTACKING.<br>
+                Can be modified directly or using <span class="term">SetSliceAnimOffset()</span>.
+            </p><br>
+
+            <hr><br>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="string"></span> <span class="userdata">OR</span>
+                <span class="number"></span> <span class="term">targetType</span></span>
+                How many or which Players will be hit, if a bullet fired by this enemy in a wave collides with the soul. Can be changed at any
+                time, even in waves.<br>
+                <span class="OW"></span> However, I think you should set it before <span class="term">ENEMYDIALOGUE</span>, so the target cursor animation will accurately signal which Players will get hurt.
+                <br><br>
+                It can have either of these values:
+                <ul>
+                    <li><span class="string"></span> <span class="term">"single"</span>:
+                        Targets a single, random Player, chosen when the state ENEMYDIALOGUE is entered or when a wave is started, whichever comes
+                        first.</li>
+                    <li><span class="string"></span> <span class="term">"all"</span>:
+                        Targets all Players at the same time.<br>
+                        It also splits up the total damage over all Players, so take that into account.</li>
+                    <li><span class="number"></span> <span class="term">Player's ID</span>:
+                        Should match an existing Player ID, even disabled players.
+                </ul>
+
+			</p><br>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">commands</span></span>
+                A list of ACT commands that can be used on this monster. Listed in the ACT menu and used in <span class="term">HandleCustomCommand()</span>.
+                See <span class="ref">API - Game events</span> for details.
+                <br><br>
+                <span class="term">"Check"</span> shows the monster's <span class="term">name</span> followed by its
+                <span class="term">ATK</span> and <span class="term">DEF</span>, and then the <span class="term">check</span>
+                variable.
+                <br><br>
+                <span class="CYK"></span> Note that, contrary to CYF, the behaviour for <span class="term">Check</span>
+                is not built-in, and you have to add it manually to this table in order to show it.
+                <span class="term">Check</span>'s behavior should be replicated in all the basic enemy scripts given with CYK.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="string"></span> <span class="term">check</span></span>
+                When checking with the <span class="term">Check</span> option, this is what's listed under the monster's name, ATK and DEF.
+                <br><br>
+                <span class="CYK"></span> Note: you'll have to add the <span class="term">Check</span> command directly into this enemy's
+                <span class="term">commands</span> table, as <span class="term">cancheck</span> does nothing in CYK.<br>
+                <span class="OW"></span> You'll have to manually build the table displayed when that command is called anyway, so... Is there any reason to use this property?
+			</p>
+
+            <p>
+                <br><span class="function"><span class="CYK2"></span><span class="boolean"></span> <span class="term">useMercyCounter</span></span>
+                If this variable is set to true, the enemy will use the mercy counter and will be able to be spared through acts changing its percentage of mercy. If it's set to false, the counter will be deactivated and show a cross instead of a percentage.<br>Do note enemies can still be spared in that condition by calling <span class="term">Spare()</span>. True by default.
+            </p>
+
+            <p>
+				<br><span class="function"><span class="boolean"></span> <span class="term">canspare</span></span>
+                False by default. If you set this to true, your monster's name will turn yellow and it will be spareable.
+                <br><br>
+                <span class="CYK2"></span> If <span class="term">useMercyCounter</span> is set to true, <span class="term">canspare</span> will automatically change accordingly to the percentage when <span class="term">ChangeMercyPercent()</span> is called.
+            </p>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="boolean"></span> <span class="term">tired</span></span>
+                False by default. If you change this to true, your monster's name will turn blue and it can be spared by casting Ralsei's
+                <span class="term">"PACIFY"</span> spell, if you haven't modified the code related to this spell.
+			</p><br>
+
+            <p>
+				<br><span class="function"><span class="CYK"></span> <span class="boolean"></span> <span class="term">isTiredWhenHPLow</span></span>
+                True by default. If true and this monster's hp lowers below 1/3rds its <span class="term">maxhp</span>, they will effectively become TIRED and vulnerable to the <span class="term">"PACIFY"</span> spell.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="OW"></span> <span class="number"></span> <span class="term">sparebeg</span></span>
+                No default value. Sets the amount of times this monster needs to be unsuccesfully spared in order for it to relucantly set <span class="term">canspare</span> to true.
+                <ul>
+                    <li>If set <span class="term">below 0</span>, the spare-begging mechanic will be disabled for this monster.</li>
+                </ul>
+			</p><br>
+
+            <hr>
+            <h4>Monster-exclusive functions</h4><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> AddAct(<span class="string"></span> name, <span class="string"></span> description,
+                <span class="number"></span> tpCost = 0, <span class="luatable"><span class="string"></span></span> requiredPlayers = { }) [M]</span>
+                Adds a usable act command with the name <span class="term">name</span>.
+                <br><br>You can add a short description to it using <span class="term">description</span>, and the Players with the names given
+                in the parameter <span class="term">requiredPlayers</span> are needed in order to execute this command.
+                <br><br>
+                Usage:
+                <ul>
+                    <li><span class="term">name</span>: The name of your custom act command.</li>
+                    <li><span class="term">description</span>: Short description of your custom act command.</li>
+                    <li><span class="term">tpCost</span>: Cost of the act command in net TP. <span class="OW"></span> Goes from 0 and 250.<br>
+                    You can easily convert a value from %TP to net TP by multiplying the %TP <span class="term">by 2.5</span></li>
+                    <li><span class="term">requiredPlayers</span>: Table containing the names of the Players required to
+                    perform this command. All Players must be present and active. If any Players are down, the action will be grayed out instead.</li>
+                </ul>
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK2"></span> <span class="term">ChangeMercyPercent(<span class="number"></span> value, <span class="entity"></span> <span class="userdata">OR</span> <span class="string"></span> target(s) = self,
+                <span class="boolean"></span> showText = true, <span class="boolean"></span> playSound = true)</span></span>
+                Changes the mercy percentage of the <span class="term">target(s)</span> by the indicated <span class="term">value</span> and will show the associated text and play the sound effect that goes with it if <span class="term">showText</span> and <span class="term">useSound</span> respectively are set to true.
+                <br><br>
+                <u>Usage:</u>
+                <ul>
+                    <li><span class="term">value</span>: An integer. A negative number will make the text red and a number superior or equal to 100% will make it green.</li> 
+                    <li><span class="term">target</span>: The enemy concerned by the modification. it can takes two different values:
+                    <ul>
+                        <li><span class="entity"></span> <span class="term">Enemy</span> - A single enemy. Can use <span class="term">self</span> to target itself if the function is called from the enemy's script.</li>
+                        <li><span class="string"></span> <span class="term">"All"</span> - Targets all enemies.</li>
+                    </ul>
+                    </li>
+                    <li><span class="term">showText</span>: If set to true, the text showing the <span class="term">value</span> will appear.</li>
+                    <li><span class="term">playSound</span>: If set to true, it'll play the sound effect used when the percentage is changed.</li>
+                </ul>
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK2"></span> <span class="term">GetMercyPercent(<span class="entity"></span> target = self) returns <span class="number"></span></span></span>
+                Returns the mercy percentage of the <span class="term">target</span>.<br>
+                If the mercy counter of the <span class="term">target</span> is disabled, it'll return -1.
+            </p><br>
+
+            <hr>
+
+
+            <p>
+                <span class="function"><span class="CYK"></span> TrySpare() [M]</span>
+                Tries to spare the monster. If this entity has a function named <span class="term">OnSpare()</span>, it will fire it instead.
+                Otherwise, if this was the last monster, the battle ends.
+            </p><br>
+
+            <p>
+                <span class="function">Spare(<span class="boolean"></span> cancelAnim) [M]</span>
+                Spares the monster immediately. Similar to <span class="term">Kill()</span>, if this was the last monster, the battle ends.<br>
+                Setting <span class="term">cancelAnim</span> to false will cancel the usual animation played when the enemy is spared, allowing you
+                to handle it manually.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> TryKill() [M]</span>
+                Tries to kill the monster. If this entity has a function named <span class="term">OnDeath()</span>, it will fire it instead.
+                Otherwise, if this was the last monster, the battle ends.
+            </p><br>
+
+            <p>
+                <span class="function">Kill(<span class="boolean"></span> cancelAnim) [M]</span>
+                Kills the monster immediately. If this was the last monster, the battle ends.<br>
+                Setting <span class="term">cancelAnim</span> to false will cancel the usual animation played when the enemy flees, allowing you
+                to handle it manually.
+            </p><br><br>
+
+            <hr>
+
+            
+             <p>
+                <span class="function"><span class="CYF"></span> SetBubbleOffset(<span class="number"></span> x, <span class="number"></span> y) [M]</span>
+                Makes the enemy's dialogue bubble appear <span class="term">x</span> pixels horizontally and
+                <span class="term">y</span> pixels vertically relative to its original position.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> SetSliceAnimOffset(<span class="number"></span> x, <span class="number"></span> y) [M]</span>
+                Changes the offset of the attack animation (the red slice by default) for when the player attacks this monster.
+            </p>
+
+            <p>
+                <span class="function"><span class="CYF"></span> SetDamageUIOffset(<span class="number"></span> x, <span class="number"></span>y) [M]</span>
+                Changes the offset of the enemy's damage UI (the enemy's health bar and the red numbers). Note that the damage UI is on a layer
+                above that of the arena.
+            </p><br>
+
+            <hr>
+
+            <h3>Monster Event functions</h3>
+
+            <p>
+                <br><span class="function">OnDeath()</span>
+                Happens after your attack's shaking animation has completed and the monster's HP is 0. If you implement
+                <span class="term">OnDeath()</span>, your monster will not die automatically, and you will have to do
+                it manually with the <span class="term">Kill()</span> function. OnDeath() will only happen through
+                monster kills that happened with the FIGHT command; scripted <span class="term">Kill()</span> calls
+                will not trigger it.
+            </p><br>
+
+            <p>
+                <br><span class="function"><span class="CYF"></span>OnSpare()</span>
+                Happens after you successfully spared a monster. If you implement <span class="term">OnSpare()</span>,
+                your monster will not be spared automatically, and you will have to do it manually with the
+                <span class="term">Spare()</span> function. <span class="term">OnSpare()</span> will only happen through
+                a monster spare that happened with the SPARE command - scripted <span class="term">Spare()</span> calls
+                will not trigger it.
+            </p><br>
+
+            <p>
+                <br><span class="function">HandleCustomCommand(<span class="string"></span> actcommand)</span>
+                Happens when you select an Act command on this monster. <span class="term">actcommand</span> will be the
+                same as how you defined it in the <span class="term">commands</span> list, except it will be <b><u>IN ALL
+                CAPS</u></b>. Intermediate example below, showing how you can use it and spice it up a little.
+            </p>
+
+            <div class="code-container">
+  <pre class="brush:lua;">commands = {"Sing", "Dance", "Wiggle"} --somewhere at the beginning
+wigglecounter = 0 --let's keep a counter to check how often we've wiggled
+
+function HandleCustomCommand(command)
+    if command == "SING" then
+        BattleDialog({"You sing your heart out. It's in the arena now."})
+    elseif command == "DANCE" then
+        BattleDialog({"You busted out your best moves."})
+    elseif command == "WIGGLE" then
+        if wigglecounter == 0 then --you can use variables to make commands more exciting!
+            BattleDialog({"You just kind of stood there and wiggled."})
+        elseif wigglecounter == 1 then
+            BattleDialog({"You're still kind of standing there and wiggling."})
+        else
+            BattleDialog({"Your wiggled so often that your wiggling technique\ris now legendary."})
+        end
+        wigglecounter = wigglecounter + 1 --be sure to increase the wiggle counter, or it'll stay at 0
+    end
+end
+</pre>
+            </div>
+
+            <hr>
+
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

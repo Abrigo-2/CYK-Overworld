@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>CYK Documentation - The Entity Object</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "api-entity-player")</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="api-functions-player">
+            <br>
+            <span class="function"><span class="CYK"></span> Player Entities!</span></span><br>
+
+            <p>Pretty important note: View <span class="term">UpdateUI</span> at the functions section! It'll be important if you change <span class="term">name</span>, <span class="term">playerColor</span> or <span class="term">hp</span> manually.
+            </p><br>
+
+            <hr>
+
+            <h5>Example of a Player script</h5>
+            <div class="code-container">
+<pre class="brush: lua;">hp = 90
+atk = 10
+def = 2
+mag = 0
+
+powers = { "Guts" }
+abilities = { "Act" }
+playerColor = { 0, 1, 1 }
+atkBarColor = { 0, 0, .5 }
+damageColor = { 0, 162/255, 232/255 }
+
+animations = {
+    Defend =        { { 0, 1, 2, 3, 4, 5 },                 1 / 15, { loop = "ONESHOT", heartShift = { -30, -30 }, targetShift = { -14, -22 } }, true },
+    Down =          { { 0 },                                1,      { loop = "ONESHOT", heartShift = { -40, -50 } },                             true },
+    EndBattle =     { { 0, 1, 2, 3, 4, 5, 6, 7, 8 },        2 / 15, { loop = "ONESHOT" }                                                              },
+    Fight =         { { 0, 1, 2, 3, 4, 5, 6 },              1 / 15, { loop = "ONESHOT", posShift = { 0, -12 } }                                       },
+    Hurt =          { { 0 },                                1,      { next = "Idle", heartShift = { -30, -30 } },                                true },
+    Intro =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8 },        1 / 15, { next = "Idle" },                                                                },
+    Idle =          { { 0, 1, 2, 3, 4, 5 },                 2 / 15, { heartShift = { -30, -30 }, targetShift = { -14, -22 } }                         },
+    Item =          { { 0, 1, 2, 3, 4, 5 },                 1 / 15, { next = "Idle" }                                                                 },
+    PrepareAct =    { { 0, 1 },                             2 / 15, { },                                                                         true },
+    PrepareFight =  { { 0 },                                1,      { },                                                                         true },
+    PrepareItem =   { { 0 },                                1,      { },                                                                         true },
+    PrepareSpare =  { { 0, 1 },                             2 / 15, { },                                                                         true },
+    Spare =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 1 / 15, { next = "Idle" }                                                                 },
+    SliceAnim =     { { 0, 1, 2 },                          2 / 15, { loop = "ONESHOTEMPTY" }                                                         },
+}</pre>
+            </div>
+
+            <hr>
+            
+            <h4>Player-exclusive variables</h4>
+
+            <p>
+                <br><span class="function"><span class="CYK2"></span> <span class="number"></span> <span class="term">hpAdd</span></span>
+                The amount of HP that will be added to the entity's current MaxHP if at least one enemy was "killed" during this encounter. 2 by default.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="string"></span> <span class="term">action</span></span>
+				Name of the action this Player is doing for this turn.<br>
+                Here is a list of the different values it can have:
+                <ul>
+                    <li><span class="term">""</span> (empty string) - The Player didn't choose an action, or already attacked an enemy.</li>
+                    <li><span class="term">"Fight"</span> - The Player chose to attack an enemy.</li>
+                    <li><span class="term">"Act"</span> - The Player chose to act. This includes entities with "Act" as an ability, and entities used in multi-acts.</li>
+                    <li><span class="term">"Magic"</span> - The Player chose to cast a spell. Only does something if the Player doesn't have "Act" as one of its abilities.</li>
+                    <li><span class="term">"Item"</span> - The Player chose to use an item.</li>
+                    <li><span class="term">"Spare"</span> - The Player chose to spare an enemy.</li>
+                    <li><span class="term">"Defend"</span> - The Player chose to defend.</li>
+                </ul>
+                
+                * Should only be read.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="string"></span> <span class="userdata">OR</span> <span class="number"></span> <span class="term">subAction</span></span>
+				Additional information used to
+                perform this Player's action correctly.
+                <br><br>
+                Here is a list of the values it can to have:
+                <ul>
+                    <li><span class="term">If action is "Act"</span> - <span class="string"></span>: The name of the action command to perform.</li>
+                    <li><span class="term">If action is "Magic"</span> - <span class="string"></span>: The name of the spell to cast.</li>
+                    <li><span class="term">If action is "Item"</span> - <span class="number"></span>: The index of the item to use.</li>
+                </ul>
+                
+                * Should only be read.
+            </p>
+            
+            <p>
+                <br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">powers</span></span> A list of powers of this Player.
+                Currently has no purpose at all. Feel free to add your own purpose to it!
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">abilities</span></span>
+                A list of spells this Player can use in the MAGIC menu.
+                <br><br>
+                If the Player has an ability named <span class="term">"Act"</span> exactly, then the MAGIC menu won't be accessible for them, having
+                access to the ACT menu instead.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">playerColor</span></span>
+                Main color of this Player's UI. Used for the Player's HP bar and status UI.
+                <br><br>
+                This is normally only applied at the start of the battle.
+                <br><br>
+                To change the UI's color, you must set this, then use the function <span class="term">Player.UpdateUI()</span>.
+                See the <span class="ref">Entity Object</span> page.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">atkBarColor</span></span>
+                Color used for the attack bar of this Player in the state ATTACKING.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">damageColor</span></span>
+                Color used for the damage text spawning next to an enemy when this Player damages it.
+			</p>
+
+            <br>
+            
+            <hr>
+            <h4>Player-exclusive functions</h4><br>
+
+            <p>
+                <span class="function"><span class="term">UpdateUI()</span></span>
+                This function will update the displayed UI for the player.
+                <br><br>
+                If you change <span class="term">name</span>, <span class="term">playerColor</span> or <span class="term">hp</span> manually,
+                call this function to update the UI accordingly.
+            </p><br>
+
+
+            <p>
+                <span class="function"><span class="CYK"></span> AddSpell(<span class="string"></span> name, <span class="string"></span> description,
+                <span class="number"></span> tpCost, <span class="string"></span> targetType) [P]</span>
+                Adds a usable spell with the name <span class="term">name</span>. Using this spell will use
+                <span class="term">tpCost</span> net amount of the TP bar, so it must be between 0 and 250.
+                <br><br>
+                You can add a short description to it using <span class="term">description</span>, and the parameter
+                <span class="term">targetType</span> tells the engine which entities this item should target.
+                <br><br>
+                Usage:
+                <ul>
+                    <li><span class="term">name</span>: The name of your custom spell.</li>
+                    <li><span class="term">description</span>: Short description of your custom spell.</li>
+                    <li><span class="term">tpCost</span>: Cost of the act command in net TP. Goes from 0 and 250.<br>
+                    You can easily convert a value from %TP to net TP by multiplying it for 2.5</li>
+                    <li><span class="term">targetType</span>: Type of entities the spell will target.<br>
+                        Can be <span class="term">"Player"</span> for a single player,
+                        or <span class="term">"Enemy"</span> for a single enemy.</li>
+                </ul>
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> WaitBeforeNextPlayerTurn() [P]</span>
+                Makes CYK wait before ending this player's turn, when entering <span class="term">PLAYERTURN</span>.
+                <br><br>
+                After calling this, the function <span class="term">UpdateTurn()</span> will be called once per
+                frame until the function <span class="term">EndPlayerTurn()</span> is called.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYK"></span> EndPlayerTurn() [P]</span>
+                After calling <span class="term">WaitBeforeNextPlayerTurn()</span>, you can call this from
+                <span class="term">UpdateTurn()</span> to end the player's turn.
+            </p><br>
+
+            <hr>
+
+            <h3>Player Event functions</h3>
+
+            <p>
+                <br><span class="function"><span class="CYK"></span> HandleCustomSpell(<span class="entity"></span> target,
+                <span class="string"></span> spell)</span>
+                Happens at the beginning of this Player's turn, in the state <span class="term">PLAYERTURN</span>, if the Player
+                selected a MAGIC command during their action choice. This function is used to handle this Player's available SPELL
+                commands (also called <span class="term">abilities</span>).
+                <br><br>
+                This works much like <span class="term">HandleCustomCommand()</span> except the spell doesn't have to be capitalized.
+            </p>
+
+            <p>
+                <br><span class="function"><span class="CYK"></span>UpdateTurn()</span>
+                Happens in the state <span class="term">PLAYERTURN</span>, if it is currently this Player's turn and
+                <span class="term">WaitBeforeNextPlayerTurn()</span> has been called for this player.
+                <br><br>
+                Use <span class="term">EndPlayerTurn()</span> to end the turn, and go to the next Player's turn, or
+                have the enemies start attacking.
+            </p>
+
+            <hr>
+        
+
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

@@ -53,20 +53,10 @@ function createSideBarItems(isIndexPage, currentPage) {
     }
 
     
-    addSectionHeader( "Setup and Usage Guide")
-    addHeader("Welcome", "documentation.html" )
-    addHeader("Keyboard Controls", "controls.html" )
-    addHeader("Understanding your Files and Directories", "basic.html" )
-    addHeader("How to read this documentation", "howtoread.html" )
-    addHeader("Engine and Debugging tools", "debugging.html" )
-    addHeader("Setting up the Encounter files", "encounters.html" )
-    addHeader("Game events", "api-events.html" )
-    addHeader("Working with CYF's Scripts", "api-functions-script.html" )
-    addHeader("-", "-" )
-
-    addSectionHeader( "Pinpoint Reference")
+    addSectionHeader( "Frequently Checked")
     addHeader("Text Objects", "cyf-text.html" )
     addHeader("In-line Text effects", "api-text.html" )
+    addHeader("-", "-" )
     addHeader("Working with Sprites", "api-animation.html" )
     addHeader("-", "-" )
 
@@ -75,17 +65,29 @@ function createSideBarItems(isIndexPage, currentPage) {
     addHeader("-", "-" )
 
     addHeader("The Input Object", "api-functions-input.html" )
-    addHeader("Key List", "cyf-keys.html" )
+    addHeader("Key List", "api-keys.html" )
+    addHeader("-", "-" )
+
+    addSectionHeader( "Setup and Usage Guide")
+    addHeader("Welcome", "documentation.html" )
+    addHeader("Keyboard Controls", "controls.html" )
+    addHeader("Understanding your Files and Directories", "basic.html" )
+    addHeader("How to read this documentation", "howtoread.html" )
+    addHeader("Engine and Debugging tools", "debugging.html" )
+    addHeader("Setting up the Encounter files", "encounters.html" )
+    addHeader("CYK's Events and States", "api-events.html" )
+    addHeader("Working with CYF's Scripts", "api-functions-script.html" )
     addHeader("-", "-" )
 
     addSectionHeader( "Player and Monster Entities")
-    addHeader("Entities, broadly speaking.", "api-functions-entity.html" )
-    addHeader("Player Entities", "api-functions-entity.html" )
-    addHeader("Monster Entities", "api-functions-entity.html" )
+    addHeader("Entities, broadly speaking.", "api-entity.html" )
+    addHeader("Player Entities", "api-entity-player.html" )
+    addHeader("Monster Entities", "api-entity-enemy.html" )
     addHeader("-", "-" )
 
     addSectionHeader( "Miscelaneous")
-    addHeader("Misc. Functions", "api-functions-main.html" )
+    addHeader("Misc. Encounter Functions", "api-functions-main.html" )
+    addHeader("Storing Data Between Sessions", "api-functions-storage.html" )
     addHeader("The Time Object", "api-functions-time.html" )
     addHeader("Program's Window and Machine functions", "api-functions-windows.html" )
     addHeader("Camera and Screen functions", "api-functions-camera.html" )

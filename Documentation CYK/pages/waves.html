@@ -150,6 +150,69 @@ end
                 encounters.<br>
                 This value is only used at the start of a wave, if you want to set the color of the Arena in a wave, you'll have to do
                 so by setting the <span class="term">color</span> value of the sprite <span class="term">Arena.outer</span>.
+            </p><br>
+
+            <hr>
+
+            <h3>Wave Event functions</h3>
+
+            <p>
+                <br><span class="function">Update()</span>
+                This function is called every frame (usually at 60FPS) while monsters are attacking (the defense step).
+                <br><br>
+                That's pretty much it. Update your bullets here - more on bullet creation and control is on the
+                <span class="ref">Creating and Handling Bullets</span> page.
+            </p><br>
+
+            <p>
+                <br><span class="function"><span class="CYF"></span>EndingWave()</span>
+                This function is called just before the wave ends. It allows you to easily reset some variables and other such things.
+            </p><br>
+
+            <p>
+                <br><span class="function">OnHit(<span class="userdata">bullet</span> bullet)</span>
+                Every time a bullet collides with a player, this function gets called from the script that created the
+                projectile. The bullet object in this function can be modified if you feel like it. For more information
+                on the bullet object, see the section <span class="ref">Creating and Handling Bullets</span>.
+                <br>
+                <br>
+                If you implement this function in your script, you have to manually define what should happen after
+                bullet collision. This is what allows you to create orange, cyan and green projectiles, and much much
+                more. If you don't implement this function in your wave script, it'll stick to the default of dealing 3
+                damage on hit.
+                <br><br>
+                <h4><span class="CYK"></span> IMPORTANT!</h4>
+                Instead of using
+                <span class="term">Player.Hurt()</span> or <span class="term">Player.Heal()</span> to change the
+                Player's HP, you need to return two values:<br>
+                <ol>
+                    <li><span class="number"></span> OR <span class="string"></span>: The amount of damage to deal.<br>
+                    If this number is negative, the player will be healed instead of hurt.
+                    <br><br>
+                    As a number: This will set the amount of damage the target player takes.<br>
+                    As a string: This will use Deltarune's damage formula to calculate the damage you take.<br>
+                    <span class="term">"100%"</span> means 100% of the calculated damage, <span class="term">"200%"</span>
+                    means 200%, <span class="term">"50%"</span> means 50%, and so on.
+                    <br><br>
+                    You can also use negative values such as <span class="term">"-50%"</span>.</li><br>
+                    <li>Optional <span class="number"></span>: The amount of seconds of invincibility.<br>
+                    This is 1.7 by default, but if your bullet deals a negative amount of damage (heals the player),
+                    this number will be 0.
+                    </li>
+                </ol>
+                <br>
+                Here are some examples:
+                <br><br>
+                <div class="code-container">
+  <pre class="brush:lua;">function OnHit(bullet)
+    return 3, 2.5 -- equal to Player.Hurt(3, 2.5) in CYF
+    return 1, 0   -- equal to Player.Hurt(1, 0)   in CYF
+    return -10    -- equal to Player.Heal(10)     in CYF
+    return "100%" -- default value, uses enemy's ATK and player's DEF to calculate damage
+    return "50%"   -- only take 50% of calculated damage
+end
+</pre>
+            </div>
             </p>
 
         </div>

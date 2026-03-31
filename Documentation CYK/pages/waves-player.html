@@ -46,7 +46,8 @@ it's w3c valid, at least
                 the player's hitbox, if you need that for anything.
                 <br><br>
                 <span class="CYK"></span><b style="color:#ff0000">This class is not used to store the different Players' data. You
-                should check the <span class="ref">Entity Object</span> page instead.</b>
+                should check the <span class="ref">Entities, broadly speaking.</span> page instead.</b><br>
+                <span class="OW"></span>Check the bottom of the page for some other interesting functions.
             </p>
 
             <hr>
@@ -93,13 +94,6 @@ it's w3c valid, at least
             </p><br>
 
             <p>
-                <span class="function"><span class="term">Player.SetControlOverride(<span class="boolean"></span> boolean)</span>
-                </span>
-				Either true or false. Only useable in waves. If true, this will prevent the player soul from doing its regular
-                movement/keyboard control for the rest of the wave. Use this if you want to implement your own controls in a wave.
-            </p><br>
-
-            <p>
                 <span class="function"><span class="CYF"></span> <span class="term">Player.Move(<span class="number"></span> x,
                 <span class="number"></span> y, <span class="boolean"></span> ignoreWalls)</span></span>
 				Moves the player soul based on its last position. If <span class="term">ignoreWalls</span> is false, it will make
@@ -124,7 +118,22 @@ it's w3c valid, at least
                 </span> is false, it will make sure the player doesn't go outside of the arena; otherwise, it ignores the arena's
                 boundaries. If you want to move the player out of bounds in a wave, you'll have to call <span class="term">
                 Player.SetControlOverride(true)</span> as the player's default movement keeps the soul inside the arena.
-            </p>
+            </p><br>
+
+            <hr>
+
+            <p>
+                <span class="function"><span class="term">Player.SetControlOverride(<span class="boolean"></span> boolean)</span>
+                </span>
+				Either true or false. Only useable in waves. If true, this will prevent the player soul from doing its regular
+                movement/keyboard control for the rest of the wave. Use this if you want to implement your own controls in a wave.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span>SetFrameBasedMovement(<span class="boolean"></span> bool) [E/M/P/W]</span>
+                Set to <span class="term">true</span> if you want frame-based player movement (2px/frame) instead of time based player movement (120px/s).
+                <br>Set it to <span class="term">false</span> if you already are in frame-based movement and you want to go back to the time based movement.
+            </p><br>
 
         </div>
 

@@ -455,7 +455,7 @@ return function ()
                     else
                         -- If the enemy cannot be spared, check if it can be begged to.
                         -- This is a hidden game mechanic since Chapter 1.
-                        if enemy.sparebeg ~= -1 then
+                        if enemy.sparebeg > 0 then
                             enemy.sparebegcounter = enemy.sparebegcounter + 1
                             if enemy.sparebegcounter >= enemy.sparebeg then
                                 enemy.canspare = true
