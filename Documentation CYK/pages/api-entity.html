@@ -86,60 +86,7 @@ it's w3c valid, at least
             </p><br>
 
             <p>
-                <span class="function"><span class="number"></span> <span class="term">posX</span></span><h3><span class="CYK"></span> Entity script events</h3>
-
-            <p>
-                <br><span class="function"><span class="CYK"></span>Update()</span>
-                This function runs for every frame for all of the encounter, even during waves. For advanced users: the
-                Update function is required to exist at the beginning of the encounter. If you define it at a later
-                point in time, it will not get executed. This function is triggered after the Encounter's Update function.
-            </p><br>
-
-            <p>
-                <br><span class="function">HandleAttack(<span class="CYK"></span> <span class="entity"></span> attacker,
-                <span class="number"></span> damage)</span>
-                Happens the moment the entity is damaged - this is when you hear the hitting sound and when the
-                hp loss text appears.<br>
-                <span class="term">damage</span> will be -1 if the attack dealt no damage. The entity's
-                <span class="term">hp</span> variable will have updated at this time, too.
-                <br><br>
-                <span class="CYK"></span><span class="term">attacker</span> is the entity which is currently attacking
-                this entity.
-            </p><br>
-
-            <p>
-                <br><span class="function"><span class="CYF"></span>BeforeDamageCalculation(<span class="CYK"></span> <span
-                class="entity"></span> attacker, <span class="CYK"></span> <span class="number"></span> damageCoeff)</span>
-                Happens before the damage calculation after pressing Z when attacking. You can easily use
-                <span class="term">SetDamage()</span> in this function and lots of other animations and such.
-                <br><br>
-                <span class="CYK"></span><span class="term">attacker</span> - Entity attacking this entity. Monsters can attack Players.<br>
-                <span class="CYK"></span><span class="term">damageCoeff</span> - Strength of the attack depending on how close the attack cursor is
-                to the square target. Value between 0 and 1, 0 being "Miss" and 1 being a perfect attack.
-            </p><br>
-
-            <p>
-                <br><span class="function"><span class="CYK"></span>HandleAnimationChange(<span class="string"></span> newAnim)</span>
-                This function runs every time this entity's animation is changed through <span class="term">SetCYKAnimation()</span>.
-                <br><br>
-                From inside this function, use <span class="term">return false</span> to prevent <span class="term">newAnim</span> from starting.
-                <br><br>
-                If you want to "replace" an animation with another, you must do this:
-
-                <div class="code-container">
-  <pre class="brush:lua;">function HandleAnimationChange(newAnim)
-    if newAnim == "Idle" and canspare then
-        SetCYKAnimation("Spareable")
-        return false
-    end
-end
-</pre>
-            </div>
-                <font style="color:#fff;text-decoration:underline">NOTE:</font> Calling <span class="term">SetCYKAnimation</span> from inside
-                this function will call <span class="term">HandleAnimationChange</span> again! Code responsibly, avoid infinite loops.
-            </p>
-
-            <hr>
+                <span class="function"><span class="number"></span> <span class="term">posX</span></span>
 				X position of the entity used by CYK to run animations on the entity, such as the shaking animation
                 when this entity is being damaged.
                 <br><br>
@@ -162,60 +109,7 @@ end
                 This sprite object contains other variables useful for CYK<br><br>
                 <ul>
                     <li><span class="userdata">sprite</span> <span class="term">sprite["mask"]</span> - Sprite used to display several effects on the main sprite. When needed, it must
-                        display the<h3><span class="CYK"></span> Entity script events</h3>
-
-            <p>
-                <br><span class="function"><span class="CYK"></span>Update()</span>
-                This function runs for every frame for all of the encounter, even during waves. For advanced users: the
-                Update function is required to exist at the beginning of the encounter. If you define it at a later
-                point in time, it will not get executed. This function is triggered after the Encounter's Update function.
-            </p><br>
-
-            <p>
-                <br><span class="function">HandleAttack(<span class="CYK"></span> <span class="entity"></span> attacker,
-                <span class="number"></span> damage)</span>
-                Happens the moment the entity is damaged - this is when you hear the hitting sound and when the
-                hp loss text appears.<br>
-                <span class="term">damage</span> will be -1 if the attack dealt no damage. The entity's
-                <span class="term">hp</span> variable will have updated at this time, too.
-                <br><br>
-                <span class="CYK"></span><span class="term">attacker</span> is the entity which is currently attacking
-                this entity.
-            </p><br>
-
-            <p>
-                <br><span class="function"><span class="CYF"></span>BeforeDamageCalculation(<span class="CYK"></span> <span
-                class="entity"></span> attacker, <span class="CYK"></span> <span class="number"></span> damageCoeff)</span>
-                Happens before the damage calculation after pressing Z when attacking. You can easily use
-                <span class="term">SetDamage()</span> in this function and lots of other animations and such.
-                <br><br>
-                <span class="CYK"></span><span class="term">attacker</span> - Entity attacking this entity. Monsters can attack Players.<br>
-                <span class="CYK"></span><span class="term">damageCoeff</span> - Strength of the attack depending on how close the attack cursor is
-                to the square target. Value between 0 and 1, 0 being "Miss" and 1 being a perfect attack.
-            </p><br>
-
-            <p>
-                <br><span class="function"><span class="CYK"></span>HandleAnimationChange(<span class="string"></span> newAnim)</span>
-                This function runs every time this entity's animation is changed through <span class="term">SetCYKAnimation()</span>.
-                <br><br>
-                From inside this function, use <span class="term">return false</span> to prevent <span class="term">newAnim</span> from starting.
-                <br><br>
-                If you want to "replace" an animation with another, you must do this:
-
-                <div class="code-container">
-  <pre class="brush:lua;">function HandleAnimationChange(newAnim)
-    if newAnim == "Idle" and canspare then
-        SetCYKAnimation("Spareable")
-        return false
-    end
-end
-</pre>
-            </div>
-                <font style="color:#fff;text-decoration:underline">NOTE:</font> Calling <span class="term">SetCYKAnimation</span> from inside
-                this function will call <span class="term">HandleAnimationChange</span> again! Code responsibly, avoid infinite loops.
-            </p>
-
-            <hr> same animation as <span class="term">sprite</span>.
+                        display the same animation as <span class="term">sprite</span>.
                         <br><br>
                     <li><span class="userdata">sprite</span> <span class="term">sprite["f"]</span> - Masked sprite used to display several effects on the main sprite. Basically a 1x1px
                         sprite scaled by a lot. You don't want to use this, create your own mask.
@@ -372,11 +266,6 @@ end
             <h4>Entity Functions!!</h4><br>
 
             <p>
-                <span class="function"><span class="CYF"></span>SetDamage(<span class="number"></span> amount) [M/P]</span>
-                Set the amount of damage the entity will take the next time it is attacked. Can be negative.
-            </p><br>
-
-            <p>
                 <span class="function"><span class="CYF"></span> Move(<span class="number"></span> x, <span class="number"></span> y) [M/P]</span>
                 Moves the entity's sprite from its current position.
             </p><br>
@@ -392,9 +281,14 @@ end
             </p><br>
 
             <p>
+                <span class="function"><span class="CYF"></span>SetDamage(<span class="number"></span> amount) [M/P]</span>
+                Set the amount of damage the entity will take the next time it is attacked. Can be negative.
+            </p><br>
+
+            <p>
                 <span class="function"><span class="CYK"></span> Attack(<span class="entity"></span> target, <span class="number"></span> coeff = 1) [M/P]</span>
                 Damages the <span class="term">target</span> entity as the calling entity, by an amount of damage following
-                Deltarune's damage calculation formula.
+                <span class="OW"></span>Deltarune's damage calculation formula.
                 <br><br>
                 <span class="term">coeff</span> is a number representing how close the attack cursor is to the square target.<br>
                 It is a value between 0 and 1, 0 being "Miss" and 1 being a perfect attack.
@@ -402,6 +296,18 @@ end
                 You can use the function <span class="term">SetDamage()</span> to set the amount of damage the target entity will
                 receive if you need to deal a precise amount of damage to it.
             </p><br>
+
+            <p>
+                <span class="function"><span class="OW"></span> AddBubbleToTurn(<span class="string"></span> string) [M/P]</span>
+                Speech Bubble dialogues are now stored as a "queue", so that multiple entities may sequentally display bubbles.<br>
+                Here's the neat thing: Speech Bubbles can now be added to <span class="term">Players</span> as well! Bubbles will automatically be oriented towards the Players side as well.<br><br>
+
+                <span class="term">string</span> is the string to be appended to the current speech bubble queue. It will automatically be placed and oriented towards this Entity.<br><br>
+                
+                <h4>You may also call this function as <span class="term">CYK.AddBubbleToTurn(string, isPlayer, entityID)</span> from the entity's script if you'd like the speech bubble to be added to an enitity other than the current one.</h4>
+            </p><br><br>
+
+            
 
             <p>
                 <span class="function"><span class="CYK"></span> SetCYKAnimation(<span class="string"></span> animName) [M/P]</span>
