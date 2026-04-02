@@ -24,7 +24,7 @@ animations = {
                                                                                                    loop = "ONESHOT", posShift = { -20,  0 } }              },
     Down =          { { 0 },                                                             1,      { loop = "ONESHOT", heartShift = { -40, -50 } },          },
     EndBattle =     { { 0, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 10, 10, 11, 12, 13 },        2 / 15, { loop = "ONESHOT" }                                      },
-    Fight =         { { 0, 0, 1, 2, 3 },                                                 1 / 15, { loop = "ONESHOT", posShift = { 0, -2 } }                },
+    Fight =         { { 0, 0, 1, 2, 3 },                                                 1 / 15, { loop = "ONESHOT", posShift = { 0, -2 }, actionFrame=2 }                },
     Magic =         { { 0, 0, 1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10, 11 },                    1 / 14, { loop = "ONESHOT", posShift = { 0, -2 } }                },
     Power =         { { 0, 1, 1, 2, 3, 4 },                                              1 / 15, { loop = "ONESHOT", posShift = { 0, -2 } }                },
     Hurt =          { { 0 },                                                             .6,      { next = "Idle", heartShift = { -15, -20 } },             },

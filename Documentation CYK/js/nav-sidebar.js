@@ -53,9 +53,9 @@ function createSideBarItems(isIndexPage, currentPage) {
     }
 
     
-    addSectionHeader( "Frequently Checked")
+    addSectionHeader( "Frequently Viewed")
     addHeader("Text Objects", "cyf-text.html" )
-    addHeader("In-line Text effects", "api-text.html" )
+    addHeader("In-line Text Commands", "api-text.html" )
     addHeader("-", "-" )
     addHeader("Working with Sprites", "api-animation.html" )
     addHeader("-", "-" )
@@ -69,14 +69,14 @@ function createSideBarItems(isIndexPage, currentPage) {
     addHeader("-", "-" )
 
     addSectionHeader( "Setup and Usage Guide")
-    addHeader("Welcome", "documentation.html" )
+    addHeader("Welcome & Changelog", "documentation.html" )
     addHeader("Keyboard Controls", "controls.html" )
-    addHeader("Understanding your Files and Directories", "basic.html" )
     addHeader("How to read this documentation", "howtoread.html" )
-    addHeader("Engine and Debugging tools", "debugging.html" )
+    addHeader("Understanding your Files and Directories", "basic.html" )
     addHeader("Setting up the Encounter files", "encounters.html" )
-    addHeader("CYK's Events and States", "api-events.html" )
+    addHeader("Game Events and States", "api-events.html" )
     addHeader("Working with CYF's Scripts", "api-functions-script.html" )
+    addHeader("Engine and Debugging tools", "debugging.html" )
     addHeader("-", "-" )
 
     addSectionHeader( "Player and Monster Entities")
@@ -97,7 +97,7 @@ function createSideBarItems(isIndexPage, currentPage) {
     addSectionHeader( "DEFENDING phase, Arena and Bullets")
     addHeader("Wave Scripts", "waves.html" )
     addHeader("The Player('s Soul) Object", "waves-player.html" )
-    addHeader("The Bullet-Hell Arena", "waves-arena.html" )
+    addHeader("The Waves Arena", "waves-arena.html" )
     addHeader("Creating and Handling Bullets", "waves-bullet.html" )
     addHeader("The Pixel-Perfect Collision System", "cyf-ppcollision.html" )
     addHeader("-", "-" )

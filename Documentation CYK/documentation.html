@@ -43,7 +43,7 @@ it's w3c valid, at least
 
             <br>
             <p>If you're reading this, then it means you're using the Create your Kris's <span style="color:#0082ff;">+ Overworld</span>'s fork. 
-                For ease of use, some modifications have been made to pre-existing variables and functions, so check the
+                Some modifications have been made to pre-existing variables and functions, so check the Changelog
                 further below in order to know which. These descriptions have also been added throughout the documentation, 
                 so worry not! 
             </p>
@@ -55,8 +55,7 @@ it's w3c valid, at least
                 and tinker with them. You're free and encouraged to do so.
                 <p><span style="color:#aa0000;font-size:18px;"><b>However</b></span>, 
                     there is certain information about how the engine operates that you'll be better off knowing from the get-go. 
-                    This is what the <span class="term">Setup and Usage</span> guide is for. You'd do well to read it, in order to 
-                    prevent headaches in the long run!
+                    This is what the <span class="term">Setup and Usage</span> guide is for. You'd do well to read it! I went over the effort of cleaning things up and rearranging bits in the way I wish they'd been presented to me.
                 </p>
             </p>
             <hr> 
@@ -69,79 +68,66 @@ it's w3c valid, at least
                 </summary>
                 <div>
                 <p>
-                    <i><u>Basic setup</u></i><br>
-                    Explains the folder and file structure of CYK and mods created with it.
+                    <i><u>Well.</u></i><br>
                     <br><br>
 
-                    <i><u>Special Variables</u></i><br>
-                    Provides a reference for all variables, new and old, usable in every script in CYK,
-                    including the new entity scripts.
+                    <i><u>Uhm.</u></i><br>
+                    I kinda rearranged the whole documentation.
                     <br><br>
 
-                    <i><u>Text commands</u></i><br>
-                    A new command for face sprites was added, and <span class="term">[func]</span> was changed
-                    in an important way.
+                    <i><u>Don't worry.</u></i><br>
+                    If something isn't where you last saw it, <span class="term">[I]</span> made sure to let it known.
                     <br><br>
 
-                    <i><u>Game events</u></i><br>
-                    Some events have been changed, such as <span class="term">OnHit</span>, and some new events have been
-                    added.
+                    <i><u>Did you know?</u></i><br>
+                    Chapter's 3 and 4 released since the making of these <span class="CYK"></span> two <span class="OW"></span> libraries. No features from those chapters have nor will be added by me.
                     <br><br>
-
-                    <i><u>Misc. Functions</u></i><br>
-                    The function <span class="term">State</span> has been changed, and some new functions have been added.
-                    <br><br>
-
-                    <i><u>The Player Object</u></i><br>
-                    The Player object now only controls the red soul you use in the menus.<br>
-                    The new <span class="ref">Entity Object</span> controls Player characters.
-                    <br><br>
-
-                    <span class="CYK"></span> <i><u>The Entity Object</u></i><br>
-                    This section details everything you can do with the new Entity objects in CYK.
-                    <br><br>
-
-                    <i><u>The Script Object</u></i><br>
-                    Script objects are no longer used for Monster scripts.
-                    <br><br>
-
-                    <i><u>Wave Scripts</u></i><br>
-                    The Arena now has 3 new properties.
-                    <br><br>
-
-                    <span class="CYF"></span> <i><u>The Inventory Object</u></i><br>
-                    Created items can now target players or monsters as you please!
-                    <br><br>
-
-                    <i><u>Projectile management</u></i><br>
-                    Bullets have some extra variable properties, and the function <span class="term">OnHit</span> has been
-                    significantly altered.
-                    <br><br>
-
-                    <span class="CYK2"></span> <i><u>Chapter 2's New Features</u></i><br>
-                    Create Your Kris now supports all features introduced in Deltarune Chapter 2, bringing new functions and variables in the following pages:<br><br>
-                    <ul>
-                        <li>
-                            <u>Special Variables</u>
-                        </li>
-                        <li>
-                            <u>The Entity Object</u>
-                        </li>
-                    </ul>
                 </p>
                 </div>
             </details>
 
             <details open="">
                 <summary>
-                    <h3>* <span class="OW"></span> List of sections with new/changed content in the +OW library:</h3>
+                    <h3>* <span class="OW"></span> + Overworld's feature Changelog</h3>
                 </summary>
                 <div>
                 <p>
-                    <i><u>I'll get to it. Give me time.</u></i><br>
-                    ...
-                    <br><br>
+                     <i><u>Entities.</u></i>
+                    <ul>
+                        <li>Damage formula has been made accurate to Deltarune's.</li>
+                        <li>TP is stored by its Net value (0 to 250), rather than its % value.</li>
+                        <li>Speech Bubbles can now be added to Players. This meant some changes were required on how speech bubble dialogues are stored.</li>
+                    </ul>
+                    <i><u>Read the respective Entities section for details.</u></i><br><br>
+
+                     <i><u>CYKCore.</u></i>
+                    <ul>
+                        <li><i><u>"Encounter" file funcionality has been taken over by "Battle" files.</u></i><br> "Battle" files store the data and functions for each Encounter, which are then loaded during runtime. This allows mods to have more than one Encounter in them, without needing to end the mod!</li>
+                        <li>An additional <span class="term">SETUP</span> game State was added to the State function. It's now required in order to build the Encounter's battle UI and entities.</li>
+                        
+                        <li><span class="term">HandleCustomSpell</span> has been broken up into two functions: <span class="term">PrepareCustomSpell</span> and <span class="term">HandleCustomSpell</span>.<br>
+                        Same with <span class="term">HandleItem</span>: <span class="term">HandleItemDialogue</span> and <span class="term">HandleItem</span>.<br><br>
+                        One is called at the start of the Player's turn, the other is called once that Player's animation reaches its <span class="term">actionFrame.</span>
+                        </li>
+                    </ul>
+                    <i><u>Read the respective Entities section for details.</u></i><br><br>
+
+                    <i><u>Wave Scripts.</u></i>
+                    <ul>
+                        <li>The <span class="term">CreateProjectile</span> methods will initially look for sprites at the <span class="term">Sprites/Bullets/</span> directory.</li>
+                    </ul>
+
+                    <i><u>Polish.</u></i>
+                    <ul>
+                        <li>A certain <span class="term">StartSecondaryAnimation</span> function was added to CYKCore's Animation script. It takes care of starting up polish effects, such as the Heal green sparkles, the perfect-hit stars (since the old implementation was somewhat buggy), and the Spare fail/Pacify fail animations.<br> <i>I never added the Pacify animation...</i></li>
+
+                        <li>The Screenshake and Entity's hurt animations were made more accurate with Deltarune's.</li>
+
+                        <li>Susie's Rude Buster animation was made more accurate.</li>
+                    </ul>
+
                 </p>
+                
                 </div>
             </details>
 

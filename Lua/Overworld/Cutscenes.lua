@@ -210,7 +210,7 @@ return function(CYK)
                     self.actor[1].absx, self.actor[1].absy,  -- "Towards" position
                     2) -- Direction the party member will look at during the walk.
 
-                -- We don't need the actors anymore, so we send them home.
+                -- We don't need the actors anymore, so we "send them home".
                 self.actor[1].Remove()
                 self.actor[2].Remove()
                 self.actor = {}
@@ -229,5 +229,8 @@ return function(CYK)
         
     end
 
+
+
+    
     return self
 end

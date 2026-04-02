@@ -60,10 +60,10 @@ it's w3c valid, at least
             <div class="code-container">
    <pre class="brush: lua;">function HandleCustomCommand(command)
     if command == "DINNER" then
-        if ate_greens then -- ate_greens is a non-default variable, of course
-            currentdialogue = {"Ate\nYour\nGreens"}
+        if ate_greens then -- These were changed because of the + Overworld library.
+            AddBubbleToTurn("Ate\nYour\nGreens")
         else
-            currentdialogue = {"Eat\nYour\nGreens"}
+            AddBubbleToTurn("Eat\nYour\nGreens")
         end
         BattleDialog({"You pat your stomach.\nVegetoid offers a healthy meal."})
     end

@@ -55,16 +55,24 @@ randomdialogue = {
       "It's working."
 }
 
-hp = 1
+hp = 100
 atk = 24
 def = 2
 mag = 9001
-dialogbubble = "DRBubble"
-targetType = "all"
-check = "Check message goes here."
-canspare = false
-tired = false
+targetType = "single"
 
+canspare = false
+useMercyCounter=true
+sparebeg = -1
+
+tired = false
+isTiredWhenHPLow=true
+
+check = "Check message goes here."
+dialogbubble = "CH2Resize"
+
+
+-- From left to right: Frames, frame speed (1 second / X frames), other adjustments.
 animations = {
     Hurt      = { { 0 },                                           1     , { next = "Idle" }, true },
     Idle      = { { 0, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 1 / 15, { }              , true },
@@ -77,6 +85,13 @@ animations = {
             
             <h4>Monster-exclusive variables</h4>
             <br>
+
+             <h4><span class="OW"></span>NOTICE: Changes have been made to speech bubble dialogues. 
+                <br>You will not want to manually set <span class="term">currentdialogue</span> in response to an action performed by the player anymore.<br><br>
+                This also meant the properties <span class="term">currentdialogue</span> and <span class="term">dialogbubble</span> were placed in the Entity page instead.
+                <br><br>
+                Check out the Entity's <span class="term">AddBubbleToTurn()</span> function.<br><br>
+            </h4>
 
             <p><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">comments</span></span> A table storing this Monster's <span class="term">Flavor Text</span>, displayed during the PLAYERTURN phase, at the battle's bottom margin's text field.<br>
                 In order to display said text, you must use in tandem with the <span class="term">RandomEncounterText()</span> function in your
@@ -92,32 +107,6 @@ animations = {
                 <span class="CYK"></span> This table can contain tables of strings for multiple lines, single strings for single lines,
                 or a mix of both.
 			</p>
-
-            <h4><span class="OW"></span>NOTICE: Changes have been made to speech bubble dialogues. You will not want to manually set <span class="term">currentdialogue</span> in response to an action performed by the player anymore.<br>
-                Instead, check out the Entity's <span class="term">AddBubbleToTurn()</span> function.</h4>
-
-            <p>
-				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">currentdialogue</span>
-                </span>
-                The dialogue this monster will say next. This overrides the random dialogue and is meant for special actions (e.g. you hit Vegetoid's
-                green carrots after selecting Dinner from the ACT menu). This variable gets <i>cleared every time after it's read out in the ENEMYDIALOGUE phase</i>. This is done so you don't have to take care of managing it manually.
-			</p>
-
-            <p>
-				<br><span class="function"><span class="string"></span> <span class="term">dialogbubble</span></span>
-                The dialogue bubble's <span class="term">sprite</span> placed below the monster's speech dialogue, which also restricts the dialogue's available width. You may change it at a later time, just don't leave it nil.
-                <br>For a list of all possible options, check the <a href="../media/dialogoptions.png">dialog bubble names</a> chart.<br><br>
-                
-                <span class="OW"></span>Oh, hey! I built a special bubble that automatically resizes itself by adding in <span class="term">\nl</span> characters. To use it, set this property to <span class="term">"CH2Resize"</span>!
-
-                <br><br>Positioning of the bubbles is done automatically.
-			</p><br>
-
-            <p>
-                <span class="function"><span class="number"></span> <span class="term">bubbleOffsetX</span>, <span class="term">bubbleOffsetY</span></span></span> 
-				Offset of the bubble displayed by this entity during the state ENEMYDIALOGUE.<br>
-                Can be modified directly or using <span class="term">SetBubbleOffset()</span>.
-            </p><br>
 
 
             <p>
@@ -279,13 +268,6 @@ animations = {
             </p><br><br>
 
             <hr>
-
-            
-             <p>
-                <span class="function"><span class="CYF"></span> SetBubbleOffset(<span class="number"></span> x, <span class="number"></span> y) [M]</span>
-                Makes the enemy's dialogue bubble appear <span class="term">x</span> pixels horizontally and
-                <span class="term">y</span> pixels vertically relative to its original position.
-            </p><br>
 
             <p>
                 <span class="function"><span class="CYF"></span> SetSliceAnimOffset(<span class="number"></span> x, <span class="number"></span> y) [M]</span>

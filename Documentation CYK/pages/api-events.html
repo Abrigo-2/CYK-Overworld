@@ -52,14 +52,15 @@ it's w3c valid, at least
 
             <p>
                 <br><span class="function">Update()</span>
-                This function runs for every frame for all of the encounter, even during waves. For advanced users: the
+                This function runs for every frame for all of the encounter, even during waves.<br><br>
+                For advanced users: the
                 Update function is required to exist at the beginning of the encounter. If you define it at a later
                 point in time, it will not get executed.
             </p><br>
 
             <p>
                 <br><span class="function">EncounterStarting()</span>
-                Happens once when everything's done initializing but before any encounter actions start. You should do
+                Happens once when everything's done initializing but before any encounter actions start. <br>You should do
                 things like stopping the music here, or using <span class="term">State()</span> if you want to start the fight off with some
                 dialogue.
             </p><br>
@@ -81,25 +82,21 @@ it's w3c valid, at least
             </p><br>
 
             <p>
-                <br><span class="function">HandleSpare()</span>
+                <br><span class="function">HandleSpare(<span class="entity"></span> player, <span class="entity"></span> enemy)</span>
                 Happens when you select the Spare option from the Mercy menu, regardless of whether a monster is
                 spareable or not. This event fires <i>after</i> the sparing of monsters is completed. If you spare the
                 last enemy in the encounter, this function will not happen - the encounter is over at that point.
             </p><br>
 
             <p>
-                <br><span class="function">HandleItem(<span class="string"></span> item_ID, <span class="number"></span> position)</span>
-                Happens when you select an item from the item menu. <br>
-                <ul>
-                    <li><span class="term">item_ID</span>: The name of the item used, converted to all-caps.
-                    Similar to <span class="term">HandleCustomCommand</span> in monster scripts.</li>
-                    <li><span class="term">position</span>: The position of the item used in the player's inventory. The first item is number 1.</li>
-                </ul>
-                <br><span class="CYF"></span> In CYF, you can use the Inventory object to edit the player's inventory.
-                The items' names will be in caps, like with <span class="term">HandleCustomCommand()</span>.
+                <br><span class="function"><span class="OW"></span> HandleItemDialogue(<span class="entity"></span> user, <span class="luatable"></span> targets, <span class="string"></span> itemID)</span>
+                Happens when the Player's turn starts, and the player chose an Item as their turn's action.<br>
+
+                <br><span class="CYK"></span> The ItemID no longer comes in all-caps.
+
                 <div class="code-container">
-  <pre class="brush:lua;">function HandleItem(ItemID, position)
-    if ItemID == "DOGTEST2" then
+  <pre class="brush:lua;">function HandleItem(ItemID, position)  -- Outdated CYF excerpt.
+    if ItemID == "DogTest2" then
         BattleDialog({"You selected The Second Dog.", "You are truly great."})
     else
         BattleDialog({"You didn't select The Second Dog.", "You could've picked better."})
@@ -107,7 +104,16 @@ it's w3c valid, at least
     DEBUG("You chose item #" .. position .. " in your inventory.")
 end
 </pre>
-            </div>
+
+            <p>
+                <br><span class="function">HandleItem(<span class="entity"></span> user, <span class="luatablesolo"></span> targets, <span class="string"></span> itemID)</span></span>
+                Happens <span class="OW"></span>when the Player's Item animation reaches its <span class="term">actionFrame</span>.<br>
+                <ul>
+                    <li><span class="term">user</span>: The user of this item.</li>
+                    <li><span class="term">targets</span>: The targets of this item. Always comes as a table, even if there's only one target.</li>
+                    <li><span class="term">itemID</span>: The name of the item used.</li>
+                </ul>
+                <br><span class="CYK"></span> The ItemID no longer comes in all-caps.
             </p><br>
 
             <p>
@@ -195,7 +201,7 @@ end
             </p><br>
 
             <ul>
-                <li><span class="OW"></span><span class="term">SETUP</span> - The zeroeth state of an encounter. SETUP takes care of the transition between the Overworld and Encounter interfaces: It builds the encounter's UI, Entities and Background, then triggering the <span class="term">INTRO</span> state. (or skipping to the <span class="term">ACTIONSELECT</span> state if you set <span class="term">skipintro</span> to true.)
+                <li><span class="OW"></span><span class="term">SETUP</span> - The zeroeth state of an encounter. SETUP takes care of the transition between the Overworld and Encounter interfaces: It builds the encounter's UI, Entities and Background, then triggering the <span class="term">INTRO</span> state. (or skipping to the <span class="term">ACTIONSELECT</span> state if you set the Encounter's <span class="term">skipintro</span>[E/M/P/W] property to true.)
                 </li><br>
 
                 <li><span class="term">INTRO</span> - This is the first state CYK is in. It hides the main UI of the

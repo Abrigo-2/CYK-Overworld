@@ -159,19 +159,7 @@ it's w3c valid, at least
                 Can be modified directly or using <span class="term">SetDamageUIOffset()</span>.
             </p><br>
 
-            <p>
-                <span class="function"> <span class="term">Hurt(<span class="number"></span> damage, <span class="entity"></span> from)</span></span>
-                Removes a given amount of HP from this entity. The entity <span class="term">from</span> is used to determine the color
-                of the damage text.
-                <br><br>
-                Example: If you want an entity to hurt itself, call <span class="term">Hurt(damage, self)</span>.
-                <span class="term">self</span> is the current entity script, so it will hurt itself.
-            </p><br>
-
-            <p>
-                <span class="function"> <span class="term">Heal(<span class="number"></span> amount)</span></span>
-                Restores a given amount of HP to this entity. The entity's HP can't be higher than its Max HP.
-            </p><br>
+            
 
             <hr>
 
@@ -243,9 +231,17 @@ it's w3c valid, at least
                             <br><li><span class="string"></span> <span class="term">next</span></span>
                                 Next animation to start after the end of this one. Overrides <span class="term">loop</span> and sets it to
                                 <span class="term">ONESHOT</span>.</li>
+                            
+                            <br><li><span class="OW"></span><span class="string"></span> <span class="term">actionFrame</span></span>
+                                Used by the FIGHT, ITEM, MAGIC and SPARE animations, it tells the engine the frame in which it should <i>actually</i> perform the FIGHT/ITEM/MAGIC/SPARE action, (since it used to always perform the the action once the animation started/ended.)<br><br>
+
+                                By default, it is set to the last frame of the animation.
+                                </li>
+                            
                             <br><li><span class="luatable"><span class="number"></span></span> <span class="term">posShift</span></span>
                                 Contains two number values. Moves the entity's sprite by the first number value horizontally and by the second
                                 number vertically, for this animation.</li>
+                            
                             <br><li><span class="luatable"><span class="number"></span></span> <span class="term">heartShift</span></span>
                                 Only affects Players. Contains two number values. Moves the spawn point of the soul sprite by the first number
                                 value horizontally and by the second number vertically, for this animation.
@@ -261,6 +257,30 @@ it's w3c valid, at least
                     </li>
                 </ol>
 			</p>
+
+            <p>
+				<br><span class="function"><span class="luatable"><span class="string"></span></span> <span class="term">currentdialogue</span>
+                </span>
+                The current Speech Bubble dialogue for this entity. Overrides the random dialogue in monsters (Players have no random dialogues). This variable gets cleared <i>each time the ENEMYDIALOGUE phase ends</i>.<br>
+
+                <span class="OW"></span> You should not modify this property manually. Check <span class="term">AddBubbleToTurn</span> and <span class="term">InstantBubbleToTurn</span> further down below.
+			</p>
+
+            <p>
+				<br><span class="function"><span class="string"></span> <span class="term">dialogbubble</span></span>
+                The dialogue bubble's <span class="term">sprite</span> placed below the monster's speech dialogue, which also restricts the dialogue's available width. You may change it at a later time, just don't leave it nil.
+                <br>For a list of all possible options, check the <a href="../media/dialogoptions.png">dialog bubble names</a> chart.<br><br>
+                
+                <span class="OW"></span>Oh, hey! I built a special bubble that automatically expands itself by adding in <span class="term">\nl</span> characters in your dialogue. To use it, set this property to <span class="term">"CH2Resize"</span>!
+
+                <br><br>Positioning of the bubbles is done automatically.
+			</p><br>
+
+            <p>
+                <span class="function"><span class="number"></span> <span class="term">bubbleOffsetX</span>, <span class="term">bubbleOffsetY</span></span></span> 
+				Offset of the bubble displayed by this entity during the state ENEMYDIALOGUE.<br>
+                Can be modified directly or using <span class="term">SetBubbleOffset()</span>.
+            </p><br>
             
             <hr>
             <h4>Entity Functions!!</h4><br>
@@ -281,6 +301,23 @@ it's w3c valid, at least
             </p><br>
 
             <p>
+                <span class="function"> <span class="term">Hurt(<span class="number"></span> damage, <span class="entity"></span> from)</span></span>
+                Removes a given amount of HP from this entity. The entity <span class="term">from</span> is used to determine the color
+                of the damage text.
+                <br><br>
+                Example: If you want an entity to hurt itself, call <span class="term">Hurt(damage, self)</span>.
+                <span class="term">self</span> is the current entity script, so it will hurt itself.
+            </p><br>
+
+            <p>
+                <span class="function"> <span class="term">Heal(<span class="number"></span> amount, <span class="boolean"></span> ignoreAnim=false)</span></span>
+                Restores a given amount of HP to this entity, displays the amount, and ensures it doesn't exceed the Entity's Max HP.<br>
+
+                <span class="OW"></span> If <span class="term">ignoreAnim</span> is set true, the Green Healing Sparkles will not be shown on the entity.
+                
+            </p><br>
+
+            <p>
                 <span class="function"><span class="CYF"></span>SetDamage(<span class="number"></span> amount) [M/P]</span>
                 Set the amount of damage the entity will take the next time it is attacked. Can be negative.
             </p><br>
@@ -296,17 +333,6 @@ it's w3c valid, at least
                 You can use the function <span class="term">SetDamage()</span> to set the amount of damage the target entity will
                 receive if you need to deal a precise amount of damage to it.
             </p><br>
-
-            <p>
-                <span class="function"><span class="OW"></span> AddBubbleToTurn(<span class="string"></span> string) [M/P]</span>
-                Speech Bubble dialogues are now stored as a "queue", so that multiple entities may sequentally display bubbles.<br>
-                Here's the neat thing: Speech Bubbles can now be added to <span class="term">Players</span> as well! Bubbles will automatically be oriented towards the Players side as well.<br><br>
-
-                <span class="term">string</span> is the string to be appended to the current speech bubble queue. It will automatically be placed and oriented towards this Entity.<br><br>
-                
-                <h4>You may also call this function as <span class="term">CYK.AddBubbleToTurn(string, isPlayer, entityID)</span> from the entity's script if you'd like the speech bubble to be added to an enitity other than the current one.</h4>
-            </p><br><br>
-
             
 
             <p>
@@ -344,6 +370,8 @@ it's w3c valid, at least
                     
                 </ul>
             </p>
+
+
             <hr>
 
             <h3><span class="CYK"></span> Entity Event functions</h3>
@@ -401,6 +429,33 @@ end
 
             <br><span class="OW"></span>...that sounds like a pretty good propaganda poster.
             <hr>
+
+            <p>
+                <span class="function"><span class="OW"></span>AddBubbleToTurn(<span class="string"></span> string) [M/P]</span>
+                Speech Bubble dialogues are now stored as a "queue", so that multiple entities can sequentally display bubbles.<br>
+                Here's the neat thing: Speech Bubbles can now be added to <span class="term">Players</span> as well!
+                <br>Those Bubbles will automatically orient towards the Players side.<br><br>
+
+                <span class="term">string</span> is the string to be appended to the current Speech Bubble queue. It will automatically be placed and oriented towards this Entity.<br><br>
+                
+                <h4>You may also call this function as <span class="term">CYK.AddBubbleToTurn(string, isPlayer, entityID)</span> from the entity's script if you'd like the speech bubble to be added to an entity other than the current one.</h4>
+            </p><br><br>
+
+            <p>
+                <span class="function"><span class="OW"></span>InstantBubbleToTurn(<span class="string"></span> string) [M/P]</span>
+                Similarly to <span class="term">AddBubbleToTurn</span>, it places the <span class="term">string</span> <i>at the currently last spot of the queue.</i>.
+                <br>You may do this in order to have multiple characters interject a Bubble at the same time.<br><br>
+
+                To call it, you must've called <span class="term">AddBubbleToTurn</span> at least once before. The Speech Bubble queue can't set to an empty index, y'know.<br><br>
+                
+                <h4>You may also call this function as <span class="term">CYK.InstantBubbleToTurn(string, isPlayer, entityID)</span>.</h4>
+            </p><br><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> SetBubbleOffset(<span class="number"></span> x, <span class="number"></span> y) [M]</span>
+                Makes the enemy's dialogue bubble appear <span class="term">x</span> pixels horizontally and
+                <span class="term">y</span> pixels vertically relative to its original position.
+            </p><br>
 
 
         

@@ -33,7 +33,7 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "api-entity-player")</script>
+            <script type="text/javascript">createSideBarItems(false, "api-entity-player.html")</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
@@ -42,14 +42,14 @@ it's w3c valid, at least
             <br>
             <span class="function"><span class="CYK"></span> Player Entities!</span></span><br>
 
-            <p>Pretty important note: View <span class="term">UpdateUI</span> at the functions section! It'll be important if you change <span class="term">name</span>, <span class="term">playerColor</span> or <span class="term">hp</span> manually.
-            </p><br>
+            <h4>View <span class="term">UpdateUI</span> at the functions section!<br><br> It'll be important if you change <span class="term">name</span>, <span class="term">playerColor</span> or <span class="term">hp</span> manually.
+            </h4><br>
 
             <hr>
 
             <h5>Example of a Player script</h5>
             <div class="code-container">
-<pre class="brush: lua;">hp = 90
+<pre class="brush: lua;">hp = 1 -- There's no use setting this in the +OW library, but don't take it out.
 atk = 10
 def = 2
 mag = 0
@@ -60,6 +60,9 @@ playerColor = { 0, 1, 1 }
 atkBarColor = { 0, 0, .5 }
 damageColor = { 0, 162/255, 232/255 }
 
+dialogbubble = "DRBubble"
+
+-- From left to right: Frames, frame speed (1 second / X frames), other adjustments.
 animations = {
     Defend =        { { 0, 1, 2, 3, 4, 5 },                 1 / 15, { loop = "ONESHOT", heartShift = { -30, -30 }, targetShift = { -14, -22 } }, true },
     Down =          { { 0 },                                1,      { loop = "ONESHOT", heartShift = { -40, -50 } },                             true },
@@ -73,7 +76,7 @@ animations = {
     PrepareFight =  { { 0 },                                1,      { },                                                                         true },
     PrepareItem =   { { 0 },                                1,      { },                                                                         true },
     PrepareSpare =  { { 0, 1 },                             2 / 15, { },                                                                         true },
-    Spare =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 1 / 15, { next = "Idle" }                                                                 },
+    Spare =         { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 1 / 15, { actionFrame=5, next = "Idle" }          }, -- Notice the addition of the actionFrame property...
     SliceAnim =     { { 0, 1, 2 },                          2 / 15, { loop = "ONESHOTEMPTY" }                                                         },
 }</pre>
             </div>
@@ -169,7 +172,7 @@ animations = {
             <p>
                 <span class="function"><span class="CYK"></span> AddSpell(<span class="string"></span> name, <span class="string"></span> description,
                 <span class="number"></span> tpCost, <span class="string"></span> targetType) [P]</span>
-                Adds a usable spell with the name <span class="term">name</span>. Using this spell will use
+                Adds a usable spell with the name <span class="term">name</span>.<span class="OW"></span> Using this spell will use
                 <span class="term">tpCost</span> net amount of the TP bar, so it must be between 0 and 250.
                 <br><br>
                 You can add a short description to it using <span class="term">description</span>, and the parameter
@@ -206,11 +209,18 @@ animations = {
             <h3>Player Event functions</h3>
 
             <p>
-                <br><span class="function"><span class="CYK"></span> HandleCustomSpell(<span class="entity"></span> target,
+                <br><span class="function"><span class="CYK"></span> PrepareCustomSpell(<span class="entity"></span> target,
                 <span class="string"></span> spell)</span>
                 Happens at the beginning of this Player's turn, in the state <span class="term">PLAYERTURN</span>, if the Player
-                selected a MAGIC command during their action choice. This function is used to handle this Player's available SPELL
-                commands (also called <span class="term">abilities</span>).
+                selected a MAGIC command during their action choice.
+                <br><br>
+                You'll mostly use this function to set the Flavor Text by calling <span class="term">BattleDialog</span>.
+            </p>
+
+            <p>
+                <br><span class="function"><span class="CYK"></span> HandleCustomSpell(<span class="entity"></span> target,
+                <span class="string"></span> spell)</span>
+                Happens <i>once this Player's Magic animation reaches its <span class="term">actionFrame</span></i>. This is when the Player's action will <i>actually</i> be performed.
                 <br><br>
                 This works much like <span class="term">HandleCustomCommand()</span> except the spell doesn't have to be capitalized.
             </p>
@@ -220,8 +230,7 @@ animations = {
                 Happens in the state <span class="term">PLAYERTURN</span>, if it is currently this Player's turn and
                 <span class="term">WaitBeforeNextPlayerTurn()</span> has been called for this player.
                 <br><br>
-                Use <span class="term">EndPlayerTurn()</span> to end the turn, and go to the next Player's turn, or
-                have the enemies start attacking.
+                Use <span class="term">EndPlayerTurn()</span> to move onto the next Player's turn / next game's State.
             </p>
 
             <hr>

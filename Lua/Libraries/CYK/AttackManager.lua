@@ -176,6 +176,8 @@ return function(CYK)
                 if attackingPlayer == nil then return end
                 local player = CYK.players[attackingPlayer.playerID]
                 local enemy = player.target
+                
+                local isActionFrame = CYK.anims[player.sprite["anim"]][player.sprite["currAnim"]][3].actionFrame == player.sprite.currentframe
 
                 if attackingPlayer.done then
                     -- Nothing happens when it's done
@@ -185,8 +187,8 @@ return function(CYK)
                     if attackingPlayer.coeff > 0 then
                         CYK.SetAnim(enemy, "Idle")
                     end
-                -- Once this Player's "Fight" animation is complete
-                elseif attackingPlayer.stopped and player.sprite.animcomplete and attackingPlayer.done == nil then
+                -- Once this Player's "Fight" animation is complete 
+                elseif attackingPlayer.stopped and isActionFrame and attackingPlayer.done == nil then
                     attackingPlayer.done = false
                     player.UI.faceSprite.Set("CreateYourKris/Players/" .. player.sprite["anim"] .. "/UI/Normal")
                     
