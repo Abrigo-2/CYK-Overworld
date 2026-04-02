@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>CYK Documentation - Terminology</title>
+    <title>CYK Documentation - Blank Page</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -33,66 +33,41 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "terms.html")</script>
+            <script type="text/javascript">createSideBarItems(false, "_blank.html")</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
-        <div class="tab-pane active text-style" id="terms">
-            <h2>Terminology</h2><br><br>
+        <div class="tab-pane active text-style" id="documentation">
+            <h2>Blank Page</h2><br><br>
             <p>
-                <span class="function">arena</span>
-                The inside of the green box in which the player is allowed to move.
+                Intro paragraph.
             </p>
 
+            <hr>
+           
             <p>
-                <span class="function">bullet</span>
-                Everything in a wave that can collide with you. Flowey's pellets would be referred to as bullets,
-                but so would Papyrus' bones, anything Woshua can shoot (of any colour), even the dancing Migosp.
+                <span class="function">BlankFunction(<span class="string"></span></span> string) [E/M/P/W]</span>
             </p>
 
-            <p>
-                <span class="function">encounter text</span>
-                The text that shows up before you've selected FIGHT/ACT/ITEM/MERCY.
-            </p>
+            <p><br>
+                Description paragraph.
+            </p><br>
+            <div class="code-container">
+   <pre class="brush: lua;">function CodeExample(command)
+    if command == "DINNER" then
+        if true then -- These were changed because of the + Overworld library.
+            DEBUG("true")
+        else
+            DEBUG("false")
+        end
+    end
+end
+</pre>
+            </div>
 
-            <p>
-                <span class="function">monster dialogue</span>
-                Text from monsters in an encounter, often seen before attacking. Can also be multiple dialogue boxes
-                for special encounters.
-            </p>
 
-            <p>
-                <span class="function">dialog</span>
-                A user interface component that contains text. For example, the battle dialog window. The distinction
-                between "dialog" and "dialogue" is that "dialog" refers to interface windows containing text, and
-                "dialogue" refers to the speech content of monsters.
-            </p>
-
-            <p>
-                <span class="function">wave</span>
-                A single attack behaviour (or attack "wave", to say), measured from when you start defending until
-                when it stops. Vegetoid's bouncing vegetables attack would count as a wave. Papyrus' special Cool Dude
-                attack would also count as a wave. Unitale works with "wave scripts" for attacks; you can use multiple
-                wave scripts at the same time for when you have various monsters.
-            </p>
-
-            <p>
-                <span class="function"><span class="CYK"></span> entity</span>
-                A CYK object that replaces the monster scripts you would normally find in CYF.
-                It is also used to control Players.
-                <br><br>
-                These objects are just basic tables and can be treated as such, not like a script.
-                That is to say, you can directly use a function or variable from it like you'd usually do with tables.
-                <br><br>
-                For example, calling the function <span class="term">Attack()</span> from the first active Player can be
-                done like this:
-                <div class="code-container">
-                <pre class="brush: lua;">
-                players[1].Attack(enemies[1])
-                </pre>
-                </div>
-            </p>
+            <hr>
         </div>
 
         <div class="tab-pane text-style" id="mercy">

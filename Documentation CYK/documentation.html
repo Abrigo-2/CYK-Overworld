@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>CYK Documentation</title>
+    <title>CYK Documentation - Welcome.</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
     <link href="css/themesidebar.css" rel="stylesheet">
@@ -107,7 +107,9 @@ it's w3c valid, at least
                         
                         <li><span class="term">HandleCustomSpell</span> has been broken up into two functions: <span class="term">PrepareCustomSpell</span> and <span class="term">HandleCustomSpell</span>.<br>
                         Same with <span class="term">HandleItem</span>: <span class="term">HandleItemDialogue</span> and <span class="term">HandleItem</span>.<br><br>
-                        One is called at the start of the Player's turn, the other is called once that Player's animation reaches its <span class="term">actionFrame.</span>
+                        One is called at the start of the Player's turn, the other is called once that Player's animation reaches its <span class="term">actionFrame.</span><br><br>
+                        </li>
+                        <li>Related to the code above, <span class="term">HandleSpare</span>'s BattleDialog text is stored inside CYKCore. HandleSpare is called once the Player's SPARE animation reaches its <span class="term">actionFrame.</span>
                         </li>
                     </ul>
                     <i><u>Read the respective Entities section for details.</u></i><br><br>
@@ -115,6 +117,7 @@ it's w3c valid, at least
                     <i><u>Wave Scripts.</u></i>
                     <ul>
                         <li>The <span class="term">CreateProjectile</span> methods will initially look for sprites at the <span class="term">Sprites/Bullets/</span> directory.</li>
+                        <li>A <span class="term">CreateArenaSprite</span> method was added, inteded for making sprites during Waves that'll then be automatically freed at the end.</li>
                     </ul>
 
                     <i><u>Polish.</u></i>

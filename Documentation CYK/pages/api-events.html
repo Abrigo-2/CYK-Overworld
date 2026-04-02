@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>CYK Documentation - Game Events</title>
+    <title>CYK Documentation - Game Events &amp; Game States</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -84,8 +84,10 @@ it's w3c valid, at least
             <p>
                 <br><span class="function">HandleSpare(<span class="entity"></span> player, <span class="entity"></span> enemy)</span>
                 Happens when you select the Spare option from the Mercy menu, regardless of whether a monster is
-                spareable or not. This event fires <i>after</i> the sparing of monsters is completed. If you spare the
-                last enemy in the encounter, this function will not happen - the encounter is over at that point.
+                spareable or not.<br>
+                If you spare the last enemy in the encounter, this function will not happen - the encounter is over at that point.<br><br>
+
+                <span class="OW"></span> This event fires once the Player's animation reaches its <span class="term">actionFrame</span>. In order to change the SPARE action's BattleDialog code, you'll have to open up <span class="term">Libraries/CYK/CYKCore.lua</span>'s Confirm function.
             </p><br>
 
             <p>
