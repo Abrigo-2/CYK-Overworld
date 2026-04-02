@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>CYK Documentation - Controls Sheet</title>
+    <title>+OW Documentation - Overview</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -33,52 +33,41 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "controls.html")</script>
+            <script type="text/javascript">createSideBarItems(false, "owl-overview.html")</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
-        <div class="tab-pane active text-style" id="controls">
-            <h2>Controls</h2><br><br>
-
-            <p>These are mostly the same as in Undertale/Deltarune, save some added debugging controls. 
-                <br>For the sake of consistency, it's encouraged to respect said control scheme in your mods.</p><br>
+        <div class="tab-pane active text-style" id="documentation">
+            <h2>The + Overworld Library - Overview</h2><br><br>
             
-            <p><span class="function">Arrow/WASD keys</span>
-                Movement, for the Arena, UI, and the <span class="OW"></span>Overworld.
-            </p><br>
+            <p>Let's not waste any time:</p>
+            
+            <h4>The +Overworld Library includes the following, <span class="term">and only the following</span> features:</h4>
 
-            <p><span class="function">Z (or Enter)</span>
-                These act as the "Confirm" key.
-            </p><br>
+            <p><ul>
+                <li>Multiple encounter loading.</li>
+                <li>Textboxes and dialogues outside of Encounters.</li>
+                <li>Room switching and generation. (via the OgmoEditor tool)</li>
+                <li>Tileset generation. (also via the OgmoEditor)</li>
+            </ul></p>
 
-            <p><span class="function">X (or left/right Shift)</span>
-                These, in turn, act as the "Cancel" key.
-            </p><br>
+            <h4>If a desired behavior wasn't mentioned above, the library simply does not have it. </h4>
+            <p>
+                You'll have to implement it yourself.<br><br>
 
-            <p><span class="function"><span class="CYK"></span> C</span>
-                This allows for skipping over any Battle flavor text, speech bubbles, or <span class="OW"></span>Overworld textboxes.
-                <br><span class="OW"></span> Notice: This library doesn't have a Game Menu. Don't expect anything else from this key.
-            </p><br>
-
-            <p><span class="function">F4 / Alt+Enter</span>
-                Toggles Fullscreen on and off.
-            </p><br>
-
-            <p><span class="function">Esc</span>
-                Closes the current mod and boots back the Mod Selection screen.
-                <br><span class="CYK"></span>: if the encounter has "<span class="term">unescape</span>" set to true,
-                a "Quitting" prompt resembling that of Undertale will be shown before closure. The library code for this can be fiddled with.
-            </p><br>
-
-            <p><span class="function">F9</span>
-                Toggles the debug console. You can write text to this with <span class="term">DEBUG("your text here")</span>
-                in your scripts.
-            </p><br>
-
-            <p><span class="function"><span class="CYF"></span> H</span>
-                If the debug console is active, this'll show the hitboxes for the bullets and the player in the Arena.
+                This library is <u style="color:#ff0000">not meant to compete, overshadow, nor be an equal</u> to <a href="https://kristal.cc">the Kristal engine.</a>
             </p>
+
+            <hr>
+           
+            <p>Check out each respective section for further details:</p>
+
+            <p><br>
+                Description paragraph.
+            </p><br>
+
+            <hr>
         </div>
 
         <div class="tab-pane text-style" id="mercy">

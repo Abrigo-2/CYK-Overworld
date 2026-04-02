@@ -56,7 +56,6 @@ backgroundfade = true  -- Set this variable to false to disable the fade effect 
 possible_attacks = { }
 nextwaves = { "empty" }
 
-encounterLastLoaded = ""
 
 function indexOf(array, value)
     for i, v in ipairs(array.name) do
@@ -73,50 +72,18 @@ function EncounterStarting()
     -- Add the Overworld here....
     Overworld = (require "Overworld/OverworldCore")()
 
-    -- Volume. So the sound effects stand out.
-    Overworld.BGM.volumeMax = .45
-    NewAudio.SetVolume( "BGM", Overworld.BGM.volumeMax)
-
     -- Load the game's data saved at a previous Savepoint, if there's any.
-    if GetAlMightyGlobal("saveLocationName") ~= nil then
+    local defaultParty = {"OWKris", "OWRalsei", "OWSusie"}
 
-        Overworld.story = GetAlMightyGlobal("saveStoryProgress")
-        for i=1, #Overworld.storyFlags do
-            Overworld.storyFlags[i] = GetAlMightyGlobal("saveStoryFlag" .. tostring(i))
+    for i=1, 4 do  -- Max ammount of party members saved at the time. Change if you will.
+        local partyName = GetAlMightyGlobal( "saveParty" .. tostring(i) )
+        if partyName ~= nil and partyName ~= "" then
+            Overworld.party[i] = Overworld.allAvatars[partyName]
+        else
+            Overworld.party[i] = Overworld.allAvatars[defaultParty[i]]
         end
-
-        for i=1, 4 do  -- Max ammount of party members saved at the time. Change if you will.
-            local partyName = GetAlMightyGlobal( "saveParty" .. tostring(i) )
-            if partyName ~= "" then
-                Overworld.party[i] = Overworld.allAvatars[partyName]
-            end
-        end
-
-        Overworld.originID = 0  -- ID 0 is used specifically for the Savepoints!
-        Overworld.CreateRoom(GetAlMightyGlobal("saveRoom"))
-
-        Overworld.SaveObj.locationName = GetAlMightyGlobal("saveLocationName")
-        local str = Overworld.SaveObj.font .. Overworld.SaveObj.locationName
-        Overworld.SaveObj.location.SetText(str)
-
-        if GetAlMightyGlobal("saveBGM") ~= "nil" then
-            NewAudio.PlayMusic("BGM", GetAlMightyGlobal("saveBGM"), true, Overworld.BGM.volumeMax)  end
-    else
-        -- This should run if the player doesn't have a Save file, a.k.a, this is the first time they run this mod.
-        -- Consider this the spot to set your "New Game" variables.
-
-        Overworld.party[1] = Overworld.allAvatars["OWKris"] -- This will set your current party members. Can exceed 3! They just won't show up in battle.
-        Overworld.party[2] = Overworld.allAvatars["OWRalsei"]
-        --Overworld.party[3] = Overworld.allAvatars["OWGentle"]
-        
-        self.canControl = true  -- Set true so the player can move around from the get-go, as soon as the mod is loaded.
-
-        Overworld.originID = 1
-        Overworld.CreateRoom("Room1")
-
-        NewAudio.PlayMusic("BGM", "fields_requiem", true, Overworld.BGM.volumeMax) -- The starting Overworld's BGM track.
-        Overworld.BGM.name = "fields_requiem"
     end
+    Overworld.GeneratePartyBattleNames()
 
     -- Add the items, one by one. They don't need to be in the inventory.
     Inventory.AddCustomItem("Dark Candy", "Heals 40HP", 0, "Player")
@@ -126,74 +93,90 @@ function EncounterStarting()
     -- Rather than using Inventory.SetInventory, you'll have to use:
     OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"} -- This carries over your inventory after a fight.
 
+    Overworld.originID = 1
+    Overworld.CreateRoom("EmptyRoom")
+
+
+    -- This here loads the battle. To reduce lag, ensure "battleFile" and
+    -- the argument over here point towards the same file. 
+    Overworld.StartBattleIntro("Encounter-Only", false)
+
+
+
     -- For playtesting purposes...
     -- Uncoment these functions to mute the game's background music.
-    --[[
-    Overworld.BGM.volumeMax = 0
-    NewAudio.SetVolume("BGM", Overworld.BGM.volumeMax)
-    NewAudio.Stop( "BGM")
-    Audio.Volume(0)
-    --]]
-    
-
+    --Audio.Volume(0)
 end
 
 
 function Update()
+    ------------- Required by +OW
     if GetCurrentState() == "NONE" then Overworld.Update() end
     Overworld.UpdateBlur()
+    -------------
 end 
 
 
---#region Related to battles
-encounterFile = (require "Battles/Example")()
+-- Related to battles
+battleLastLoaded = "" -- Name of the last loaded Battle file.
+battleFile = (require "Battles/Encounter-Only")()
 
 -- In order to reduce lag, the enounter's file is *actually* loaded at Overworld.StartBattleIntro()
 function LoadBattleValues()
     pauseowmusic = false
-    if encounterFile.music ~= "none" then
+    if battleFile.music ~= "none" then
         pauseowmusic = true
-        Audio.LoadFile(encounterFile.music)
+        Audio.LoadFile(battleFile.music)
         Audio.Pause()
     end
 
     -- Overwrite CYK variables with the ones of the encounter.
-    encountertext       = encounterFile.encountertext
-    arenacolor          = encounterFile.arenacolor
-    arenarotation       = encounterFile.arenarotation
+    encountertext       = battleFile.encountertext
+    arenacolor          = battleFile.arenacolor
+    arenarotation       = battleFile.arenarotation
     
-    players             = encounterFile.players
-    playerpositions     = encounterFile.playerpositions
-    _enemies            = encounterFile.enemies
-    enemypositions      = encounterFile.enemypositions
+    players             = Overworld.partyNames  -- Notice the different argument here!!
+    playerpositions     = battleFile.playerpositions
+    _enemies            = battleFile.enemies
+    enemypositions      = battleFile.enemypositions
 
     if #players == 0 then
-        error(tostring(encounterFile.players[1]))
+        error("Empty Players table on Battle file Battle/" .. battleLastLoaded )
     end
 
-    background          = encounterFile.background
-    backgroundfade      = encounterFile.backgroundfade
-    skipintro           = encounterFile.skipintro or false
+    background          = battleFile.background
+    backgroundfade      = battleFile.backgroundfade
+    skipintro           = battleFile.skipintro or false
 
-    possible_attacks    = encounterFile.possible_attacks
+    possible_attacks    = battleFile.possible_attacks
 end
 
-function EnemyDialogueStarting() encounterFile.EnemyDialogueStarting()
+function EnemyDialogueStarting()    battleFile.EnemyDialogueStarting()
 end
 
-function EnemyDialogueEnding()  encounterFile.EnemyDialogueEnding()
+function EnemyDialogueEnding()      battleFile.EnemyDialogueEnding()
 end
 
 -- Called after the defense round ends
-function DefenseEnding()        encounterFile.DefenseEnding()
+function DefenseEnding()            battleFile.DefenseEnding()
 end
 
-function HandleSpare(player, enemy) 
-    encounterFile.HandleSpare(player, enemy)
+function HandleSpare(player, enemy)     battleFile.HandleSpare(player, enemy)
 end
 
-function EnteringState(newstate, oldstate) 
-    encounterFile.EnteringState(newstate, oldstate)
+function EnteringState(newstate, oldstate)  
+    if oldstate == "BEFOREDONE" then
+        unescape = false
+
+        -------
+        CYK.State("NONE")
+        CYK.EncunterWrapUp()
+        Overworld.isBattleOutro = false
+        -------
+
+        CYK.State("DONE")
+    end
+    battleFile.EnteringState(newstate, oldstate)
 end
 
 -- The code for this is run in two bits: *This* happens as soon as the player's turn begins.
@@ -207,7 +190,7 @@ function HandleItemDialogue(user, targets, itemID)
     end
 end
 
--- ...and *this* is called once the Item animation stops running.
+-- ...and *this* is called once the Item animation reaches the actionFrame.
 function HandleItem(user, targets, itemID, itemData)
     if itemID == "Dark Candy" then    targets[1].Heal(40)
     elseif itemID == "Dark Burger" then   targets[1].Heal(70)

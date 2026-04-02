@@ -47,18 +47,19 @@ it's w3c valid, at least
                 up how to work with Lua's and CYK's syntax as you go on.<br><br>
                 First off, we'll start with a quick overview of the scripts you'll be primarily working with:
                 <ul>
-                    <li><u>Monster files</u>: will contain information about your enemies, but the term "Monster" is most recurrent within the engine.
+                    <li><u>Monster files</u>: will contain information about your enemies, but the term <span class="term">Monster</span> is most recurrent within the engine.
                         Here, you'll set their stats, flavor text, dialogues shown via speech bubbles, sprite animations, and ACT behaviour.
                     </li><br>
                     <li><span class="CYK"></span> <u>Player files</u>: will contain information about your players. Here, you'll set things 
                         like their stats, sprite animations, spells and other sorts of custom behaviour.
                     </li><br>
                     <li><u>Encounter scripts</u>: The +Overworld library doesn't support multiple Encounter files. Ideally, you'll only
-                        ever need one. Adding more probably won't get you what you're looking for.
+                        ever need one. Adding more probably won't get you what you're looking for.<br>
+                        Although... It's a bit presumptious of me to assume I <i>know</i> what you're looking for, isn't it?
                     </li><br>
                     <li><span class="OW"></span> <u>Battle scripts</u>: will contain the involved monsters, players, wave scripts (which you can modify at
                         any point) and other behaviour that pertains that encounter in particular.<br>
-                        Whenever the term <b>Encounter</b> is thrown around, assume it's addressing <i>these</i> files instead.
+                        Whenever the term <span class="term">Encounter</span> is thrown around, assume it's addressing <i>these</i> files instead.
                     </li><br>
                     <li><u>Wave scripts</u>: Empirically known as the scripts that control those white bullets which spawn during the defending phase of the game.
                     </li><br>
@@ -69,21 +70,26 @@ it's w3c valid, at least
 
             <h3>Files and directories</h3><br>
 
-            <p>
+            <h4>
                 Whenever you're passing down a file as an argument to a function, say, <span class="term">CreateSprite()</span>, <span class="term">Audio.LoadFile()</span>
-                or an <b>include</b> statement, you mustn't add the file's extention. This is done for you by the engine.<br><br>
-            </p>
+                or an <span class="term">include</span> statement, you mustn't add the file's extention.
+            </h4>
+            <p>This is done for you by the engine</p><br>
 
             <h4>Scripts</h4>
             <p>
-                <b>Battle, Monster, Player and Wave</b> scripts are only loaded from within their respective <span class="term">Lua/</span> folders.
+                <span class="term">Battle, Monster, Player and Wave</span> scripts are only loaded from within their respective <span class="term">Lua/</span> folders.
                 <br><br>
                 <span class="CYK"></span> <span class="term">YOUR MOD/Lua/Libraries</span> comes with a folder named <span class="term">CYK</span> included.<br>
                 
                 <font style="color:#fff;text-decoration:underline">DO NOT DELETE ANYTHING IN THIS FOLDER!</font><br>
                 It is required for CYK's functionality. You're free to modify the library, for further enhanced or particular functionality to your mod.<br>
-                You can find a tutorial on Lua libraries/modules 
-                <a href="http://lua-users.org/wiki/ModulesTutorial">here</a>.
+                Here's a tutorial on 
+                <a href="http://lua-users.org/wiki/ModulesTutorial">Lua libraries/modules</a>.<br><br>
+
+                <span class="OW"></span> <span class="term">YOUR MOD/Lua/Libraries</span> also comes with a folder named <span class="term">Overworld</span>.<br>
+                <font style="color:#fff;text-decoration:underline">Please do not delete this folder, even if you don't plan on using the Overworld interface.</font><br>
+                The code is already coupled and dependecies will break.
             </p><br>
 
             <h4>Audio Files</h4>

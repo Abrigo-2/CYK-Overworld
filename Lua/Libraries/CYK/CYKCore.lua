@@ -1064,9 +1064,16 @@ return function ()
             self.Background.CreateBackground(background, backgroundfade)
 
             if pauseowmusic then  NewAudio.Pause("BGM") end
-            encounterFile.EncounterStarting()
+            battleFile.EncounterStarting()
 
             if skipintro then
+                for i=1, #enemies do
+                    enemies[i].MoveTo(
+                        enemypositions[i][1],
+                        enemypositions[i][2]
+                    )
+                end  
+
                 self.state = "INTRO"
                 self.State("ACTIONSELECT")
             else

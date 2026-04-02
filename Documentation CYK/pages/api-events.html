@@ -45,7 +45,12 @@ it's w3c valid, at least
             </p>
 
             <h3 style="color:#ff0000">NOTICE: Entity and Wave Events have been moved into their respective pages!</h3>
-            <br><p>This page will primarily focus on the Events relevant to the main gameplay loop.</p>
+            <br><p>This page will primarily focus on the Events relevant to the "Main Gameplay Loop".</p><br><br>
+
+            <h3 style="color:#a60000"><span class="OW"></span> NOTICE 2: This section no longer addresses "Encounter" files!</h3>
+            <p>It addresses <span class="term">Battle</span> files instead. These are functionally identical* to the Encounters you're familiar with.<br></p>
+
+            <h4 style="font-size: 0.75em;">They may not actually be "identical". Don't quote me on that.</h4>
 
             <hr>
             <h3>Encounter script events</h3>
@@ -56,12 +61,15 @@ it's w3c valid, at least
                 For advanced users: the
                 Update function is required to exist at the beginning of the encounter. If you define it at a later
                 point in time, it will not get executed.
+
+                <br><br>
+                <span class="OW"></span> Notice: <span class="term">Battle</span> files don't have an <span class="term">Update</span> function of their own. You'll need to borrow the Encounter's Update function.
             </p><br>
 
             <p>
                 <br><span class="function">EncounterStarting()</span>
-                Happens once when everything's done initializing but before any encounter actions start. <br>You should do
-                things like stopping the music here, or using <span class="term">State()</span> if you want to start the fight off with some
+                Happens <span class="OW"></span> once the the <span class="term">SETUP</span> game State is entered. Specifically, after the UI and Entities have been built, and before the <span class="term">INTRO</span> state is entered (or is skipped into ACTIONSELECT.)<br><br>
+                <span class="CYF"></span>You should do things like stopping the music here, or using <span class="term">State()</span> if you want to start the fight off with some
                 dialogue.
             </p><br>
 

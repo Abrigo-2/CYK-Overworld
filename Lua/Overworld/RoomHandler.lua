@@ -127,22 +127,6 @@ return function(self)
     function self.RoomExiting(roomCurrent, roomNext)
     end
 
-    -- You'll normally use this function to "hide" or "disable" an enemy after its given encounter.
-    function self.OnEncounterEnding(encounter)
-        local room = self.roomName
-        if (room =="Room1" and encounter == "WhatevertheGeek") then
-            NewAudio.PlayMusic("BGM",  "AUDIO_FROLIC",  true, 0.65)
-            self.story = 3
-        end
-
-        if (room =="hallway002" and encounter == "ming_cat") then
-            local kitty = self.FindObjectInRoom("CombatNode", 3)
-            kitty["sprite"].alpha = 0
-
-            self.story = 3
-            self.OnRoomSetup(room)
-        end
-    end
 
     -- Called whenever the player interacts with an Interactable trigger by pressing the Confirm button.
     -- Modify if you don't want to simply start a textbox.
@@ -186,6 +170,24 @@ return function(self)
         end
 
         self.TextBox.CreateTextbox( Overworld.Dialogues.getDialogue(self.roomName, pick) )
+    end
+
+
+    -- You'll normally use this function to "hide" or "disable" an enemy after its given encounter.
+    function self.OnEncounterEnding(encounter)
+        local room = self.roomName
+        if (room =="Room1" and encounter == "WhatevertheGeek") then
+            NewAudio.PlayMusic("BGM",  "AUDIO_FROLIC",  true, 0.65)
+            self.story = 3
+        end
+
+        if (room =="hallway002" and encounter == "ming_cat") then
+            local kitty = self.FindObjectInRoom("CombatNode", 3)
+            kitty["sprite"].alpha = 0
+
+            self.story = 3
+            self.OnRoomSetup(room)
+        end
     end
 
 end

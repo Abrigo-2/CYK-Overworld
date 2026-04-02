@@ -65,7 +65,10 @@ function createSideBarItems(isIndexPage, currentPage) {
     addHeader("-", "-" )
 
     addHeader("The Input Object", "api-functions-input.html" )
-    addHeader("Key List", "api-keys.html" )
+    addHeader("Input: Key List", "api-keys.html" )
+    addHeader("-", "-" )
+
+    addHeader("Items and Inventory", "cyf-inventory.html" )
     addHeader("-", "-" )
 
     addSectionHeader( "Setup and Usage Guide")
@@ -91,7 +94,6 @@ function createSideBarItems(isIndexPage, currentPage) {
     addHeader("The Time Object", "api-functions-time.html" )
     addHeader("Program's Window and Machine functions", "api-functions-windows.html" )
     addHeader("Camera and Screen functions", "api-functions-camera.html" )
-    addHeader("Items and Inventory", "cyf-inventory.html" )
     addHeader("-", "-" )
 
     addSectionHeader( "DEFENDING phase, Arena and Bullets")
@@ -101,6 +103,10 @@ function createSideBarItems(isIndexPage, currentPage) {
     addHeader("Creating and Handling Bullets", "waves-bullet.html" )
     addHeader("The Pixel-Perfect Collision System", "cyf-ppcollision.html" )
     addHeader("-", "-" )
+
+
+    addSectionHeader( "The +OW Library")
+    addHeader("Overview", "owl-overview.html" )
     
 
 }

@@ -5,6 +5,8 @@ _ENV = newENV
 -- Stats section
 hp = 110  -- The amount of hp for the player. 
 
+battleName = "Susie"  -- The name of the this player's entity within "CreateYourKris/Players"
+
 
 -- Movement section.
 -- The direction in which the player faces. Goes 1 to 4. (No diagonal support)

@@ -23,7 +23,9 @@ return function()
     self._ENV_BASE = _ENV_BASE
 
     self.allAvatars = {}  -- The list of every potential party member.
-    self.party = {}  -- The list of every *current* party members. Set manually.
+    self.party = {}  -- The list of all *current* party members. Set manually.
+
+    self.partyNames = {} -- The names of the currenty party members.
 
     require ("Libraries/Overworld/AvatarAnims")(self) 
     require ("Libraries/Overworld/AvatarManager")(self)
@@ -47,37 +49,77 @@ return function()
     self.cameraFollowPlayer = true -- Camera will follow the first party member.
     self.canControl = true   -- Whether the player can move and interact
 
-    --#region Battle Transition related
-    self.battleTransF = 0
 
-    self.isBattleIntro = false
-    self.isBattleOutro = false
+    function self.Update()
 
-    blurs = {}
-    function self.CreateBlurs(spawnX, spawnY, sprite)
-        local blur = CreateSprite( sprite, "Background")
-        blur.SetPivot(0.5, 0)
-        --blur.Scale(2, 2)
-        blur.MoveToAbs(spawnX, spawnY)
+        self.CutsceneObj.UpdateCutscene()
 
-        blur.alpha = 0.5
-        table.insert(blurs,blur)
+        -- Haha, funny story: I remember sketching diagrams on my notebooks about
+        -- how I'd make this code work. Fun times!
+        if #self.party > 0 and self.canControl then
+            self.UpdateFollowUps()
+            
+            self.Movement.UpdatePlayerMovement(self.party)
+            self.UpdatePlayerIdleAnim()
+
+            self.DetectRoomTriggers()
+        end
+
+        -- The camera will follow the player. No easing nor smoothing.
+        if #self.party > 0 and self.cameraFollowPlayer and GetCurrentState() == "NONE" then
+            local cameraPos = {x=self.party[1].sprite.absx, y=self.party[1].sprite.absy}
+
+            local width  = self.room.width  or 0
+            local height = self.room.height or 0
+            height = -height
+            
+            local borderX = math.clamp(cameraPos.x, 0+320,    width-320)
+            local borderY = math.clamp(cameraPos.y, height+240,   0-260)
+            
+            Misc.MoveCameraTo(borderX-320, borderY-220)
+        end
+
+
+        self.RoomUpdate(self.roomName)
+        
+        self.ApplyYSortToOverworldQueue(self.overworldYSortQueue)
+
+        -- Interfaces.
+        if self.SaveObj.state > 0 then
+            self.SaveObj.Update() end
+        -- This needs to go afterwards, lest something bad happens.
+        self.TextBox.UpdateTextbox()
+
+        self.UpdateRoomFadeout()
+        self.UpdateBGMFade()
+
+        self.UpdateBattleTransition()
     end
 
-    function self.UpdateBlur()
-        for i = 1, #blurs do
-            local blur = blurs[i]
-            if blur.isactive then
+    -- "Sortable entities are ordered in proximity to the camera." Duh, past me???
+    -- ... chill, future me.
+    function self.ApplyYSortToOverworldQueue(sortQueue)
+        local spritesToSort = {}
+        
+        if #sortQueue == 0 then return end
+        for i=1, #sortQueue do
+            -- Moves all sprites on queue to a lower layer
+            sortQueue[i].layer = "BackEntity"
+
+            -- If the sprites have a "ysort" property set to true, add them to the *actual* sorting table
+            local applicable = (sortQueue[i]["ysort"] ~= nil) and sortQueue[i]["ysort"] or false
+            if applicable then
+                table.insert(spritesToSort, sortQueue[i])  end
             
-                blur.alpha = blur.alpha - 1/48*Time.mult
-                if blur.alpha <= 0.21 then
-                    blur.Remove()
-                end
-            end
+        end
+
+        -- Then, order the sprites within said table by their Y value, then add them back into the layer from that order.
+        -- Changing their layers like this achieves the sorting effect.
+        table.sort(spritesToSort, function(a, b) return a.y > b.y end)
+        for i=1, #spritesToSort do
+            spritesToSort[i].layer = "OWEntities"
         end
     end
-
-    --#endregion
 
     -- Stop the party's Walk animation and take away control.
     function self.StopPlayer()
@@ -90,6 +132,7 @@ return function()
     end
 
     -- Swap the party member at a given place. You can even swap with nil!
+    -- ... a shame it isn't called "null", otherwise I could make a really funny nod here.
     function self.SwapPartyMember(placeInParty, memberName)
         
         -- Remove party member.
@@ -157,8 +200,55 @@ return function()
         self.party[placeInParty].beforePos.y = self.party[placeInParty].posY
 
         self.ApplyYSortToOverworldQueue(self.overworldYSortQueue)
+
+        self.GeneratePartyBattleNames()
     end
 
+    function self.GeneratePartyBattleNames()
+        self.partyNames = {}
+        for i=1, math.min(3, #self.party) do
+            if self.party[i] ~= "" then
+                table.insert(self.partyNames, self.party[i].battleName )
+            end
+        end
+    end
+
+
+
+
+
+    --#region Battle Transition related
+
+    self.battleTransF = 0
+
+    self.isBattleIntro = false
+    self.isBattleOutro = false
+
+    blurs = {}
+    function self.CreateBlurs(spawnX, spawnY, sprite)
+        local blur = CreateSprite( sprite, "Background")
+        blur.SetPivot(0.5, 0)
+        --blur.Scale(2, 2)
+        blur.MoveToAbs(spawnX, spawnY)
+
+        blur.alpha = 0.5
+        table.insert(blurs,blur)
+    end
+
+    function self.UpdateBlur()
+        for i = 1, #blurs do
+            local blur = blurs[i]
+            if blur.isactive then
+            
+                blur.alpha = blur.alpha - 1/48*Time.mult
+                if blur.alpha <= 0.21 then
+                    blur.Remove()
+                end
+            end
+        end
+    end
+
+    
     -- Starts a battle, with the intro OR without it
     function self.StartBattleIntro(encounter, playhorn)
         local playhorn = playhorn or true
@@ -169,8 +259,8 @@ return function()
 
         -- Load the Encounter from the Battle's folder.
         local file = "Battles/" .. encounter
-        encounterLastLoaded = encounter
-        encounterFile = require (file)()
+        battleLastLoaded = encounter
+        battleFile = require (file)()
         LoadBattleValues()
         
         if skipintro then
@@ -183,9 +273,11 @@ return function()
                     playerpositions[i][2]-2
                 )
             end
+
             State("SETUP")
             NewAudio.Pause("BGM")
         else
+            -- Skips the horn.
             self.battleTransF = playhorn and 0 or 29
             self.isBattleIntro = true
         end
@@ -203,7 +295,7 @@ return function()
         end
         self.lastBattleTrigger = nil
 
-        self.OnEncounterEnding(encounterLastLoaded)
+        self.OnEncounterEnding(battleLastLoaded)
     end
 
     function self.UpdateBattleTransition()
@@ -241,7 +333,7 @@ return function()
             end
             
             local placingTime = 15  -- The amount of frames it'll take to move the players into position.
-            -- + 30 accounts for the 30 frames it takes the horn to blare twice.
+            -- (+ 30) accounts for the 30 frames it took the horn to blare twice.
             if f > 30 and f <= 30+placingTime then
                 for i=1, #playerpositions do
                     if i <= #self.party then
@@ -298,7 +390,7 @@ return function()
                 NewAudio.SetVolume("BGM", self.BGM.volumeMax) end
             
             local placingTime = 22  -- The amount of frames it'll take to move the players into position.
-            -- + 1 accounts for...... (?????????)
+            -- (+ 1) accounts for...... (?????????)
             if f > 1 and f < placingTime then
                 for i=1, #playerpositions do
                     if i <= #self.party then
@@ -335,71 +427,9 @@ return function()
         self.UpdateBlur()
     end
 
-    -- "Sortable entities are ordered in proximity to the camera." Duh, past me???
-    function self.ApplyYSortToOverworldQueue(sortQueue)
-        local spritesToSort = {}
-        
-        if #sortQueue == 0 then return end
-        for i=1, #sortQueue do
-            -- Moves all sprites on queue to a lower layer
-            sortQueue[i].layer = "BackEntity"
+    --#endregion
+    
 
-            -- If the sprites have a "ysort" property set to true, add them to the *actual* sorting table
-            local applicable = (sortQueue[i]["ysort"] ~= nil) and sortQueue[i]["ysort"] or false
-            if applicable then
-                table.insert(spritesToSort, sortQueue[i])  end
-            
-        end
-
-        -- Then, order the sprites within said table by their Y value, then add them back into the layer from that order.
-        -- Changing their layers like this achieves the sorting effect.
-        table.sort(spritesToSort, function(a, b) return a.y > b.y end)
-        for i=1, #spritesToSort do
-            spritesToSort[i].layer = "OWEntities"
-        end
-    end
-
-    -- Update
-    function self.Update()
-        self.UpdateFollowUps()
-
-        self.CutsceneObj.UpdateCutscene()
-
-        --Movement related
-        if #self.party > 0 and self.canControl then
-            -- everything february 2022 me held dear.
-            self.Movement.UpdatePlayerMovement(self.party)
-            self.UpdatePlayerIdleAnim()
-
-            self.ApplyYSortToOverworldQueue(self.overworldYSortQueue)
-            self.DetectRoomTriggers()
-        end
-        self.RoomUpdate(self.roomName)
-
-        if self.SaveObj.state > 0 then
-            self.SaveObj.Update() end
-        -- This needs to go afterwards, lest something bad happens.
-        self.TextBox.UpdateTextbox()
-
-        -- The camera will follow the player. No easing or smoothing.
-        if #self.party > 0 and self.cameraFollowPlayer and GetCurrentState() == "NONE" then
-            local cameraPos = {self.party[1].sprite.absx, self.party[1].sprite.absy}
-
-            local width  = self.room.width  or 0
-            local height = self.room.height or 0
-            height = -height
-            
-            local borderX = math.clamp(cameraPos[1], 0+320,    width-320)
-            local borderY = math.clamp(cameraPos[2], height+240,   0-260)
-            
-            Misc.MoveCameraTo(borderX-320, borderY-220)
-        end
-
-        self.UpdateRoomFadeout()
-        self.UpdateBGMFade()
-
-        self.UpdateBattleTransition()
-    end
 
     return self
 end

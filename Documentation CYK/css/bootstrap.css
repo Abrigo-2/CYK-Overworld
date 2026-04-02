@@ -1186,9 +1186,13 @@ h6,
 .h6 {
   font-family: inherit;
   font-weight: 500;
-  line-height: 1.1;
+  line-height: 1.1em;
   color: inherit;
 }
+h4 {
+  line-height: 1.5em;
+}
+
 h1 small,
 h2 small,
 h3 small,

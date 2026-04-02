@@ -3,8 +3,10 @@ _ENV = newENV
 ----- DO NOT MODIFY ABOVE -----
 
 -- Stats section
-hp = 45  -- The amount of hp for the player. 
-maxhp = 70
+hp = 45  -- The amount of starting hp for the player. 
+maxhp = 70  -- The amount of hp for the player. If unspecified, uses hp above.
+
+battleName = "Ralsei"  -- The name of the this player's entity within "CreateYourKris/Players"
 
 
 -- Movement section.

@@ -5,6 +5,8 @@ _ENV = newENV
 -- Stats section
 hp = 1
 
+battleName = ""  -- The name of the this player's entity within "CreateYourKris/Players"
+-- Empty battleNames will be skipped.
 
 -- Movement section.
 -- The direction in which the player faces. Goes 1 to 4. (No diagonal support)
