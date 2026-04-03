@@ -13,5 +13,5 @@ Still a work in progress, strides are being made in documentation.
 
 # Credits
 - The field's overworld theme is called "Field's Requiem, Dreams Return" by **harpoon64**.
-- Movement and collision code ripped from the **CYK - MEOW**'s fork library.
+- Movement and collision code ripped from the **MEOW**'s fork library. (https://github.com/AllyTally/meow)
 - All contributors to the CYF and CYK engines for making my own library possible.
