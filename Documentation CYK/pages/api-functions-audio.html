@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>CYK Documentation - The Audio Object</title>
+    <title>CYK Docs - The Audio Object</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -41,42 +41,13 @@ it's w3c valid, at least
         <div class="tab-pane active text-style" id="api-functions-audio">
             <p>
                 <br><span class="function">The Audio object [E/M/P/W]</span>
-                The Audio object is used both for handling music and sound effects.
-                <br>CYK primarily uses it for the Encounter's background music, but in regards to sound effects,
+                The Audio object is used both for handling music and sound effects.<br><br>
+                
+                <span class="CYK"></span> uses it mostly for the Encounter's background music, but <span class="OW"></span>in regards to sound effects,
                 the NewAudio object's <span class="term">PlaySoundOnceThisFrame</span> global method tends to receive more use.
             </p>
 
             <hr>
-            <p>
-                <span class="function"><span class="number"></span> <span class="term">Audio.playtime</span></span>
-				Gets the current play position of the current music in seconds.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="number"></span> <span class="term">Audio.totaltime</span></span>
-				Gets the total length of the current music in seconds.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="term">Audio.Play()</span></span>
-				Plays the currently loaded music. Done automatically at the beginning of a fight.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="term">Audio.Stop()</span></span>
-				Stops the music. If you want a battle not to have music, call this in <span class="term">
-                EncounterStarting()</span>.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="term">Audio.Pause()</span></span>
-				Pauses the music.
-            </p><br>
-
-            <p>
-                <span class="function"><span class="term">Audio.Unpause()</span></span>
-				Unpauses the music if you previously paused it.
-            </p><br>
 
             <p>
                 <span class="function"><span class="term">Audio.Volume(<span class="number"></span> value)</span></span>
@@ -90,6 +61,24 @@ it's w3c valid, at least
 				Sets music pitch to given value. <span class="term">1.0</span> is default, <span class="term">2.0</span>
                 is twice the regular speed. Negative values play the music backwards. <span class="term">value</span> may
                 be between <span class="term"> -3.0</span> and <span class="term">3.0</span>.
+            </p>
+
+            <hr><br>
+
+            <p>
+                <span class="function"><span class="CYF"></span> <span class="boolean"></span> <span class="term">
+                Audio.isPlaying</span></span>
+				Returns true if the music is playing, or false if the music is stopped or paused.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="number"></span> <span class="term">Audio.playtime</span></span>
+				Gets the current play position of the current music in seconds.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="number"></span> <span class="term">Audio.totaltime</span></span>
+				Gets the total length of the current music in seconds.
             </p><br>
 
             <p>
@@ -100,17 +89,37 @@ it's w3c valid, at least
             </p><br>
 
             <p>
+                <span class="function"><span class="term">Audio.Play()</span></span>
+				Plays the currently loaded music. Done automatically at the beginning of a fight.
+            </p><br>
+
+            <p>
                 <span class="function"><span class="term">Audio.PlaySound(<span class="string"></span> filename,
                 <span class="CYF"></span> <span class="number"></span> volume = 0.65)</span></span>
 				Plays the sound from the Sounds folder titled <span class="term">filename.ogg</span> or <span class="term">
                 filename.wav</span>.
             </p><br>
 
+            <hr><br>
+
+
+            
             <p>
-                <span class="function"><span class="CYF"></span> <span class="boolean"></span> <span class="term">
-                Audio.isPlaying</span></span>
-				Returns true if the music is playing, or false if the music is stopped or paused.
+                <span class="function"><span class="term">Audio.Pause()</span></span>
+				Pauses the music.
             </p><br>
+
+            <p>
+                <span class="function"><span class="term">Audio.Unpause()</span></span>
+				Unpauses the music if you previously paused it.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="term">Audio.Stop()</span></span>
+				Stops the music. If you want a battle not to have music, call this in <span class="term">
+                EncounterStarting()</span>.
+            </p><br>
+            
 
             <p>
                 <span class="function"><span class="CYF"></span> <span class="term">Audio.StopAll()</span></span>
@@ -126,6 +135,9 @@ it's w3c valid, at least
                 <span class="function"><span class="CYF"></span> <span class="term">Audio.UnpauseAll()</span></span>
 				Unpauses all the audio sources.
             </p><br>
+
+            <hr><br>
+
 
             <p>
                 <span class="function"><span class="CYF"></span> <span class="term">Audio.SetSoundDictionary(

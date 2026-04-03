@@ -5,9 +5,13 @@ Several substantial and potentially undesirable changes are made in order to bet
 The original repository can be found here: https://github.com/RhenaudTheLukark/CreateYourKris
 
 
-NOTICE: This library will only work up to Create Your Frisk's 6.6.3 version. The latest (6.6.4) version breaks the library. It will be elaborated at **Compatibility_Report.md**
+NOTICE: This library will only work up to Create Your Frisk's 6.6.3 version. The latest (6.6.4) version breaks the library. It will be elaborated at **Compatibility_Report.md**.
 
 
 Still a work in progress, strides are being made in documentation.
 
-The field's overworld theme is called "Field's Requiem, Dreams Return" by **harpoon64**.
+
+# Credits
+- The field's overworld theme is called "Field's Requiem, Dreams Return" by **harpoon64**.
+- Movement and collision code ripped from the **CYK - MEOW**'s fork library.
+- All contributors to the CYF and CYK engines for making my own library possible.

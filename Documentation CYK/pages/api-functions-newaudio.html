@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>CYK Documentation - The NewAudio Object</title>
+    <title>CYK Docs - The NewAudio Object</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -51,6 +51,7 @@ it's w3c valid, at least
             </p>
 
             <hr>
+
             <p>
                 <span class="function"> NewAudio.CreateChannel(<span class="string"></span> name)</span></span>
 				Creates the audio channel <span class="term">name</span>.
@@ -66,62 +67,20 @@ it's w3c valid, at least
 				Checks if the audio channel <span class="term">name</span> exists.
             </p><br>
 
+            <hr><br>
+
+            
             <p>
-                <span class="function"><span class="string"> NewAudio.GetAudioName(<span class="string"></span> name)</span></span>
-				Gets the name and type of the audio clip currently playing in the channel <span class="term">name</span> as a string.<br>For example,
-                playing the sound <span class="term">dogsecret</span> in an audio channel and using this function on that channel would return the string
-                <span class="term">"sound:dogsecret"</span>.
+                <span class="function"> NewAudio.SetVolume(<span class="string"></span> name, <span class="number"></span> value)</span></span>
+				Sets the volume of the audio channel <span class="term">name</span>.
+                <br>0.75 is the default value.
             </p><br>
 
             <p>
-                <span class="function"><span class="number"> NewAudio.GetTotalTime(<span class="string"></span> name)</span></span>
-				Gets the length of time in seconds that an audio channel <span class="term">name</span>'s most recently played audio lasts for.
+                <span class="function"><span class="number"> NewAudio.GetVolume(<span class="string"></span> name)</span></span>
+				Gets the volume of the audio channel <span class="term">name</span>.
             </p><br>
 
-            <p>
-                <span class="function"><span class="number"> NewAudio.GetPlayTime(<span class="string"></span> name)</span> or
-                <span class="number"> NewAudio.GetCurrentTime(<span class="string"></span> name)</span></span>
-				Get the current play position of the current audio of this channel in seconds.
-            </p><br>
-
-            <p>
-                <span class="function"> NewAudio.PlayMusic(<span class="string"></span> name, <span class="string"></span> music,
-                <span class="boolean"></span> loop = false, <span class="number"></span> volume = 1)</span></span>
-					 Plays the music
-                <span class="term">music</span> on the channel <span class="term">name</span>.<br>
-                <span class="term">loop</span> tells the engine if it should loop the music or not;
-                <span class="term">volume</span> is the volume of the music.
-                <br><br>Songs played are loaded from your mod's <span class="term">Audio</span> folder, as ogg or wav files.
-            </p><br>
-
-
-            <p>
-                <span class="function"> NewAudio.PlaySound(<span class="string"></span> name, <span class="string"></span> sound,
-                <span class="boolean"></span> loop = false, <span class="number"></span> volume = 0.65)</span></span>
-					 Plays the sound
-                <span class="term">sound</span> on the channel <span class="term">name</span>.<br>
-                <span class="term">loop</span> tells the engine if it should loop the sound or not;
-                <span class="term">volume</span> is the volume of the sound.<br><br>
-                The default volume of sounds is <span class="term">0.65</span>.
-                <br><br>Sounds played are loaded from your mod's <span class="term">Sounds</span> folder, as ogg or wav files.
-            </p><br>
-
-
-            <p>
-                <span class="function"> NewAudio.PlayVoice(<span class="string"></span> name, <span class="string"></span> voice,
-                <span class="boolean"></span> loop = false, <span class="number"></span> volume = 0.65)</span></span>
-				Plays the voice <span class="term">voice</span> on the channel <span class="term">name</span>.<br>
-                <span class="term">loop</span> tells the engine if it should loop the voice or not; <span class="term">volume
-                </span> is the volume of the voice.<br><br>
-                The default volume of voices is <span class="term">0.65</span>.
-                <br><br>Voices played are loaded from your mod's <span class="term">Sounds/Voices</span> folder, as ogg or wav files.
-            </p><br>
-
-            <p>
-                <span class="function">PlaySoundOnceThisFrame(<span class="string"></span> sound)</span>
-				An utility function. Plays the given <span class="term">sound</span> on an individual channel 
-                for that sound alone.<br>
-            </p><br>
 
             <p>
                 <span class="function"> NewAudio.SetPitch(<span class="string"></span> name, <span class="number"></span> value)</span></span>
@@ -134,20 +93,91 @@ it's w3c valid, at least
 				Gets the pitch of the audio channel <span class="term">name</span>.
             </p><br>
 
+
+
+            <hr><br>
+
+
+
+             <p>
+                <span class="function"><span class="string"> NewAudio.GetAudioName(<span class="string"></span> name)</span></span>
+				Gets the name and type of the audio clip currently playing in the channel <span class="term">name</span> as a string.<br>For example,
+                playing the sound <span class="term">dogsecret</span> in an audio channel and using this function on that channel would return the string
+                <span class="term">"sound:dogsecret"</span>.
+            </p><br><br>
+
+
             <p>
-                <span class="function"> NewAudio.SetVolume(<span class="string"></span> name, <span class="number"></span> value)</span></span>
-				Sets the volume of the audio channel <span class="term">name</span>.
-                <br>0.75 is the default value.
+                <span class="function"><span class="boolean"> NewAudio.isStopped(<span class="string"></span> name)</span></span>
+				Checks if the audio channel <span class="term">name</span> is stopped.
+            </p><br>
+
+           
+
+            <p>
+                <span class="function"><span class="number"> NewAudio.GetTotalTime(<span class="string"></span> name)</span></span>
+				Gets the length of time in seconds that an audio channel <span class="term">name</span>'s most recently played audio lasts for.
             </p><br>
 
             <p>
-                <span class="function"><span class="number"> NewAudio.GetVolume(<span class="string"></span> name)</span></span>
-				Gets the volume of the audio channel <span class="term">name</span>.
+                <span class="function"><span class="number"> NewAudio.GetPlayTime(<span class="string"></span> name)</span> or<br>
+                <span class="number"> NewAudio.GetCurrentTime(<span class="string"></span> name)</span></span>
+				Get the current play position of the current audio of this channel in seconds.
+            </p><br><br>
+
+            <p>
+                <span class="function"> NewAudio.PlayMusic(<span class="string"></span> name, <span class="string"></span> music,
+                <span class="boolean"></span> loop = false, <span class="number"></span> volume = 1.0)</span></span>
+					Plays the <span class="term">music</span> on the <span class="term">name</span> channel.<br>
+                <ul>
+                <li><span class="term">volume</span> goes from 0 to 1 (decimal).</li>
+                </ul>
+
+                <h4>Music is loaded exclusively from your mod's <span class="term">Audio</span> folder, as ogg or wav files. You needen't include the extension.</h4><br>
+            </p>
+
+
+            <p>
+                <span class="function"> NewAudio.PlaySound(<span class="string"></span> name, <span class="string"></span> sound,
+                <span class="boolean"></span> loop = false, <span class="number"></span> volume = 0.65)</span></span>
+					 Plays a <span class="term">sound</span> on the <span class="term">name</span> channel.<br>
+                <ul>
+                <li><span class="term">volume</span> goes from 0 to 1 (decimal).</li>
+                </ul>
+
+                <h4>Sounds are loaded exclusively from your mod's <span class="term">Sounds</span> folder, as ogg or wav files. You needen't include the extension.</h4><br>
+            </p>
+
+
+            <p>
+                <span class="function"> NewAudio.PlayVoice(<span class="string"></span> name, <span class="string"></span> voice,
+                <span class="boolean"></span> loop = false, <span class="number"></span> volume = 0.65)</span></span>
+
+				Plays a <span class="term">voice</span> (short, stuttery beeps/quips) on the <span class="term">name</span> channel.<br>
+                <ul>
+                <li><span class="term">volume</span> goes from 0 to 1 (decimal).</li>
+                </ul>
+
+                <h4>Voices are loaded exclusively from your mod's <span class="term">Sounds/Voices</span> folder, as ogg or wav files. You needen't include the extension.</h4><br>
+            </p><br><br>
+
+            <p>
+                <span class="function">PlaySoundOnceThisFrame(<span class="string"></span> sound)</span>
+				An utility function. Plays the given <span class="term">sound</span> on an individual channel for that sound alone.<br>
             </p><br>
+
+            <hr><br>
+
+            
 
             <p>
                 <span class="function"> NewAudio.Play(<span class="string"></span> name)</span></span>
 				Plays the last sound played in the audio channel <span class="term">name</span>.
+            </p><br>
+
+            <p>
+                <span class="function"> NewAudio.SetPlayTime(<span class="string"></span> name, <span class="number"></span> value)</span></span>
+				Sets the track position of the audio channel <span class="term">name</span>'s audio, in seconds.
             </p><br>
 
             <p>
@@ -165,15 +195,11 @@ it's w3c valid, at least
 				Unpauses the audio in the channel <span class="term">name</span>.
             </p><br>
 
-            <p>
-                <span class="function"> NewAudio.SetPlayTime(<span class="string"></span> name, <span class="number"></span> value)</span></span>
-				Sets the track position of the audio channel <span class="term">name</span>'s audio, in seconds.
-            </p><br>
 
-            <p>
-                <span class="function"><span class="boolean"> NewAudio.isStopped(<span class="string"></span> name)</span></span>
-				Checks if the audio channel <span class="term">name</span> is stopped.
-            </p><br>
+
+            <hr><br>
+
+            
 
             <p>
                 <span class="function"> NewAudio.StopAll()</span></span>

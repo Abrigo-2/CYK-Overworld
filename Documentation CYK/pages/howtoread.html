@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>CYK Documentation - How to read this documentation</title>
+    <title>CYK Docs - How to read this documentation</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -47,25 +47,31 @@ it's w3c valid, at least
 
             <br>
             <p>
-                <span class="function">Screen.DispImg(<span class="string"></span> path, <span class="number"></span> posX, <span class="number"></span> posY, <span class="number"></span> ID = 0 )</span>
+                <span class="function"><span class="boolean"></span> Screen.DispImg(<span class="string"></span> path, <span class="number"></span> posX, <span class="number"></span> posY, <span class="number"></span> ID = 0 )</span>
             </p>
 
             <p><ul>
-                <li>The words separated via comas with no spaces in between are known as Arguments. When calling the function, 
-                    you must fill out each of them with a value that respects its given type.</li>
+                <li>The words separated via comas with no spaces in between are known as <i>Arguments</i>.</li><br>
                 <li>The highlighted words placed before the argument (such as <span class="string"></span>, <span class="number"></span>...)
-                indicate the argument's type. When calling the function, each filled out value must respect its given type. You'll encounter
-                errors otherwise. </li>
+                indicate the <i>Argument's Type</i>. When calling the function, each filled out value must respect its given type. You'll encounter
+                errors otherwise. </li><br>
                 <li>Consider the <span class="term">ID</span> argument. It's been written as <span class="term">ID = 0</span>, hasn't it?
                 What this means is the <span class="term">ID</span> argument has been given a <i>default value</i>. If you don't fill out said argument when
                 calling the function, its default value will be used instead. </li>
-            </ul></p>
+            </ul></p><br>
 
             <p>
                 For instance, you can call the following function as such without prompting any errors:<br><br>
                 <span class="function">Screen.DispImg("poseur", 320, 480)</span>
                 The <span class="term">ID</span> argument will simply be assumed as 0 if you do so.
-            </p>
+            </p><br><br>
+
+            <p>
+                <br>Have you noticed the <span class="boolean"></span> keyword placed right before the function? This indicates the function's <i>Return Type</i>. If you call the function as such:<br><br>
+
+                <span class="function">local result = Screen.DispImg("poseur", 320, 480)</span>
+                If the function runs succesfully, <span class="term">result</span> will now be a boolean value. (That is, either <span class="term">true</span> or <span class="term">false</span>).
+            </p><br>
 
             <hr>
             <h4>Considering a term's scope (E, M, P and W)</h4>
@@ -100,7 +106,7 @@ it's w3c valid, at least
                 has been set to true.<br><br>
 
                 <p>And, whenever you see a term or statement preeced by the <span class="OW"></span>  tag, it means that said adjustment is 
-                    exclusive to <i>my</i> library! The <span class="term">CYK + Overworld</span>'s library.
+                    exclusive to <i style="color: #0082ff;">my</i> library! The <span class="term">CYK + Overworld</span>'s library.
                 </p><br>
                 
                 The <span class="CYF"></span> tag was meant to indicate terms exclusive to Create your Frisk's engine, regarding Unitale.

@@ -118,7 +118,7 @@ span.OW {
     color: #0082ff;
 }
 span.OW::before {
-    content: " <+OW>";
+    content: " <OWL>";
 }
 
 span.CYK2 {
