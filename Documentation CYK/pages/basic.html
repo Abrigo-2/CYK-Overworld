@@ -74,7 +74,7 @@ it's w3c valid, at least
                 Whenever you're passing down a file as an argument to a function, say, <span class="term">CreateSprite()</span>, <span class="term">Audio.LoadFile()</span>
                 or an <span class="term">include</span> statement, you mustn't add the file's extention.
             </h4>
-            <p>This is done for you by the engine</p><br>
+            <p>This is done for you by the engine.</p><br>
 
             <h4>Scripts</h4>
             <p>
@@ -94,23 +94,24 @@ it's w3c valid, at least
 
             <h4>Audio Files</h4>
             <p>
-                Only the .wav and .ogg formats are supported.<br>
-                <b>Sound</b> effects must be located within their respective folder. <b>Voice</b> sound effects (those brief sputtering noises that 
+                <h4>Only the .wav and .ogg formats are supported.</h4><br>
+                <span class="term">Sounds/</span> must be located within the respective folder.<br> <span class="term">Voice</span> sound effects (those brief sputtering beeps/quips that 
                 play while the text is being shown) must be located within <span class="term">Sounds/Voices/</span>.<br>
-                <b>Song/Music</b> files, on the other hand, are solely located inside <span class="term">Audio/</span>.
+                <i>Songs, also referred to as Music</i> files, on the other hand, are solely located inside <span class="term">Audio/</span>.
             </p><br>
 
             <h4>Sprite files</h4>
             
             <p>
-                <p>They must be in the .png format, and will only load from their respective folder.<br>
+                <h4>They must be in the .png format, and will only load from the respective <span class="term">Sprites/</span> folder.</h4><br>
+                <p> 
                     Most of these sprites are manually scaled by 2 in order be adequately used. You may use a tool such as <span class="term">IrfanViewer</span>
                     to batch resize your files. Be careful handling it, though.
                 </p><br>
 
                 <span class="CYK"></span> Sprites for Players/Monsters must be located within <span class="term">Sprites/CreateYourKris/</span>.<br>
                 <br>
-                <span class="OW"></span> Sprites for Avatar must be located within <span class="term">Sprites/Overworld</span>.<br><br>
+                <span class="OW"></span> Sprites for Avatars must be located within <span class="term">Sprites/Overworld</span>.<br><br>
 
                 <p>
                     There is no spritesheet support in this engine, so every animation needs a separate folder containing all involved sprite frames.
@@ -119,6 +120,28 @@ it's w3c valid, at least
                     you'll put all your individual frames inside the folder <span class="term">YOURMOD/CreateYourKris/Players/Kris/Idle</span>.
                 </p><br>
             </p>
+
+            <hr>
+
+            <h3>Miscelaneous File/Directory functions</h3><br><br>
+
+            <p>
+                <span class="OW"></span> I actually just found out about this: You can call<br><br>
+                
+                <span class="function"><span class="boolean"></span> Misc.FileExists(<span class="string"></span> path) or<br><span class="boolean"></span> Misc.DirExists(<span class="string"></span> path)</span><br>
+
+                To check if a given File/Directory exists. <span class="term">Misc.FileExists</span> wasn't working well for me, though.
+                <br><br>
+                To list the directories within a given folder, you can call<br>
+
+                 <span class="function"><span class="boolean"></span> Misc.ListDir(<span class="string"></span> path)</span><br>
+
+                <br><br>
+
+            </p>
+
+
+
         </div>
 
         <div class="tab-pane text-style" id="mercy">

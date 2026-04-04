@@ -95,6 +95,13 @@ return function(CYK)
                         if i <= #Overworld.party then
                             partyName = Overworld.party[i].name end
                         SetAlMightyGlobal( "saveParty" .. tostring(i), partyName)
+
+                        SetAlMightyGlobal( "saveAvatarHP_" .. tostring(i), partyName)
+                    end
+
+                    -- Save HP of all avatars.
+                    for realI, v in pairs(Overworld.allAvatars) do
+                        SetAlMightyGlobal( "saveAvatarHP_" .. realI, Overworld.allAvatars[realI].maxhp)
                     end
 
                     SetAlMightyGlobal("saveLocationName", self.locationName)

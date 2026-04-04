@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>OWL Docs - Loading Dialogues</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "_blank.html", false)</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="documentation">
+            <h2>Textboxes - Loading Dialogues</h2><br><br>
+
+            <h4>You will need to create a room in your Encounter's <span class="term">EncounterStarting()</span> call.</h4>
+
+            <p>
+                This is non-negotiable. If you'd like to have all of your cutscene's dialogues and branches neatly organized within a JSON file, this is the quickest way to do so.<br>
+                <br>
+            </p><br>
+
+            <hr>
+
+            <p>
+                Each room within <span class="term">Overworld/Rooms</span> has a JSON Dialogue counterpart, located within <span class="term">Overworld/Dialogues</span>. <br>
+                Both files must share <i>the same name<i>.
+            </p>
+           
+            <p>
+                <span class="function">BlankFunction(<span class="string"></span> string) [E/M/P/W]</span>
+            </p>
+
+            <p><br>
+                Description paragraph.
+            </p><br>
+            <div class="code-container">
+   <pre class="brush: lua;">function CodeExample(command)
+    if command == "DINNER" then
+        if true then -- These were changed because of the + Overworld library.
+            DEBUG("true")
+        else
+            DEBUG("false")
+        end
+    end
+end
+</pre>
+            </div>
+
+
+            <hr>
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

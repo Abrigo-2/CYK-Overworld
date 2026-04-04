@@ -22,7 +22,9 @@ return function(self)
     -- Called every frame, right after detections for triggers.
     function self.RoomUpdate(roomName)
         if self.room.layers == nil then return end
+        --------- a failsafe.
         
+        -- Both rooms share the same code!
         if roomName == "Room1" or roomName == "Room4" then
             local poseur = Overworld.FindObjectInRoom("Triggers", 2)
             local running = poseur["sprite"] and poseur.isDetecting
@@ -58,7 +60,7 @@ return function(self)
     -- Here you may create aditional sprites for every room, using the objects added in Ogmo as a reference.
     function self.OnRoomSetup(roomName)
         if     roomName == "Room1" or roomName == "Room4" then
-            -- The poseur enemy that moves around the field.
+            -- The poseur enemy that moves around the field. Both rooms share the same code.
             local poseur = self.FindObjectInRoom("Triggers", 2)
             poseur["sprite"]    = CreateSprite("CreateYourKris/Monsters/Poseur/Idle/0", "OWEntities")
             poseur["sprite"].SetAnimation( 

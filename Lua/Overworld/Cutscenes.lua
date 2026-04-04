@@ -16,8 +16,9 @@ return function(CYK)
 
     self.actor = {}
 
-    self.startSpecialCustscene = false
-    self.startSpecialCustscene2 = false
+    self.startSpecialCustscene = {
+        false, false
+    }
 
     -- During your animations, you can use this to divide your code into "cuts", for ease of use. Feel free not to use it, though.
     function self.nextCutAt(lastframe)
@@ -65,20 +66,23 @@ return function(CYK)
 
             Overworld.story = 2
 
-        elseif self.startSpecialCustscene then
+        -- Try not to trip over the IDs.
+        elseif self.startSpecialCustscene[1] then
+            -- You can't store these functions into variables. They won't run.
             self.currentCutscene   = EncounterOnlyPreamb
             self.frame = 1
             self.cut = 1
-
-            self.startSpecialCustscene = false
-        elseif self.startSpecialCustscene2 then
+            
+            self.startSpecialCustscene[1] = false
+        
+        elseif self.startSpecialCustscene[2] then
             self.currentCutscene   = EncounterOnlyEpilogue
             self.frame = 1
             self.cut = 1
-
-            self.startSpecialCustscene2 = false
+            
+            self.startSpecialCustscene[2] = false
         end
-
+        --
     end
 
     function ClearingBreak()
@@ -252,7 +256,6 @@ return function(CYK)
             Overworld.cameraFollowPlayer = false
             Overworld.canControl = false
             Misc.MoveCameraTo(0, 0)
-            self.ToggleAvatars(0)
 
             self.actor[1] = CreateSprite("Overworld/Kris/Idle/2", "Entity")
             self.actor[1].SetPivot(0.5, 0)
@@ -299,9 +302,9 @@ return function(CYK)
                 self.actor[i].alpha = 1
             end
     
-        elseif self.frame == 20 then
+        elseif self.frame == 28 then
             self.Textbox("scene3")
-        elseif self.frame > 20 then
+        elseif self.frame > 28 then
             for i=1, #self.actor do
                 self.actor[i].alpha = 0
             end

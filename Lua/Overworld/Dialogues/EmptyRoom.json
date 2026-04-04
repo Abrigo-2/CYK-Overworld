@@ -1,13 +1,5 @@
 {
-        "scene1": ["[func:SetMugshot,Ralsei.Side]This really was an Undertale[w:8] +Overworld Library.",  [[], ["No", "scene2"], [] ,["Yes. Of course", "close"] ]],
+        "scene1": ["[func:SetMugshot,Gentle.Pout]I have a mouth I just don't feel like screaming.",  [[], ["One", "scene2"], [] ,["Two", "close"] ]],
 
-
-        "scene1-z": ["[func:SetMugshot,Ralsei.Normal]This really was an Undertale[w:8] +Overworld Library.",  [[], ["No", "scene2-z"], [] ,["Yes. Of course", "close"] ]],
-            
-        "scene2": ["[func:SetMugshot,Susie.Normal]Ok."],
-
-        "scene2-z":  ["[func:SetMugshot,Gentle.Shock][sound:gentle-quip2]"],
-
-        "scene3": ["[func:SetMugshot,Ralsei.Happy]We won, everyone!",  "[func:SetMugshot,Ralsei.Side]Now,[w:4] who's excited to do that all over again?",
-        [["Me! Me!", "scene3-redo"], [], ["Not me.", "scene3-done"], [] ]]
+        "scene2": ["[func:SetMugshot,Susie.Pout]Do you care? No? Okay then."] 
 }

@@ -74,7 +74,23 @@ function EncounterStarting()
     State("NONE")
 
     -- Add the Overworld here....
-    Overworld = (require "Overworld/OverworldCore")()
+    Overworld = (require "OverworldOptimized/OverworldCore")()
+
+    -- Since we're optimizing, you'll have to manually set the avatar data.
+    Overworld.SetAvatarProperties_Optimized("OWKris",   90, "Kris")
+    Overworld.SetAvatarProperties_Optimized("OWRalsei", 70, "Ralsei")
+    Overworld.allAvatars["OWRalsei"].hp = 45
+    Overworld.SetAvatarProperties_Optimized("OWSusie",  110, "Susie")
+    Overworld.SetAvatarProperties_Optimized("OWGentle", 123, "Gentle")
+
+    for realI, v in pairs(Overworld.allAvatars) do
+        local newhp = GetAlMightyGlobal( "saveAvatarHP_" .. realI)
+        
+        if newhp ~= nil then
+            Overworld.allAvatars[realI].maxhp = newhp
+            Overworld.allAvatars[realI].hp = newhp
+        end
+    end
 
     -- Load the game's data saved at a previous Savepoint, if there's any.
     local defaultParty = {"OWKris", "OWRalsei", "OWSusie"}
@@ -97,10 +113,6 @@ function EncounterStarting()
     -- Rather than using Inventory.SetInventory, you'll have to use:
     OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"} -- This carries over your inventory after a fight.
 
-    Overworld.canControl = false
-    Overworld.originID = 1
-    Overworld.CreateRoom("EmptyRoom")
-
 
     -- This here loads the battle. To reduce lag, ensure "battleFile" and
     -- the argument over here point towards the same file. 
@@ -109,7 +121,7 @@ function EncounterStarting()
 
     -- Added this to test how you may do a cutscene. Comment this and uncomment the previous
     -- line to have only the encounter.
-    Overworld.CutsceneObj.startSpecialCustscene = true
+    Overworld.CutsceneObj.startSpecialCustscene[1] = true
 
 
 
@@ -184,7 +196,7 @@ function EnteringState(newstate, oldstate)
         Overworld.isBattleOutro = false
         -------
 
-        Overworld.CutsceneObj.startSpecialCustscene2 = true
+        Overworld.CutsceneObj.startSpecialCustscene[2] = true
     end
     battleFile.EnteringState(newstate, oldstate)
 end

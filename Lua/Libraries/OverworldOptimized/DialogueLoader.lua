@@ -4,7 +4,7 @@ return function()
     
     self.allDialogues = {}
 
-    -- [[ Comment when optimizing.
+    --[[ Comment when optimizing.
 
     -- First, loads the path of every available dialogue file into the allDialogues table.
     -- Remember: These must have the same name as the Room they'll be used with!
@@ -45,10 +45,9 @@ return function()
     end
     --]]
 
-    --[[ Uncomment when optimizing.
     function self.ConvertDialoguesfromJson_Optimized()
         local jsonString = ""
-        local file = Misc.OpenFile("/Lua/Overworld/AllDialogues", "r")
+        local file = Misc.OpenFile("/Lua/Overworld/AllDialogues.json", "r")
         file = file.ReadLines()
         for i=1, #file do
             jsonString = jsonString .. file[i]
@@ -59,7 +58,7 @@ return function()
         self.allDialogues["AllDialogues"] = file
     end
 
-    
+    -- [[ Uncomment when optimizing.
     self.ConvertDialoguesfromJson_Optimized()
 
     function self.getDialogue(room, id)

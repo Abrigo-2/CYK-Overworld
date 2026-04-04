@@ -84,6 +84,12 @@ function EncounterStarting()
             Overworld.storyFlags[i] = GetAlMightyGlobal("saveStoryFlag" .. tostring(i))
         end
 
+        for realI, v in pairs(Overworld.allAvatars) do
+            local newhp = GetAlMightyGlobal( "saveAvatarHP_" .. realI)
+            Overworld.allAvatars[realI].maxhp = newhp
+            Overworld.allAvatars[realI].hp = newhp
+        end
+
         for i=1, 4 do  -- Max ammount of party members saved at the time. Change in Libraries/Overworld/SaveMechanism if you will.
             local partyName = GetAlMightyGlobal( "saveParty" .. tostring(i) )
             if partyName ~= "" then

@@ -59,133 +59,186 @@ return function(self)
     end
     self.ConvertRoomsfromJson()
 
-    -- Names a tile according to its adjacent tiles, e.g. it'll spout whether a tile is at the center, at the top right...
-    function self.FindTileAdjacence(tiledata, Xpos, Ypos)
-        local x = Xpos
-        local y = Ypos
-        local id = {empty = -1, full = 0}
-        local safedata = tiledata
-        -- Oh, this'll be fun.
-        --#region Checkers
-        -- Check if up/down exists
-        if safedata[y-1] == nil then
-            safedata[y-1] = {}
-        end
-        if safedata[y+1] == nil then
-            safedata[y+1] = {}
-        end
-        if safedata[y-1][Xpos] == nil then
-            safedata[y-1][Xpos] = id.empty
-        end
-        if safedata[y+1][Xpos] == nil then
-            safedata[y+1][Xpos] = id.empty
-        end
+    
+    -- Performs detections between the player's Avatar against all the triggers in the current room.
+    function self.DetectRoomTriggers()
+        -- This statement makes logically no sense, but it works, so. 
+        if not self.room.layers == nil then return end
 
-        -- Check if left/right exists
-        if safedata[Ypos][x-1] == nil then
-            safedata[Ypos][x-1] = id.empty
-        end
-        if safedata[Ypos][x+1] == nil then
-            safedata[Ypos][x+1] = id.empty
-        end
+        -- Scan every trigger and check whether to fire them.
+        local layer = self.room.layers["Triggers"]
+        for i=1, #layer.entities do
+            
+            local trigger = layer.entities[i]
+            local x = self.party[1].sprite.absx
+            local y = self.party[1].sprite.absy
 
-        -- Check if corners exists
-        if safedata[y-1][x-1] == nil then
-            safedata[y-1][x-1] = id.empty
-        end
-        if safedata[y-1][x+1] == nil then
-            safedata[y-1][x+1] = id.empty
-        end
-        if safedata[y+1][x-1] == nil then
-            safedata[y+1][x-1] = id.empty
-        end
-        if safedata[y+1][x+1] == nil then
-            safedata[y+1][x+1] = id.empty
-        end
-        --#endregion
 
-        -- Corners
-        if safedata[y-1][x-1] == id.empty 
-        and safedata[Ypos][x-1] == id.empty 
-        and safedata[y-1][Xpos] == id.empty 
-        
-        then    return "topleft"
+            -- The following triggers are only accounted for if player just pressed the Confirm button.
+            if Input.Confirm == 1 then
+                local direction = self.party[1].direction
+                
+                x = x + ( self.allDirectionsEnum[direction][1] * 26 )
+                y = y + ( self.allDirectionsEnum[direction][2] * 26 )
+                
+                y = y + (self.party[1].hitbox.height / 2)
 
-        elseif safedata[y-1][x+1] == id.empty 
-        and safedata[Ypos][x+1] == id.empty 
-        and safedata[y-1][Xpos] == id.empty 
-        
-        then    return "topright"
-        elseif safedata[y+1][x+1] == id.empty 
-        and safedata[Ypos][x+1] == id.empty 
-        and safedata[y+1][Xpos] == id.empty 
-        
-        then    return "bottomright"
-        elseif safedata[y+1][x-1] == id.empty 
-        and safedata[Ypos][x-1] == id.empty 
-        and safedata[y+1][Xpos] == id.empty 
-        
-        then    return "bottomleft"
-        
-        -- Not corners??
-        elseif safedata[Ypos][x-1] == id.empty then
-            return "right"
-        elseif safedata[Ypos][x+1] == id.empty then
-            return "left"
-        elseif safedata[y-1][Xpos] == id.empty then
-            return "bottom"
-        elseif safedata[y+1][Xpos] == id.empty then
-            return "top"
-        
-        -- Center
-        else
-            return "center"
+                -- I wanted to break these down into down into variables for readability, but that broke the code, so.
+                if  not ((x >= trigger.hitbox.x and x <= trigger.hitbox.x+trigger.width) 
+                and  (y <= trigger.hitbox.y and y >= trigger.hitbox.y-trigger.height)) then goto continue end
+            
+
+                -- The player is *in front of to the trigger*: Perform the trigger's action.
+                if trigger.name == "Interactable" and trigger.isDetecting then
+                    
+                    local nextDialogue = (trigger.checkedAmount[1] == 1) and 
+                        trigger.text or trigger.text .. "-" .. tostring(trigger.checkedAmount[1])
+                    
+                    -- Allow a trigger to have more dialogues the more times they are checked.
+                    if trigger.checkedAmount[1] < trigger.checkedAmount[2] then
+                        trigger.checkedAmount[1] = trigger.checkedAmount[1] + 1
+                    end
+
+                    self.HandleInteractable(nextDialogue)
+
+                    return
+                elseif trigger.name == "SavePoint" then
+                    Overworld.SaveObj.locationName = trigger.location
+
+                    if trigger.text == "" then -- No textbox: Skip to save menu.
+                        Overworld.SaveObj.Show()
+                        Overworld.SaveObj.active = true
+                    else
+                        Overworld.TextBox.CreateTextbox( self.Dialogues.getDialogue(self.roomName, trigger.text) )
+                        Overworld.TextBox.closingMode = Overworld.TextBox.closingModeEnum.toSavepoint
+                    end
+                    
+                    Audio.PlaySound("menu/snd_power")
+                    self.StopPlayer()
+
+                    return
+                end
+
+                ---
+            end
+            
+            -- The following triggers are always accounted for, whether the player presses Confirm or not.
+            if  not ((x >= trigger.hitbox.x and x <= trigger.hitbox.x+trigger.width) 
+                and  (y <= trigger.hitbox.y and y >= trigger.hitbox.y-trigger.height)) then goto continue end
+            
+            -- The player is *inside the trigger*: Perform the trigger's action.
+            if trigger.name == "Battle" then
+                if trigger.isDetecting then
+                    self.lastBattleTrigger = trigger
+
+                    trigger.isDetecting = false
+                    Overworld.StartBattleIntro(trigger.encounterName)
+                end
+                return
+            elseif trigger.name == "Door" then
+                self.originID = trigger.originID
+                self.StartSwitchTo(trigger.roomNext)
+
+                if trigger.nextBGM ~= "" then
+                    self.switchBGM(trigger.nextBGM)
+                end
+
+                self.RoomExiting(self.roomName, trigger.roomNext)
+            end
+            
+            ::continue::
         end
     end
 
+
+
+    -- Fades out the current track and queues the next.
     function self.switchBGM(audio)
-        if self.BGM.name == "nil" then
-            self.BGM.name = audio
-            
+        if self.BGM.name == "nil" then  -- Queue "silence" next.
+
             NewAudio.SetVolume("BGM", self.BGM.volumeMax)
-            NewAudio.PlayMusic("BGM",  self.BGM.name,  true, self.BGM.volumeMax)
-            
-        else
-            self.BGM.name = audio
+            NewAudio.PlayMusic("BGM",  audio,  true, self.BGM.volumeMax)
+        
+        else  -- Queue another track next.
 
             local bgm = NewAudio.GetAudioName("BGM"):gsub("music:", "")
             if not (bgm == "" or bgm == "empty") then
                 self.BGM.frame = 0
                 self.bgmFadeout = true
             end
-
         end
 
+        self.BGM.name = audio
     end
 
-    -- Fades the background music out. That is, from music to silence.
+    -- Updates the background music fadeout each frame. That is, from music to silence.
     function self.UpdateBGMFade()
-        if self.bgmFadeout then
-            self.BGM.frame = self.BGM.frame + 1
-            local f = self.BGM.frame
+        if not self.bgmFadeout then  return end
 
-            if f <= 4 then
-                --wait
-            elseif NewAudio.GetVolume("BGM") > 0 then
-                local volumeStep = self.BGM.volumeMax / 25
-                NewAudio.SetVolume("BGM", NewAudio.GetVolume("BGM") - volumeStep )
+        self.BGM.frame = self.BGM.frame + 1
+        local f = self.BGM.frame
+
+        if f <= 4 then
+            --wait
+        elseif NewAudio.GetVolume("BGM") > 0 then
+            local volumeStep = self.BGM.volumeMax / 25
+            NewAudio.SetVolume("BGM", NewAudio.GetVolume("BGM") - volumeStep )
+        else
+            self.bgmFadeout = false
+
+            if self.BGM.name == "stop" then
+                NewAudio.Stop( "BGM")
+                NewAudio.SetVolume("BGM", self.BGM.volumeMax)
             else
-                self.bgmFadeout = false
-
-                if self.BGM.name == "stop" then
-                    NewAudio.Stop( "BGM")
-                    NewAudio.SetVolume("BGM", self.BGM.volumeMax)
-                else
-                    NewAudio.SetVolume("BGM", self.BGM.volumeMax)
-                    NewAudio.PlayMusic("BGM",  self.BGM.name,  true, self.BGM.volumeMax)
-                end
-                self.BGM.name = "nil"
+                NewAudio.SetVolume("BGM", self.BGM.volumeMax)
+                NewAudio.PlayMusic("BGM",  self.BGM.name,  true, self.BGM.volumeMax)
             end
+            self.BGM.name = "nil"
+        end
+    end
+
+    function self.StartSwitchTo(room)
+        self.StopPlayer()
+
+        self.fader.MoveTo(Misc.cameraX, Misc.cameraY)
+        self.roomNext = room
+        
+        self.fadingFrame = 0
+        self.isFadeIn = true
+    end
+
+    function self.UpdateRoomFadeout()
+        if self.isFadeIn then
+            self.fadingFrame = self.fadingFrame + 1
+            local f = self.fadingFrame
+            if f < 22 then
+                self.fader.alpha = self.fader.alpha+0.05
+            end
+
+            if f == 28 then
+                self.DestroyCurrentRoom()
+                self.CreateRoom(self.roomNext)
+
+                self.fadingFrame = 0
+                self.isFadeIn = false
+                self.isFadeOut = true
+            end
+        elseif self.isFadeOut then
+            self.fadingFrame = self.fadingFrame + 1
+            local f = self.fadingFrame
+            self.fader.MoveTo(Misc.cameraX, Misc.cameraY)
+            if f < 22 then
+                self.fader.alpha = self.fader.alpha-0.05
+            end
+
+            if f == 4 then
+                Overworld.canControl = true end
+
+            if f == 24 then
+                self.fadingFrame = 0
+                self.isFadeOut = false
+            end
+
         end
     end
 
@@ -193,14 +246,9 @@ return function(self)
         local room = table.copy(self.allRooms[roomID])
 
         if room.values.hasBackground then
-            local background = "Assets/bg/" .. roomID
-            if  Misc.FileExists(background) then
-                self.BG = CreateSprite(background, "OWBackground")
-                self.BG.alpha = 1
-            else
-                self.BG = CreateSprite("px", "OWBackground")
-                self.BG.alpha = 0
-            end
+            local background = "Overworld/Assets/Background/" .. roomID
+            self.BG = CreateSprite(background, "OWBackground")
+            self.BG.alpha = 1
             self.BG.SetPivot(0,1)
             self.BG.MoveTo(0, 0)
         end
@@ -474,131 +522,8 @@ return function(self)
         self.spriteTrashQueue = {}
         self.room = {}
     end
-
-    function self.StartSwitchTo(room)
-        self.StopPlayer()
-
-        self.fader.MoveTo(Misc.cameraX, Misc.cameraY)
-        self.roomNext = room
-        
-        self.fadingFrame = 0
-        self.isFadeIn = true
-    end
-
-    function self.UpdateRoomFadeout()
-        if self.isFadeIn then
-            self.fadingFrame = self.fadingFrame + 1
-            local f = self.fadingFrame
-            if f < 22 then
-                self.fader.alpha = self.fader.alpha+0.05
-            end
-
-            if f == 28 then
-                self.DestroyCurrentRoom()
-                self.CreateRoom(self.roomNext)
-
-                self.fadingFrame = 0
-                self.isFadeIn = false
-                self.isFadeOut = true
-            end
-        elseif self.isFadeOut then
-            self.fadingFrame = self.fadingFrame + 1
-            local f = self.fadingFrame
-            self.fader.MoveTo(Misc.cameraX, Misc.cameraY)
-            if f < 22 then
-                self.fader.alpha = self.fader.alpha-0.05
-            end
-
-            if f == 4 then
-                Overworld.canControl = true end
-
-            if f == 24 then
-                self.fadingFrame = 0
-                self.isFadeOut = false
-            end
-
-        end
-    end
-
     
-    function self.DetectRoomTriggers()
-        if not self.room.layers == nil then return end
-        -- Scan every trigger and check whether they should be turned on.
-        local layer = self.room.layers["Triggers"]
-        for i=1, #layer.entities do
-            local trigger = layer.entities[i]
-            local x = self.party[1].sprite.absx
-            local y = self.party[1].sprite.absy
-
-
-            if Input.Confirm == 1 then
-                local direction = self.party[1].direction
-                
-                x = x + ( self.allDirectionsEnum[direction][1] * 26 )
-                y = y + ( self.allDirectionsEnum[direction][2] * 26 )
-                
-                y = y + (self.party[1].hitbox.height / 2)
-
-                if  not ((x >= trigger.hitbox.x and x <= trigger.hitbox.x+trigger.width) 
-                and  (y <= trigger.hitbox.y and y >= trigger.hitbox.y-trigger.height)) then goto continue end
-            
-                if trigger.name == "Interactable" and trigger.isDetecting then
-                    
-                    local nextDialogue = (trigger.checkedAmount[1] == 1) and 
-                        trigger.text or trigger.text .. "-" .. tostring(trigger.checkedAmount[1])
-                    
-                    -- Allow a trigger to have more dialogues the more times they are checked.
-                    if trigger.checkedAmount[1] < trigger.checkedAmount[2] then
-                        trigger.checkedAmount[1] = trigger.checkedAmount[1] + 1
-                    end
-
-                    self.HandleInteractable(nextDialogue)
-
-                    return
-                elseif trigger.name == "SavePoint" then
-                    Overworld.SaveObj.locationName = trigger.location
-
-                    if trigger.text == "" then
-                        Overworld.SaveObj.Show()
-                        Overworld.SaveObj.active = true
-                    else
-                        Overworld.TextBox.CreateTextbox( self.Dialogues.getDialogue(self.roomName, trigger.text) )
-                        Overworld.TextBox.closingMode = Overworld.TextBox.closingModeEnum.toSavepoint
-                    end
-                    
-                    Audio.PlaySound("menu/snd_power")
-                    self.StopPlayer()
-
-                    return
-                end
-            end
-            
-            -- The following triggers are always accounted for, whether the player presses Confirm or not.
-            if  not ((x >= trigger.hitbox.x and x <= trigger.hitbox.x+trigger.width) 
-                and  (y <= trigger.hitbox.y and y >= trigger.hitbox.y-trigger.height)) then goto continue end
-
-            if trigger.name == "Battle" then
-                if trigger.isDetecting then
-                    self.lastBattleTrigger = trigger
-
-                    trigger.isDetecting = false
-                    Overworld.StartBattleIntro(trigger.encounterName)
-                end
-                return
-            elseif trigger.name == "Door" then
-                self.originID = trigger.originID
-                self.StartSwitchTo(trigger.roomNext)
-
-                if trigger.nextBGM ~= "" then
-                    self.switchBGM(trigger.nextBGM)
-                end
-
-                self.RoomExiting(self.roomName, trigger.roomNext)
-            end
-            
-            ::continue::
-        end
-    end
+    
 
     -- Return an object in a particular layer of the current room, by using its id. You can find which id belongs where in Ogmo.
     function self.FindObjectInRoom(layer, id)
@@ -638,6 +563,91 @@ return function(self)
         end
     end
     self.talkingSprites = { }  -- Fixes a bug. You'll see.
+
+
+    -- Names a tile according to its adjacent tiles, e.g. it'll spout whether a tile is at the center, at the top right...
+    function self.FindTileAdjacence(tiledata, Xpos, Ypos)
+        local x = Xpos
+        local y = Ypos
+        local id = {empty = -1, full = 0}
+        local safedata = tiledata
+        -- Oh, this'll be fun.
+        --#region Checkers
+        -- Check if up/down exists
+        if safedata[y-1] == nil then
+            safedata[y-1] = {}
+        end
+        if safedata[y+1] == nil then
+            safedata[y+1] = {}
+        end
+        if safedata[y-1][Xpos] == nil then
+            safedata[y-1][Xpos] = id.empty
+        end
+        if safedata[y+1][Xpos] == nil then
+            safedata[y+1][Xpos] = id.empty
+        end
+
+        -- Check if left/right exists
+        if safedata[Ypos][x-1] == nil then
+            safedata[Ypos][x-1] = id.empty
+        end
+        if safedata[Ypos][x+1] == nil then
+            safedata[Ypos][x+1] = id.empty
+        end
+
+        -- Check if corners exists
+        if safedata[y-1][x-1] == nil then
+            safedata[y-1][x-1] = id.empty
+        end
+        if safedata[y-1][x+1] == nil then
+            safedata[y-1][x+1] = id.empty
+        end
+        if safedata[y+1][x-1] == nil then
+            safedata[y+1][x-1] = id.empty
+        end
+        if safedata[y+1][x+1] == nil then
+            safedata[y+1][x+1] = id.empty
+        end
+        --#endregion
+
+        -- Corners
+        if safedata[y-1][x-1] == id.empty 
+        and safedata[Ypos][x-1] == id.empty 
+        and safedata[y-1][Xpos] == id.empty 
+        
+        then    return "topleft"
+
+        elseif safedata[y-1][x+1] == id.empty 
+        and safedata[Ypos][x+1] == id.empty 
+        and safedata[y-1][Xpos] == id.empty 
+        
+        then    return "topright"
+        elseif safedata[y+1][x+1] == id.empty 
+        and safedata[Ypos][x+1] == id.empty 
+        and safedata[y+1][Xpos] == id.empty 
+        
+        then    return "bottomright"
+        elseif safedata[y+1][x-1] == id.empty 
+        and safedata[Ypos][x-1] == id.empty 
+        and safedata[y+1][Xpos] == id.empty 
+        
+        then    return "bottomleft"
+        
+        -- Not corners??
+        elseif safedata[Ypos][x-1] == id.empty then
+            return "right"
+        elseif safedata[Ypos][x+1] == id.empty then
+            return "left"
+        elseif safedata[y-1][Xpos] == id.empty then
+            return "bottom"
+        elseif safedata[y+1][Xpos] == id.empty then
+            return "top"
+        
+        -- Center
+        else
+            return "center"
+        end
+    end
 
 
 end

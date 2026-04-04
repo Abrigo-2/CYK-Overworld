@@ -28,12 +28,12 @@ return function()
     self.partyNames = {} -- The names of the currenty party members.
 
 
-    --[[ Uncomment when optimizing. 
+    -- [[Uncomment when optimizing. 
     require ("Libraries/OverworldOptimized/Util")(self)
     self.CreateAllAvatars_Optimized()
     --]]
 
-    -- [[ Comment when optimizing.
+    --[[ Comment when optimizing.
     require ("Libraries/Overworld/AvatarAnims")(self) 
     require ("Libraries/Overworld/AvatarManager")(self)
 
@@ -42,12 +42,15 @@ return function()
 
 
     self.TextBox = (require "Libraries/Overworld/TextboxManager")(self)
-    self.Dialogues = (require "Libraries/Overworld/DialogueLoader")() -- Contains the dialogue JSON data, which is stored per room.
+    self.Dialogues = (require "Libraries/OverworldOptimized/DialogueLoader")() -- Contains the dialogue JSON data in a single file.
 
     self.CutsceneObj = (require "Overworld/Cutscenes")(self)
 
+    self.roomName = ""
+    self.talkingSprites = {}
+
     
-    -- [[ Comment when optimizing.
+    --[[ Comment when optimizing.
     self.SaveObj = (require "Libraries/Overworld/SaveScreen")(self)
 
     self.overworldYSortQueue = {}   -- All entities that YSort will be aplied to
@@ -67,7 +70,7 @@ return function()
 
         self.CutsceneObj.UpdateCutscene()
 
-        -- [[ Comment when optimizing.
+        --[[ Comment when optimizing.
 
         -- Haha, funny story: I remember sketching diagrams on my notebooks about
         -- how I'd make this code work. Fun times!

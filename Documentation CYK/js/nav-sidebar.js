@@ -120,11 +120,12 @@ function createSideBarItems(isIndexPage, currentPage, displayingCYKDocs=true) {
         addHeader("-", "-" )
 
         addSectionHeader( "Textboxes and Dialogues")
-        addHeader("The Textbox Object", "owl-textboxes.html" )
+        addHeader("Loading Dialogues", "owl-textbox-data.html" )
+        addHeader("The Textbox Object", "owl-textbox.html" )
         addHeader("-", "-" )
 
         addSectionHeader( "Working with Rooms")
-        addHeader("Room Properties", "owl-rooms.html" )
+        addHeader("Room Properties & Functions", "owl-rooms.html" )
         addHeader("Interactions", "owl-rooms-interactions.html" )
         addHeader("Switching Rooms", "owl-rooms-switching.html" )
         addHeader("SavePoints", "owl-rooms-interactions.html" )

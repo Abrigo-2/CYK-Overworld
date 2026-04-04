@@ -170,7 +170,7 @@ return function(CYK)
                 
                 voiceinfo = speakerid:gsub("%[", "")
                 if self.speakerInfo[voiceinfo] == nil then
-                    error("Value " .. voiceinfo .. " wasn't set in speakerInfo. Make sure to check the TextboxManager script.")
+                    error("Value " .. voiceinfo .. " wasn't set in speakerInfo. Make sure to check the Overworld/RoomHandler script.")
                 else
                     voiceinfo = self.speakerInfo[voiceinfo]
                 end

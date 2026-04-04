@@ -4,7 +4,7 @@
   "height": 560,
   "offsetX": 0,
   "offsetY": 0,
-  "values": {"hasBackground": false},
+  "values": {"hasBackground": true},
   "layers": [
     {
       "name": "Assets",
