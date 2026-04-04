@@ -1066,7 +1066,20 @@ return function ()
             if pauseowmusic then  NewAudio.Pause("BGM") end
             battleFile.EncounterStarting()
 
-            if skipintro then
+            if optimizedForOneEncounter then
+                for i = 1, #self.players do
+                    self.players[i].sprite.alpha = 0    end
+                for i = 1, #self.enemies do
+                    self.enemies[i].sprite.alpha = 0    end
+                
+                for i=1, #enemies do
+                    enemies[i].MoveTo(
+                        enemypositions[i][1],
+                        enemypositions[i][2]
+                    )
+                end  
+                self.State("NONE")
+            elseif skipintro then
                 for i=1, #enemies do
                     enemies[i].MoveTo(
                         enemypositions[i][1],
@@ -1081,7 +1094,8 @@ return function ()
                     self.players[i].sprite.alpha = 0    end
                 for i = 1, #self.enemies do
                     self.enemies[i].sprite.alpha = 0    end
-                self.State("NONE") end
+                self.State("NONE") 
+            end
         elseif newState == "INTRO" then
             -- Play the Intro animation of each Player
             for i = 1, #self.players do

@@ -5,7 +5,7 @@ Several substantial and potentially undesirable changes are made in order to bet
 The original repository can be found here: https://github.com/RhenaudTheLukark/CreateYourKris
 
 
-NOTICE: This library will only work up to Create Your Frisk's 6.6.3 version. The latest (6.6.4) version breaks the library. It will be elaborated at **Compatibility_Report.md**.
+NOTICE: This library will only work up to Create Your Frisk's 6.6.3 version. The latest (6.6.4) version breaks the library (and, potentially, even CYK itself). It will be elaborated at **Compatibility_Report.md**.
 
 
 Still a work in progress, strides are being made in documentation.

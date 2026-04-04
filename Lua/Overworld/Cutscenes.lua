@@ -16,6 +16,9 @@ return function(CYK)
 
     self.actor = {}
 
+    self.startSpecialCustscene = false
+    self.startSpecialCustscene2 = false
+
     -- During your animations, you can use this to divide your code into "cuts", for ease of use. Feel free not to use it, though.
     function self.nextCutAt(lastframe)
         -- Will check every frame if lastframe has been exceeded. Then, it'll move on to the next frame.
@@ -61,6 +64,19 @@ return function(CYK)
             Overworld.canControl = false
 
             Overworld.story = 2
+
+        elseif self.startSpecialCustscene then
+            self.currentCutscene   = EncounterOnlyPreamb
+            self.frame = 1
+            self.cut = 1
+
+            self.startSpecialCustscene = false
+        elseif self.startSpecialCustscene2 then
+            self.currentCutscene   = EncounterOnlyEpilogue
+            self.frame = 1
+            self.cut = 1
+
+            self.startSpecialCustscene2 = false
         end
 
     end
@@ -228,6 +244,74 @@ return function(CYK)
         self.frame = self.frame + 1
         
     end
+
+    function EncounterOnlyPreamb()
+        if Overworld.TextBox.isActive then return end
+
+        if self.frame == 1 then
+            Overworld.cameraFollowPlayer = false
+            Overworld.canControl = false
+            Misc.MoveCameraTo(0, 0)
+            self.ToggleAvatars(0)
+
+            self.actor[1] = CreateSprite("Overworld/Kris/Idle/2", "Entity")
+            self.actor[1].SetPivot(0.5, 0)
+            self.actor[1].MoveTo(playerpositions[1][1]*2 - 15, playerpositions[1][2])
+
+            self.actor[2] = CreateSprite("Overworld/Ralsei/Idle/2", "Entity")
+            self.actor[2].SetPivot(0.5, 0)
+            self.actor[2].MoveTo(playerpositions[2][1]*2 - 8, playerpositions[2][2] + 8)
+
+            if GetAlMightyGlobal( "saveParty3" ) == "OWGentle" then 
+                self.actor[3] = CreateSprite("Overworld/Gentle/BattleIntro/1", "Entity")
+            else
+                self.actor[3] = CreateSprite("Overworld/Susie/Idle/2", "Entity")
+            end
+            
+            self.actor[3].SetPivot(0.5, 0)
+            self.actor[3].MoveTo(62*2 - 5, playerpositions[3][2] + 4 )
+    
+        elseif self.frame == 25 then
+            if GetAlMightyGlobal( "saveParty3" ) == "OWGentle" then 
+                self.Textbox("scene1-z")
+            else
+                self.Textbox("scene1")
+            end
+        
+        elseif self.frame > 61 then
+            for i=1, #self.actor do
+                self.actor[i].alpha = 0
+            end
+
+            self.currentCutscene   = nil
+
+            State("INTRO")
+        end
+
+        self.frame = self.frame + 1
+    end
+
+    function EncounterOnlyEpilogue()
+        if Overworld.TextBox.isActive then return end
+
+        if self.frame == 1 then
+            for i=1, #self.actor do
+                self.actor[i].alpha = 1
+            end
+    
+        elseif self.frame == 20 then
+            self.Textbox("scene3")
+        elseif self.frame > 20 then
+            for i=1, #self.actor do
+                self.actor[i].alpha = 0
+            end
+
+            self.currentCutscene   = nil
+        end
+
+        self.frame = self.frame + 1
+    end
+
 
 
 

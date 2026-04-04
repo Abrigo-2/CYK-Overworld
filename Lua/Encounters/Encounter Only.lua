@@ -52,6 +52,10 @@ background = false     -- Set this variable to false to disable the square-grid 
 backgroundfade = true  -- Set this variable to false to disable the fade effect on the background when entering a wave. Advised to keep as true.
 
 
+optimizedForOneEncounter = true  -- Loads and builds certain things as soon as the mod starts, rather than doing so at certain points.
+
+poseurStatsBoost = 1.0  -- For funsies. Make sure to remove it within Overworld.HandleChoice()
+
 -- A custom list with attacks to choose from. Actual selection happens in EnemyDialogueEnding(). Put here in case you want to use it.
 possible_attacks = { }
 nextwaves = { "empty" }
@@ -93,6 +97,7 @@ function EncounterStarting()
     -- Rather than using Inventory.SetInventory, you'll have to use:
     OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"} -- This carries over your inventory after a fight.
 
+    Overworld.canControl = false
     Overworld.originID = 1
     Overworld.CreateRoom("EmptyRoom")
 
@@ -100,6 +105,11 @@ function EncounterStarting()
     -- This here loads the battle. To reduce lag, ensure "battleFile" and
     -- the argument over here point towards the same file. 
     Overworld.StartBattleIntro("Encounter-Only", false)
+    --State("INTRO")
+
+    -- Added this to test how you may do a cutscene. Comment this and uncomment the previous
+    -- line to have only the encounter.
+    Overworld.CutsceneObj.startSpecialCustscene = true
 
 
 
@@ -135,7 +145,7 @@ function LoadBattleValues()
     arenacolor          = battleFile.arenacolor
     arenarotation       = battleFile.arenarotation
     
-    players             = Overworld.partyNames  -- Notice the different argument here!!
+    players             = table.copy(Overworld.partyNames)  -- Notice the different argument here!!
     playerpositions     = battleFile.playerpositions
     _enemies            = battleFile.enemies
     enemypositions      = battleFile.enemypositions
@@ -174,7 +184,7 @@ function EnteringState(newstate, oldstate)
         Overworld.isBattleOutro = false
         -------
 
-        CYK.State("DONE")
+        Overworld.CutsceneObj.startSpecialCustscene2 = true
     end
     battleFile.EnteringState(newstate, oldstate)
 end

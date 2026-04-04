@@ -22,8 +22,6 @@ self.no = nil              -- NO text for the choice
 
 self.cover2 = nil          -- Cover sprite used if the Player selects "NO"
 
-self.dawg = {false, nil}
-
 -- Text to be displayed on death
 self.text = {
     "IT APPEARS YOU\nHAVE REACHED[w:25]\n\n    [charspacing:0] [charspacing:13]AN [charspacing:0] [charspacing:11]END.",
@@ -217,12 +215,7 @@ function self.Update()
             -- Pressed Z after third line
             elseif self.textProgress == 3 and self.choice == false then
                 self.textObject.NextLine()
-                NewAudio.PlayMusic("src", "AUDIO_FROLIC", false)
-
-                self.dawg[2] = CreateSprite("Assets/lol", self.layer)
-                self.dawg[2].MoveTo(Misc.cameraX+320, Misc.cameraY+240)
-                self.dawg[2].alpha = 0
-                self.dawg[1] = true
+                NewAudio.PlayMusic("src", "AUDIO_DARKNESS", false)
             end
         end
 
@@ -230,9 +223,6 @@ function self.Update()
         if self.textProgress == 3 then
             -- The world was covered in darkness. Oopsies
             if self.choice == false then
-                local frames = (71*60)*4
-                self.dawg[2].alpha = self.dawg[2].alpha + 1/frames
-
                 if NewAudio.isStopped("src") then
                     self.EndAction()
                 end

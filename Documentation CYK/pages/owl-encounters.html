@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>OWL Docs - Overview</title>
+    <title>OWL - Docs: Breaking Changes</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -33,43 +33,41 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "owl-overview.html", false)</script>
+            <script type="text/javascript">createSideBarItems(false, "owl-encounters.html", false)</script>
         </nav>
     </div>
-    <!--tabs'n'stuff: get BlueNose'd ya goof!!!!!!!! -->
+    <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="documentation">
-            <h2><span class="OW"></span> The + Overworld Library - Overview</h2><br><br>
-            
-            <p>Let's not waste any time:</p> 
-            
-            <h4>The +Overworld Library includes the following, <span class="term">and only the following</span> features:</h4>
-
-            <p><ul>
-                <li>Multiple encounter loading.</li>
-                <li>Textboxes and dialogues outside of Encounters.</li>
-                <li>Room switching and generation. (via the OgmoEditor tool)</li>
-                <li>Tileset generation. (also via the OgmoEditor)</li>
-            </ul></p>
-
-            <h4>If a desired behavior wasn't mentioned above, the library simply does not have it. </h4>
+            <h2>OWL - Encounters: Breaking Changes</h2><br><br>
             <p>
-                You'll have to implement it yourself.<br><br>
-
-                This library is <u style="color:#ff0000">not meant to compete, overshadow, nor be an equal</u> to <a href="https://kristal.cc">the Kristal engine.</a>
+                Intro paragraph.
             </p>
 
             <hr>
            
-            <p>Check out each respective section for further details.<br><br>
-                Some may want to use only certain features of the library (such as the combat polish, loading multiple encounters or the cutscenes interface). For those, I've written the <span class="term">Optimizing for 1 Encounter</span> page, as well as the <span class="term">Encounter Only.lua</span> demo.
+            <p>
+                <span class="function">BlankFunction(<span class="string"></span> string) [E/M/P/W]</span>
             </p>
 
-            <hr>
-
-            <p>
-                Also, please make sure you've read the repository's <a href="../../README.md">README.md</a>, as it credits features that Weren't Just Me(tm), as well as a certain compatibility issue.
+            <p><br>
+                Description paragraph.
             </p><br>
+            <div class="code-container">
+   <pre class="brush: lua;">function CodeExample(command)
+    if command == "DINNER" then
+        if true then -- These were changed because of the + Overworld library.
+            DEBUG("true")
+        else
+            DEBUG("false")
+        end
+    end
+end
+</pre>
+            </div>
+
+
+            <hr>
         </div>
 
         <div class="tab-pane text-style" id="mercy">

@@ -366,7 +366,7 @@ return function(CYK)
         local sidePositions = {
             {296, 112},
             {486, 78},
-            {224, 36},
+            {296, 36},
             {62,  78}
         }
 

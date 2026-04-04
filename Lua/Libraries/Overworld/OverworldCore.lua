@@ -30,18 +30,20 @@ return function()
     require ("Libraries/Overworld/AvatarAnims")(self) 
     require ("Libraries/Overworld/AvatarManager")(self)
 
-    self.Movement = (require "Libraries/Overworld/Movement")() 
-    self.TextBox = (require "Libraries/Overworld/TextboxManager")(self)
+    self.Movement = (require "Libraries/Overworld/Movement")() -- The movement code used by Avatars.
 
+    self.TextBox = (require "Libraries/Overworld/TextboxManager")(self)
+    self.Dialogues = (require "Libraries/Overworld/DialogueLoader")(self) -- Contains the dialogue JSON data, which is stored per room.
+
+    self.CutsceneObj = (require "Overworld/Cutscenes")(self)
+
+    
     self.SaveObj = (require "Libraries/Overworld/SaveScreen")(self)
 
     self.overworldYSortQueue = {}   -- All entities that YSort will be aplied to
     require ("Libraries/Overworld/OgmoEditor")(self)
     require ("Overworld/RoomHandler")(self)
 
-    self.Dialogues = (require "Libraries/Overworld/DialogueLoader")(self)
-
-    self.CutsceneObj = (require "Overworld/Cutscenes")(self)
     
     self.story = 1           -- Keeps track of sequential events.
     self.storyFlags = { 0 }  -- Hard to explain. Think of it like this: It keeps track of non sequential events.
@@ -257,6 +259,16 @@ return function()
         self.cameraFollowPlayer = false
         self.canControl = false
 
+        if optimizedForOneEncounter then
+            local file = "Battles/" .. encounter
+            battleLastLoaded = encounter
+            battleFile = require (file)()
+            LoadBattleValues()
+
+            State("SETUP")
+            return
+        end
+        
         -- Load the Encounter from the Battle's folder.
         local file = "Battles/" .. encounter
         battleLastLoaded = encounter

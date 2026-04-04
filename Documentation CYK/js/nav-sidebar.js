@@ -112,9 +112,27 @@ function createSideBarItems(isIndexPage, currentPage, displayingCYKDocs=true) {
     else {
 
         addHeader("<<< Swap to CYK Documentation >>>", "documentation.html" )
+        addHeader("-", "-" )
 
         addSectionHeader( "The +OW Library")
         addHeader("Overview", "owl-overview.html" )
+        addHeader("Optimizing for 1 Encounter", "owl-encounters.html" )
+        addHeader("-", "-" )
+
+        addSectionHeader( "Textboxes and Dialogues")
+        addHeader("The Textbox Object", "owl-textboxes.html" )
+        addHeader("-", "-" )
+
+        addSectionHeader( "Working with Rooms")
+        addHeader("Room Properties", "owl-rooms.html" )
+        addHeader("Interactions", "owl-rooms-interactions.html" )
+        addHeader("Switching Rooms", "owl-rooms-switching.html" )
+        addHeader("SavePoints", "owl-rooms-interactions.html" )
+        addHeader("Tileset Properties", "owl-rooms-tilesets.html" )
+        addHeader("-", "-" )
+
+        addHeader("Avatars", "owl-avatars.html" )
+        
 
     }
 

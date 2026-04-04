@@ -153,6 +153,24 @@ return function(self)
             return
         end
         
+        if pick == "scene3-redo" then
+            Overworld.StartBattleIntro("Encounter-Only", false)
+            Overworld.CutsceneObj.currentCutscene()
+            
+            poseurStatsBoost = poseurStatsBoost + 0.333
+
+            enemies[1].atk = enemies[1].atk * poseurStatsBoost
+            enemies[1].maxhp = enemies[1].maxhp * poseurStatsBoost
+            enemies[1].hp = enemies[1].maxhp
+
+            State("INTRO")
+            return
+        elseif pick == "scene3-done" then
+            State("DONE")
+            return
+        end
+
+
         if pick == "party-susie-add" then
             Audio.PlaySound("pickup")
             self.SwapPartyMember(3, "OWSusie")

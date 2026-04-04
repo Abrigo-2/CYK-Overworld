@@ -6,7 +6,7 @@ bullets = { }
 
 function Update()
     spawntimer = spawntimer + 1
-    if spawntimer%30 == 0 then
+    if spawntimer%25 == 0 then
         local posx = 30 - math.random(60)
         local posy = Arena.height/2
         local bullet = CreateProjectile('bullet', posx, posy)

@@ -1,11 +1,12 @@
 require "Libraries/CYK/Sandboxing/WaveBegin" -- NEEDED FOR CYK TO RUN PROPERLY
 
 -- The chasing attack from the documentation example.
-mult = 0.4
+mult = 1.5
+mult2 = 11.1
 orbs = {nil, nil, nil}
-orbs[1] = CreateProjectile('bullet', Arena.width*mult, Arena.height*mult)
-orbs[2] = CreateProjectile('bullet', -Arena.width*mult, Arena.height*mult)
-orbs[3] = CreateProjectile('bullet', Arena.width*mult, -Arena.height*mult)
+orbs[1] = CreateProjectile('bullet', Arena.width*mult*1.5, Arena.height*mult)
+orbs[2] = CreateProjectile('bullet', -Arena.width*mult*1.5, Arena.height*mult)
+orbs[3] = CreateProjectile('bullet', Arena.width*mult*1.5, -Arena.height*mult)
 
 for i=1, 3 do
     orbs[i].SetVar('xspeed', 0)
@@ -16,20 +17,27 @@ local lastPlayerSpot = {x=0, y=0}
 timer = 0
 
 function Update()
-    if timer % 10 == 0 then
+    if timer % 15 == 0 then
         lastPlayerSpot.x = Player.x
         lastPlayerSpot.y = Player.y 
+
+        mult2 = mult2 * 1.08
     end
     timer = timer + 1
+
+    if timer == 3 then
+        -- This line may seem odd, but it changes the player's speed for the wave.
+        FakeArena.playerSpeed = 5
+    end
 
     for i=1, 3 do
         local chasingbullet = orbs[i]
 
         local xdifference = lastPlayerSpot.x - chasingbullet.x
         local ydifference = lastPlayerSpot.y - chasingbullet.y
-        local xspeed = chasingbullet.GetVar('xspeed') / 2 + (xdifference / (80 + 6.5*i) )
-        local yspeed = chasingbullet.GetVar('yspeed') / 2 + (ydifference / 80 )
-        chasingbullet.Move(xspeed, yspeed)
+        local xspeed = chasingbullet.GetVar('xspeed') + (xdifference / ((18 + 0.5*i) * mult2) )
+        local yspeed = chasingbullet.GetVar('yspeed') + (ydifference / (18 * mult2) )
+        chasingbullet.Move(xspeed*0.92, yspeed*0.92)
         chasingbullet.SetVar('xspeed', xspeed)
         chasingbullet.SetVar('yspeed', yspeed)
     end
