@@ -5,11 +5,11 @@ _ENV = newENV
 -- A basic Enemy Entity script skeleton you can copy and modify for your own creations.
 comments = { "Smells like the work of an enemy stand.", "Poseur is posing like his life depends on it.", "Poseur's limbs shouldn't be moving in this way." }
 randomdialogue = {
-    { "Check it out.",            "Please"                     },
-    { "Check it out again.",      "...",      "For real now"   },
-    { "I'll show you something.", "Trust me."                  },
+    { "Be not afraid.",                              },
+    { "Might before Meetle.", "Stove under Keetle."  },
+    { "Show me something.",  "Make me proud."                  },
     { "Keep looking!",            "Harder!",  "I SAID HARDER!" },
-      "It's working."
+      "It's all smooth sailing."
 }
 
 commands = { "Check", "Talk", "Pose", "S-Pose", "Z-Pose" }
@@ -51,8 +51,8 @@ function BeforeDamageCalculation(attacker, damageCoeff)
 end
 
 -- Triggered when a Player attacks (or misses) this enemy in the ATTACKING state
-function HandleAttack(attacker, attackstatus)
-    if attackstatus == -1 then
+function HandleAttack(attacker, damage)
+    if damage == -1 then
         -- Player pressed fight but didn't press Z afterwards
         AddBubbleToTurn("Do no harm, " .. attacker.name .. ".\n")
         AddBubbleToTurn("")
@@ -61,19 +61,28 @@ function HandleAttack(attacker, attackstatus)
             CYK.InstantBubbleToTurn("[voice:v_susie]$!$?", true, 3)  end
     else
         -- Player did actually attack
-        if attackstatus < 50 then
-            AddBubbleToTurn("You're strong, " .. attacker.name .. "!\n")
-
-            if (hp > maxhp*7/10) then
+        if damage < 50 then
+            if (hp > maxhp*8/10) then
+                if attacker.name == "Gentle" then
+                    AddBubbleToTurn("You're strong, gentle fellow!\n")
+                else
+                    AddBubbleToTurn("You're strong, " .. attacker.name .. "!\n")
+                end
+                
                 if attacker.name == "Ralsei" then
                     attacker.AddBubbleToTurn("[voice:v_ralsei]Thank you!")
                 elseif attacker.name == "Susie" then
                     attacker.AddBubbleToTurn("[voice:v_susie]Heh.") end
             end
         else
-            AddBubbleToTurn("Too strong, " .. attacker.name .. "...\n")
+            if (hp > maxhp*8/10) then
+                if attacker.name == "Gentle" then
+                    AddBubbleToTurn("Too strong, gentle fellow...\n")
+                else
+                    AddBubbleToTurn("Too strong, " .. attacker.name .. "...\n")
+                end
+            
 
-            if (hp > maxhp*7/10) then
                 if attacker.name == "Ralsei" then
                     attacker.AddBubbleToTurn("[voice:v_ralsei]Sorry...!!")
                 elseif attacker.name == "Susie" then
@@ -142,7 +151,7 @@ function HandleCustomCommand(user, command)
         SetCYKAnimation("Idle")
 
         text = text .. "\nPoseur is finally impressed by your endeavors!"
-        AddBubbleToTurn("Not bad...")
+        AddBubbleToTurn("Well done.")
 
     elseif (chapter2 and GetMercyPercent()>=70) or (posecount > 4)  then     -- winning him over.
         text = text .. "\nPoseur is certainly growing more impressed...!"
@@ -170,6 +179,49 @@ function HandleAnimationChange(newAnim)
         return false
     end
 end
+
+
+wingsSprite = nil
+wingSpriteBuilt = false
+function Update()
+    --if not isactive then    return  end
+
+    if not wingSpriteBuilt then
+        wingSpriteBuilt = true
+        
+        wingsSprite = CreateSprite("CreateYourKris/Monsters/GigaPoseur/Wings/0", "Entity")
+        wingsSprite.MoveToAbs(self.sprite.absx, self.sprite.absy)
+        wingsSprite.Move(35, 40)
+        wingsSprite.SetParent(self.sprite)
+
+        wingsSprite.alpha = 0
+    end
+    
+
+    if wingsSprite.isactive then
+
+        if self.spareOrFleeStart > 0 then
+            local frame = CYK.frame - self.spareOrFleeStart - 1
+
+            if frame < 20 then
+                local percent = 1.0 - (frame/20.0)
+                wingsSprite.alpha = 0.5 * percent
+            elseif frame >= 20 then
+                wingsSprite.Remove()
+            end
+        elseif self.sprite.isactive then
+            --- The Monster's sprite is removed as soon as the flee animation starts!
+            wingsSprite.alpha = math.min(self.sprite.alpha, 0.5)
+
+            wingsSprite.MoveTo(0, 3.33*math.cos( (CYK.frame/64) * math.pi ))
+        end
+    end
+    
+
+    ---
+end
+
+
 
 ----- DO NOT MODIFY BELOW -----
 end

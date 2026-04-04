@@ -239,6 +239,21 @@ animations = {
 
             <hr>
 
+            <p>
+                <span class="function"><span class="CYK"></span> TryKill() [M]</span>
+                Tries to kill the monster. If this entity has a function named <span class="term">OnDeath()</span>, it will fire it instead.
+                Otherwise, if this was the last monster, the battle ends.
+            </p><br>
+
+            <p>
+                <span class="function">Kill(<span class="boolean"></span> cancelAnim) [M]</span>
+                Kills the monster immediately. If this was the last monster, the battle ends.<br>
+                Setting <span class="term">cancelAnim</span> to false will cancel the usual animation played when the enemy flees, allowing you
+                to handle it manually.
+
+                <h4>Will not trigger <span class="term">OnDeath()</span>.</h4>
+            </p><br>
+
 
             <p>
                 <span class="function"><span class="CYK"></span> TrySpare() [M]</span>
@@ -251,20 +266,9 @@ animations = {
                 Spares the monster immediately. Similar to <span class="term">Kill()</span>, if this was the last monster, the battle ends.<br>
                 Setting <span class="term">cancelAnim</span> to false will cancel the usual animation played when the enemy is spared, allowing you
                 to handle it manually.
-            </p><br>
 
-            <p>
-                <span class="function"><span class="CYK"></span> TryKill() [M]</span>
-                Tries to kill the monster. If this entity has a function named <span class="term">OnDeath()</span>, it will fire it instead.
-                Otherwise, if this was the last monster, the battle ends.
+                <h4>Will not trigger <span class="term">OnSpare()</span>.</h4>
             </p><br>
-
-            <p>
-                <span class="function">Kill(<span class="boolean"></span> cancelAnim) [M]</span>
-                Kills the monster immediately. If this was the last monster, the battle ends.<br>
-                Setting <span class="term">cancelAnim</span> to false will cancel the usual animation played when the enemy flees, allowing you
-                to handle it manually.
-            </p><br><br>
 
             <hr>
 

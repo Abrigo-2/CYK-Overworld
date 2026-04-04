@@ -27,9 +27,8 @@ function Update()
     end
     for i = 1, #(CYK.allEnemies or {}) do
         local enemy = CYK.allEnemies[i]
-        if enemy.isactive then
-            ProtectedCYKCall(enemy.Update)
-        elseif enemy.spareOrFleeStart > 0 then
+        ProtectedCYKCall(enemy.Update)
+        if enemy.spareOrFleeStart > 0 then
             if enemy.spareOrFleeAnim == "spare" then CYK.UpdateSpare(enemy)
             else                                     CYK.UpdateFlee(enemy)
             end

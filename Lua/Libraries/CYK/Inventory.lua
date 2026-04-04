@@ -110,23 +110,29 @@ return function(CYK)
     function self.GetCurrentInventory()
         local currentInventory = table.copy(self.inventory)
         local removedItems = { }
-        for i = 1, CYK.turn - 1 do
-            if self.turnItemsUsed[i] ~= nil then
-                if self.items[currentInventory[self.turnItemsUsed[i]]].type == 0 then
-                    table.insert(removedItems, self.turnItemsUsed[i])
-                    table.remove(currentInventory, self.turnItemsUsed[i])
+        
+        if #currentInventory > 0 then
+            for i = 1, CYK.turn - 1 do
+                if i > #self.turnItemsUsed then
+                    --- nothin'
+                elseif self.turnItemsUsed[i] ~= nil then
+                    if self.items[currentInventory[self.turnItemsUsed[i]]].type == 0 then
+                        table.insert(removedItems, self.turnItemsUsed[i])
+                        table.remove(currentInventory, self.turnItemsUsed[i])
+                    end
                 end
             end
-        end
-        local last = 999 -- I hope you don't have a thousand items boi
-        for i = 1, #removedItems do
-            if removedItems[i] >= last then
-                for j = i, #removedItems do
-                    removedItems[j] = removedItems[j] + 1
+            local last = 999 -- I hope you don't have a thousand items boi
+            for i = 1, #removedItems do
+                if removedItems[i] >= last then
+                    for j = i, #removedItems do
+                        removedItems[j] = removedItems[j] + 1
+                    end
                 end
+                last = removedItems[i]
             end
-            last = removedItems[i]
         end
+        
         return { inventory = currentInventory, removed = removedItems }
     end
 

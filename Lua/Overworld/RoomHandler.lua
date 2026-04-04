@@ -154,10 +154,10 @@ return function(self)
         end
         
         if pick == "scene3-redo" then
+            poseurStatsBoost = poseurStatsBoost + 0.333
+
             Overworld.StartBattleIntro("Encounter-Only", false)
             Overworld.CutsceneObj.currentCutscene()
-            
-            poseurStatsBoost = poseurStatsBoost + 0.333
 
             enemies[1].atk = enemies[1].atk * poseurStatsBoost
             enemies[1].maxhp = enemies[1].maxhp * poseurStatsBoost

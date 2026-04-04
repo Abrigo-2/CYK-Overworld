@@ -73,6 +73,8 @@ it's w3c valid, at least
             <p>
                 <span class="function"><span class="boolean"></span> <span class="term">isactive</span></span>
 				Read-only. Set via <span class="term">SetActive()</span> instead.
+
+                <h4><span class="OW"></span> Setting <span class="term">isactive</span> false will <i>not</i> prevent the entity's <span class="term">Update()</span> function from being called.</h4>
             </p><br>
             <p>
                 <span class="function">SetActive(<span class="boolean"></span> active) [M/P]</span>
@@ -377,7 +379,8 @@ it's w3c valid, at least
 
             <p>
                 <br><span class="function"><span class="CYK"></span>Update()</span>
-                This function runs for every frame for all of the encounter, even during waves. For advanced users: the
+                This function runs for every frame for all of the encounter, even during waves, <span class="OW"></span>until the Entity is freed or removed from its respective Players/Enemies table. 
+                <br><br>For advanced users: the
                 Update function is required to exist at the beginning of the encounter. If you define it at a later
                 point in time, it will not get executed. This function is triggered after the Encounter's Update function.
             </p><br>

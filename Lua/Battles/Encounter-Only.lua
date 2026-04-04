@@ -36,6 +36,10 @@ return function()
     --#endregion
 
     function self.EncounterStarting()
+        if poseurStatsBoost > 1 then
+            encountertext = "Current Poseur Boost: " .. tostring(math.floor(poseurStatsBoost*100)) .. "%."
+        end
+
         if players[3].name == "Gentle" then
             players[3].MoveTo(56, 178)
         end
@@ -51,19 +55,19 @@ return function()
 
     function self.SetArena(nextwave)
         -- Consider these the defaults.
-        wavetimer = 4
+        wavetimer = 4 + poseurStatsBoost
         arenasize = { 155, 130 }
         arenapos = { 320, 200 }
         
         if nextwave == "bullettest_bouncy" then
             -- Nothing.
         elseif nextwave == "bullettest_touhou" then
-            wavetimer = 6
+            wavetimer = 5 + poseurStatsBoost
             arenasize = { 180, 146 }
             arenapos = { 320, 200 }
         
         elseif nextwave == "bullettest_chaserorb_hard" then
-            wavetimer = 6
+            wavetimer = 5 + poseurStatsBoost
             arenasize = { 80, 80 }
             arenapos = { 320, 200 }
 
