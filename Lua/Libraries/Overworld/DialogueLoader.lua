@@ -33,14 +33,14 @@ return function()
     self.ConvertDialoguesfromJson()
     
 
-    function self.getDialogue(room, id)
-        if self.allDialogues[room] == nil then
-            error("The file \"Overworld/Dialogues/" .. room .. ".json\" doesn't exist. Add a valid JSON file within the respective folder.")
-        elseif self.allDialogues[room][id] == nil then
-            error("Dialogue ID \"" .. id .. "\", in room \"" .. room .. "\", doesn't exist. Check the respective JSON within the Dialogues folder.")
+    function self.getDialogue(roomName, nextDialogueTag)
+        if self.allDialogues[roomName] == nil then
+            error("The file \"Overworld/Dialogues/" .. roomName .. ".json\" doesn't exist. Add a valid JSON file within the respective folder.")
+        elseif self.allDialogues[roomName][nextDialogueTag] == nil then
+            error("Dialogue Tag \"" .. nextDialogueTag .. "\", in room \"" .. roomName .. "\", doesn't exist. Check the respective JSON within the Dialogues folder.")
         end
         
-        return table.copy(self.allDialogues[room][id])
+        return table.copy(self.allDialogues[roomName][nextDialogueTag])
         
     end
     --]]

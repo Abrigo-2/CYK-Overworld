@@ -30,9 +30,9 @@ return function(CYK)
     end
 
     self.isTextboxAbove = false
-    function self.Textbox(dialogueID)
+    function self.Textbox(nextDialogueTag)
         Overworld.TextBox.CreateTextbox(
-            Overworld.Dialogues.getDialogue(Overworld.roomName, dialogueID),
+            Overworld.Dialogues.getDialogue(Overworld.roomName, nextDialogueTag),
             self.isTextboxAbove,
             Overworld.TextBox.closingModeEnum.toNothing
         )

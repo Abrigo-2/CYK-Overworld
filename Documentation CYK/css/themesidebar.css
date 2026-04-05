@@ -71,6 +71,15 @@ span.number::before {
     font-weight: bold;
 	/* font-size: 12px; */
 }
+span.enum, span.enumfield {
+	color: #2AA172;
+	font-family: segoe ui;
+    font-weight: bold;
+	/* font-size: 12px; */
+}
+span.enum::before {
+	content: "custom enum:";
+}
 span.boolean::before {
 	color: #DC322F;
 	content: "boolean";

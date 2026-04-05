@@ -114,25 +114,37 @@ function createSideBarItems(isIndexPage, currentPage, displayingCYKDocs=true) {
         addHeader("<<< Swap to CYK Documentation >>>", "documentation.html" )
         addHeader("-", "-" )
 
+
         addSectionHeader( "The +OW Library")
         addHeader("Overview", "owl-overview.html" )
         addHeader("Optimizing for 1 Encounter", "owl-encounters.html" )
         addHeader("-", "-" )
+        
 
         addSectionHeader( "Textboxes and Dialogues")
         addHeader("Loading Dialogues", "owl-textbox-data.html" )
-        addHeader("The Textbox Object", "owl-textbox.html" )
+        addHeader("Textbox Functions & Properties", "owl-textbox.html" )
         addHeader("-", "-" )
 
+        
         addSectionHeader( "Working with Rooms")
-        addHeader("Room Properties & Functions", "owl-rooms.html" )
-        addHeader("Interactions", "owl-rooms-interactions.html" )
-        addHeader("Switching Rooms", "owl-rooms-switching.html" )
-        addHeader("SavePoints", "owl-rooms-interactions.html" )
+        addHeader("Room Functions & Properties", "owl-rooms.html" )
         addHeader("Tileset Properties", "owl-rooms-tilesets.html" )
         addHeader("-", "-" )
 
+
+        addSectionHeader( "Room Triggers")
+        
+        addHeader("Interactions", "owl-rooms-interactions.html" )
+        addHeader("Doors (and Switching Rooms)", "owl-rooms-doors.html" )
+        addHeader("SavePoints", "owl-rooms-savepoints.html" )
+        addHeader("-", "-" )
+
+
+        addSectionHeader( "Other OWL Objects")
         addHeader("Avatars", "owl-avatars.html" )
+
+        
         
 
     }

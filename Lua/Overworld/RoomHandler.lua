@@ -16,6 +16,8 @@ return function(self)
     }
 
     -- speakerInfo data for the Textbox may also be added from here!
+    self.TextBox.speakerInfo["Ralsei"] = "[voice:v_ralsei]"
+    self.TextBox.speakerInfo["Susie"] = "[voice:v_susie]"
     self.TextBox.speakerInfo["Lancer"] = "[voice:v_lancer]"
     self.TextBox.speakerInfo["Gentle"] = "[novoice]"
 
@@ -197,7 +199,7 @@ return function(self)
     function self.OnEncounterEnding(encounter)
         local room = self.roomName
         if (room =="Room1" and encounter == "WhatevertheGeek") then
-            NewAudio.PlayMusic("BGM",  "AUDIO_FROLIC",  true, 0.65)
+            NewAudio.PlayMusic("BGM",  "AUDIO_DARKNESS",  true, 0.65)
             self.story = 3
         end
 

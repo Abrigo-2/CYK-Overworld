@@ -471,7 +471,7 @@ return function(CYK)
     function SetMugshot(faceSprite)
         local faceSpriteData = string.split(faceSprite, '.')
         if #faceSpriteData ~= 2 then
-            error("SetMugshot needs an argument which is exactly composed of the name of the entity, a dot and the name of the mugshot.\nExample: Ralsei.Normal, Poseur.Pissed", 2)
+            error("SetMugshot needs an argument which is exactly composed of the name of the entity, a dot, and the name of the mugshot.\nExample: Ralsei.Normal, Poseur.Pissed", 2)
         end
 
         Overworld.TextBox.faceSprite.alpha = 1

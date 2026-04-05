@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>OWL Docs - Textbox Functions & Properties</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "owl-textbox.html", false)</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="documentation">
+            <h2><span class="OW"></span> Textbox Functions &amp; Properties</h2><br>
+
+            <hr>
+
+            
+            <h3>In-line Functions</h3><br><br>
+
+
+            <p>
+                <span class="function">TalkingSprite(<span class="number"></span> ogmoObjectID, <span class="boolean"></span> isTalking)</span>
+                <h4 style="color:#ff0000;"><span class="term">TalkingSprite</span> is NOT available on the optimized example!</h4>
+
+                <ol>
+                    <li><span style="color:#fff;">The function scans the <span class="term">Triggers</span> layer ONLY,</span> and finds the trigger whose ID matches the provided ogmoObjectID.<br>
+                        You can view each trigger's ID within the Ogmo editor.</li><br>
+                    <li>If <span class="term">TalkingSprite</span> is set true, the sprite is set to its <span style="color:#fff;">"talking"</span> animation.<br>
+                    If false, the sprite is set to its <span style="color:#fff;">"quiet"</span> animation.</li><br>
+                    <li>You must call this function both at the start of your dialogue, as well as <span style="color:#fff;">at the end, <i>before the last character</i>.</span><br> 
+                    TalkingSprite + the Textbox automatically ensure the given sprite returns to its <span style="color:#fff;">"quiet"</span> animation if the player skips the text with the <span style="color:#fff;">Menu key</span>.</li>
+                </ol>
+
+            </p><br><br>
+
+            <p>
+                Here is an example on how to build a sprite compatible with the <span class="term">TalkingSprite</span> function.<br>
+                <h4>This code must be run within <span class="term">Overworld/RoomHandler</span>.</h4>
+            </p>
+
+            <div class="code-container">
+<pre class="brush: lua;">function self.OnRoomSetup(roomName)
+    if roomName == "PartyChangingRoom" then
+        local lancer = self.FindObjectInRoom("Triggers", 0)
+
+        lancer["animPrefix"] =  "Overworld/Lancer" -- This prefix is used to find the frames of each animation!
+        lancer["quiet"]      =  { 0 }
+        lancer["talking"]    =  { 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9 }
+
+        lancer["sprite"]     = CreateSprite("Overworld/Lancer/0", "OWEntities")
+        lancer["animspeed"]  = 1/9
+
+        lancer["sprite"].SetPivot(0.5, .5)
+        lancer["sprite"].MoveTo(lancer.x+25, lancer.y)
+        lancer["sprite"].SetParent(lancer.hitbox)  -- Do this, and you won't have to delete this sprite manually once the room is destroyed!
+
+        -- If you do wish to delete it manually, though, add it to this queue:
+        table.insert(self.spriteTrashQueue, lancer["sprite"])
+    end
+end
+</pre>
+            </div>
+            
+            <br><br><br>
+
+            <p>
+                <span class="function">SetMugshot(<span class="string"></span> faceSpriteString)</span>
+
+                The +Overworld's counterpart to <span class="CYF"></span>'s Overworld <span class="term">mugshot()</span> function. <br><br>
+
+                A <span class="term">faceSpriteString</span> string is structured like so:<br><br>
+                <span class="function">Speaker.Face</span>
+
+                <ol>
+                    <li><span class="term">Speaker</span>: The name of the Folder within <span class="term">Sprites/Overworld/FaceSprite</span> where Face is located.
+                    </li><br>
+                    <li><span class="term">Face</span>: The sprite to be displayed. Recommended resolution: <span class="term">112x112</span></li>
+                </ol>
+
+                <br><h4>All <span class="term">Speaker</span>'s must have a valid <span class="term">SpeakerInfo</span> counterpart within <span class="term">Overworld.TextBox.SpeakerInfo</span>.</h4>
+                Read the following section to learn how to set one up.
+
+
+            </p><br><br>
+
+
+            
+            <h3>Textbox Properties</h3><br><br>
+
+            <h4>To add  <span class="term">SpeakerInfo</span> data, visit your <span class="term">Overworld/RoomHandler</span>'s script, then add the respective code for your speakers:</h4>
+            <div class="code-container">
+   <pre class="brush: lua;">
+    -- Set font, voice, speed... whatever inline commands you'll find yourself utilizing often for this Speaker.
+    self.TextBox.speakerInfo["Ralsei"] = "[voice:v_ralsei]"  
+    self.TextBox.speakerInfo["Susie"]  = "[voice:v_susie]"
+    self.TextBox.speakerInfo["Lancer"] = "[voice:v_lancer]"
+    ...
+    -- So on and so forth.
+        </pre>
+            </div><br><br>
+
+            <p>
+                <span class="OW"></span> As stated on the changelog, changing the font will still display the gradient. You'll have to figure how to fix that yourself, since I won't be able to. ^^"
+            </p><br>
+        
+
+
+
+            <br><hr>
+            
+            
+            
+            
+            <h3>RoomHandler Functions</h3>
+            <h4>These functions can be called within your <span class="term">Overworld/RoomHandler</span> script.</h4>
+            <h4>If calling from the  <span class="term">Overworld/RoomHandler</span> script, you may call these functions as:  <span class="term">self.FunctionName()</span>.<br>
+                <span style="color:#cc0000;">Otherwise,</span> if calling from your <span class="term">Encounter</span> script or <span class="term">Overworld/Cutscenes</span>, you <span style="color:#cc0000;">must</span> call them as: <span class="term">Overworld.FunctionName()</span>
+            </h4>
+            <br><br>
+
+            <p>
+                <span class="function">self.Textbox.CreateTextbox(<span class="luatable"><span class="string"></span></span> dialogue, <span class="boolean"></span> isAbove = false,<br>
+                <span class="enum"> (Textbox.closingModeEnum)</span> closingMode =<span class=""> Textbox.closingModeEnum.toControllable</span> )[E/O]</span>
+
+                <h4>More often than not, you won't be calling this function manually.</h4><br>
+
+                <ol>
+                    <li><span class="term">dialogue</span>: The dialogue's <span class="luatable"><span class="string"></span></span> to be displayed on the Textbox. You obtain said <span class="luatablesolo"></span> by calling: <span class="function">self.Dialogues.getDialogue(<span class="string"></span> self.roomName, <span class="string"></span>nextDialogueTag)</span><br></li>
+                    <li><span class="term">isAbove</span>: If true, the Textbox is shown <span style="color:#fff;">closest to the top margin</span> of the screen. Otherwise, it's shown <span style="color:#fff;">closest to the bottom margin</span> (probably what you're used to).<br></li><br>
+                    <li><span class="term">closingMode</span>: An enum that determines a specific action to be performed by this Textbox once it's done being read.</li>
+                    <ol>
+                        <li><span class="term">toNothing</span>: Performs nothing. Default in cutscenes.</li>
+                        <li><span class="term">toControllable</span>: Makes the player's Avatar controllable. Default value.</li>
+                    </ol>
+                </ol>
+
+                <h4>Notice: <span class="term">Overworld/Cutscenes</span> has a built-in shorthand for this function: <span class="term">self.Textbox(<span class="string"></span> nextDialogueTag)</span>, paired by the <span class="term"><span class="boolean"></span> self.isTextboxAbove</span> property.
+                </h4>
+
+            </p><br><br>
+
+            <p>
+                <span class="function">self.HandleChoice(<span class="string"></span> pickedDialogueTag) [O]</span>
+
+                Called when the player makes a choice at the end of the Textbox, with the respective dialogue's tag. For more information on how Choices are structured, visit the <span class="term">Loading Dialogues</span> page.<br><br>
+
+                <h4>This is a <span class="term">customizable function</span>: meaning, rather than <i>calling it</i>, you <i>write inside it</i>, modifying the function's contents.</h4>
+            </p><br><br>
+           
+            <p>
+                Here is a simplified example:
+            </p>
+
+            <div class="code-container">
+   <pre class="brush: lua;">function self.HandleChoice(pick)
+    -- By default, the "close" tag simply closes the textbox,
+    -- then returns control to the Player if a cutscene isn't running.
+    if pick == "close" then
+        self.canControl = ( self.currentCutscene == nil )
+        return
+    end
+    
+    -- Here is some custom behaviour...
+    if pick == "scene3-redo" then
+        Overworld.StartBattleIntro("Encounter-Only", false)
+        Overworld.CutsceneObj.currentCutscene()
+        State("INTRO")
+        return -- Ensure you've called "return" at the end of your code block.
+    elseif pick == "scene3-done" then
+        State("DONE")
+        return -- Ensure you've called "return".
+    end
+
+
+    -- If "return" wasn't called beforehand, then the default behaviour of
+    -- calling a new textbox takes place.
+    self.TextBox.CreateTextbox( Overworld.Dialogues.getDialogue(self.roomName, pick) )
+end
+    </pre>
+            </div>
+
+
+            <hr>
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>
