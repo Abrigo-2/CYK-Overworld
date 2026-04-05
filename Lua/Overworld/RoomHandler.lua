@@ -208,6 +208,13 @@ return function(self)
             self.story = 3
             self.OnRoomSetup(room)
         end
+
+        -- You could, alternatively, just shove the code here... Huh.
+        --[[        
+        if encounter == "Encounter-Only" then
+            Overworld.CutsceneObj.startSpecialCustscene[2] = true
+        end
+        --]]
     end
 
 end

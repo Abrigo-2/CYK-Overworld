@@ -29,7 +29,7 @@ return function(CYK)
         end
     end
 
-    self.isTextboxAbove = false  
+    self.isTextboxAbove = false
     function self.Textbox(dialogueID)
         Overworld.TextBox.CreateTextbox(
             Overworld.Dialogues.getDialogue(Overworld.roomName, dialogueID),

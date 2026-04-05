@@ -39,7 +39,7 @@ it's w3c valid, at least
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="documentation">
-            <h2>Textboxes - Loading Dialogues</h2><br><br>
+            <h2><span class="OW"></span> Textboxes - Loading Dialogues</h2><br><br>
 
             <h4>You will need to create a room in your Encounter's <span class="term">EncounterStarting()</span> call.</h4>
 
@@ -51,7 +51,10 @@ it's w3c valid, at least
 
             <p>
                 Each room within <span class="term">Overworld/Rooms</span> has a JSON Dialogue counterpart, located within <span class="term">Overworld/Dialogues</span>. <br>
-                Both files must share <i>the same name</i>.<br>
+                Both files must share <i>the same name</i>.<br><br>
+
+
+                <h4>Notice: If <span style="color: #ff0000;">(and only if)</span> using the optimized example, rooms will be ignored and, instead, all dialogues will always be loaded from within the <span class="term">Overworld/AllDialogues.json</span> file.</h4>
 
                 
             </p>
@@ -100,7 +103,7 @@ it's w3c valid, at least
                 
                 You can read more about <span class="term">HandleChoice</span> over at the next section.<br><br>
 
-            </p>
+            </p><br>
 
 
 

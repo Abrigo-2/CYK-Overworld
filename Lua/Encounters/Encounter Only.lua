@@ -69,6 +69,9 @@ end
 
 optimizedForOneEncounter = true  -- Loads and builds certain things as soon as the mod starts, rather than doing so at certain points.
 
+battleLastLoaded = "Encounter-Only" -- Name of the last loaded Battle file. We make sure it matches the currently loaded battleFile to avoide the "require" call in OverworldCore.
+battleFile = (require "Battles/Encounter-Only")()
+
 poseurStatsBoost = 1.0  -- For funsies. Make sure to remove it within Overworld.HandleChoice()
 
 function EncounterStarting()
@@ -86,6 +89,8 @@ function EncounterStarting()
     Overworld.SetAvatarProperties_Optimized("OWSusie",  110, "Susie")
     Overworld.SetAvatarProperties_Optimized("OWGentle", 123, "Gentle")
 
+    
+    -- Load the game's data saved at a previous Savepoint, if there's any.
     for realI, v in pairs(Overworld.allAvatars) do
         local newhp = GetAlMightyGlobal( "saveAvatarHP_" .. realI)
         
@@ -95,7 +100,7 @@ function EncounterStarting()
         end
     end
 
-    -- Load the game's data saved at a previous Savepoint, if there's any.
+    
     local defaultParty = {"OWKris", "OWRalsei", "OWSusie"}
 
     for i=1, 3 do  -- Only 3, deltarune isn't designed for more.
@@ -114,8 +119,15 @@ function EncounterStarting()
     Inventory.AddCustomItem("Bandage", "Apt healing", 0, "Player")
 
     -- Rather than using Inventory.SetInventory, you'll have to use:
-    OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"} -- This carries over your inventory after a fight.
+    OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"}
+    -- This would, theoretically, carry over your inventory after a fight.
+    -- However, the code for storing/loading items isn't implemented in this example.
+    -- You'll have to borrow the code from the other example.
 
+
+    Misc.MoveCameraTo(0, 0) -- Place the camera somewhere.
+    -- On your cutscene, before you switch to the "INTRO" state,
+    -- ensure the camera is in the same position as when you started the encounter.
 
     -- This here loads the battle. To reduce lag, ensure "battleFile" and
     -- the argument over here point towards the same file. 
@@ -142,9 +154,6 @@ function Update()
 end 
 
 
--- Related to battles
-battleLastLoaded = "Encounter-Only" -- Name of the last loaded Battle file. We make sure it matches the currently loaded battleFile to avoide the "require" call in OverworldCore.
-battleFile = (require "Battles/Encounter-Only")()
 
 -- In order to reduce lag, the enounter's file is *actually* loaded at Overworld.StartBattleIntro()
 function LoadBattleValues()
@@ -189,7 +198,8 @@ end
 function HandleSpare(player, enemy)     battleFile.HandleSpare(player, enemy)
 end
 
-function EnteringState(newstate, oldstate)  
+function EnteringState(newstate, oldstate)
+    -- You could, alternatively, use the Overworld.OnEncounterEnding() to run this code. Check that out.
     if oldstate == "BEFOREDONE" then
         unescape = false
 

@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>OWL - Docs: Breaking Changes</title>
+    <title>OWL - Docs: Optimizing for 1 Encounter</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -39,43 +39,187 @@ it's w3c valid, at least
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="documentation">
-            <h2>OWL - Encounters: Breaking Changes</h2><br><br>
+            <h2><span class="OW"></span> - Optimizing for 1 Encounter</h2><br><br>
             <p>
-                Intro paragraph.
-            </p>
+                I went over the trouble of clearing out needless chunks of code and rearranging the library, to then realize that the "Optimized" version of the library has no noticeable effect in lowering the delay at the start of the mod. Huh.<br><br>
+
+                At least it's a bit more straightforward to work with...?
+            </p><br>
+
+            
+
+            <p>
+                For this demonstration, we'll assume you want to:
+                <ul>
+                    <li>Play a little cutscene <i>before</i> the Encounter starts.</li>
+                    <li>Have Textboxes pop up in said cutscene.</li>
+                    <li>Start an encounter.</li>
+                    <li>Play a little cutscene <i>after</i> the Encounter ends.</li>
+                </ul>
+            </p><br>
 
             <hr>
+
+            <h3>Setting up the Encounter</h3>
+            <h4>We'll move to the <span class="term">Encounter</span>'s file for this.</h4><br>
            
             <p>
-                <span class="function">BlankFunction(<span class="string"></span> string) [E/M/P/W]</span>
+                The excerpt from the demonstration example explains it well enough:
             </p>
 
-            <p><br>
-                Description paragraph.
-            </p><br>
             <div class="code-container">
-   <pre class="brush: lua;">function CodeExample(command)
-    if command == "DINNER" then
-        if true then -- These were changed because of the + Overworld library.
-            DEBUG("true")
-        else
-            DEBUG("false")
+   <pre class="brush: lua;">optimizedForOneEncounter = true  -- Loads and builds certain things as soon as the mod starts. Make sure you've ticked this as true!
+
+battleLastLoaded = "Encounter-Only" -- Name of the last loaded Battle file. We make sure it matches the currently loaded battleFile to reduce loading time.
+battleFile = (require "Battles/Encounter-Only")()
+
+function EncounterStarting()
+    State("NONE")
+
+    -- Add the Overworld here...
+    Overworld = (require "OverworldOptimized/OverworldCore")()
+
+    -- Since we're optimizing, you'll have to manually set the avatar data.
+    -- Avatars store Player data after an encounter.
+    Overworld.CreateAllAvatars_Optimized({"OWKris","OWRalsei","OWSusie","OWGentle",})
+
+    Overworld.SetAvatarProperties_Optimized("OWKris",   90, "Kris")
+    Overworld.SetAvatarProperties_Optimized("OWRalsei", 70, "Ralsei")
+    Overworld.allAvatars["OWRalsei"].hp = 45
+    Overworld.SetAvatarProperties_Optimized("OWSusie",  110, "Susie")
+    Overworld.SetAvatarProperties_Optimized("OWGentle", 123, "Gentle")
+
+    
+    -- Lets Overworld know which players to track.
+    local defaultParty = {"OWKris", "OWRalsei", "OWSusie"}
+    for i=1, 3 do  -- Only 3, Deltarune isn't designed for more.
+        Overworld.party[i] = Overworld.allAvatars[defaultParty[i]]
+    end
+    Overworld.GeneratePartyBattleNames()
+
+    -- Add the items, one by one. They don't need to be in the inventory.
+    Inventory.AddCustomItem("Dark Candy", "Heals 40HP", 0, "Player")
+    Inventory.AddCustomItem("Dark Burger", "Burnt as hell 70HP", 0, "Player")
+    Inventory.AddCustomItem("Bandage", "Apt healing", 0, "Player")
+
+    -- Rather than using Inventory.SetInventory, you'll have to use:
+    OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"} 
+
+
+    Misc.MoveCameraTo(0, 0) -- Place the camera somewhere.
+    -- On your cutscene, before you switch to the "INTRO" state,
+    -- ensure the camera is in the same position as when you started the encounter.
+
+
+    -- This here loads the battle.
+    Overworld.StartBattleIntro("Encounter-Only", false)
+
+    -- By default, Overworld.CutsceneObj will start a cutscene if it detects this value as true.
+    Overworld.CutsceneObj.startSpecialCustscene[1] = true
+end
+</pre>
+            </div>
+
+            <hr>
+
+
+            <h3>Setting up the Intro Cutscene</h3>
+            <h4>We'll move to the <span class="term">Overworld/Cutscenes</span>'s file for this.</h4>
+
+
+            <div class="code-container">
+   <pre class="brush: lua;">function EncounterOnlyPreamb()
+        -- Freezes playback of the animation if a Textbox is currently being shown.
+        if Overworld.TextBox.isActive then return end
+
+        if self.frame == 1 then
+            --Misc.MoveCameraTo(0, 0)  -- Move the camera, if you'd like.
+
+            -- Generate the "Actors", aka, sprites that'll move around and act during the scene.
+            self.actor[1] = CreateSprite("Overworld/Kris/Idle/2", "Entity")
+            self.actor[1].SetPivot(0.5, 0)
+            self.actor[1].MoveTo(playerpositions[1][1]*2 - 15, playerpositions[1][2])
+
+            self.actor[2] = CreateSprite("Overworld/Ralsei/Idle/2", "Entity")
+            self.actor[2].SetPivot(0.5, 0)
+            self.actor[2].MoveTo(playerpositions[2][1]*2 - 8, playerpositions[2][2] + 8)
+
+            self.actor[3] = CreateSprite("Overworld/Susie/Idle/2", "Entity")
+            self.actor[3].SetPivot(0.5, 0)
+            self.actor[3].MoveTo(62*2 - 5, playerpositions[3][2] + 4 )
+    
+        elseif self.frame == 25 then
+            --self.isTextboxAbove = false  
+            self.Textbox("scene1") -- Call code like this as many time as you'd like.
+            -- Check out the Cutscenes page, as well as the Overworld/Cutscenes file
+            -- for ways to better structure longer scenes.
+        
+        elseif self.frame > 61 then
+            -- Hides the actors, rather than removing them.
+            -- This is so we can reuse them on the Outro cutscene.
+            for i=1, #self.actor do
+                self.actor[i].alpha = 0
+            end
+
+            self.currentCutscene   = nil -- This stops the cutscene from playing.
+
+            State("INTRO") -- This starts the encounter.
         end
+
+        self.frame = self.frame + 1
+</pre>
+            </div>
+
+            <h4>As stated above, check out the <span class="term">Cutscenes</span> page, as well as the <span class="term">Overworld/Cutscenes</span> for tools to better structure the code.</h4><br><br>
+
+            <p>
+                Since we're optimizing for 1 Encounter, the Textbox will load its dialogues from the JSON <span class="term">Overworld/AllDialogues</span> file.<br>
+                More on this can be found on the respective Dialogues section.
+            </p><br>
+
+
+
+            <hr>
+
+
+            <h3>Setting up the Outro Cutscene</h3><br><br>
+
+            <p>There are two methods for triggering the Outro cutscene:</p><br><br>
+
+            <h4>Method 1: The EnteringState() call within the <span class="term">Encounter</span>'s file.</h4>
+
+            <div class="code-container">
+   <pre class="brush: lua;">function EnteringState(newstate, oldstate)
+    if oldstate == "BEFOREDONE" then
+        ----------
+        CYK.State("NONE")
+        CYK.EncunterWrapUp()
+
+        Overworld.CutsceneObj.startSpecialCustscene[2] = true
+        ----------
+    end
+    battleFile.EnteringState(newstate, oldstate)
+end
+</pre>
+            </div>
+
+            <h4>Method 2: The OnEncounterEnding() call within the <span class="term">Overworld/RoomHandler</span>'s file.</h4>
+
+            <div class="code-container">
+   <pre class="brush: lua;">function self.OnEncounterEnding(last_encounter)     
+    if last_encounter == "Encounter-Only" then
+        Overworld.CutsceneObj.startSpecialCustscene[2] = true
     end
 end
 </pre>
             </div>
 
+            <br><br><p>
+                Once <span class="term">Overworld.CutsceneObj.startSpecialCustscene[2]</span> has been set, the cutscene within the Cutscenes file will start.
+            </p><br>
 
-            <hr>
-        </div>
+            
 
-        <div class="tab-pane text-style" id="mercy">
-            <h2 style="text-decoration: none; line-height:50px;">
-                * YOU WON!<br>
-                * You earned 0 EXP and 0 gold.<br>
-                * also the nav menu is broken now
-            </h2><br>
         </div>
 
     </div>
