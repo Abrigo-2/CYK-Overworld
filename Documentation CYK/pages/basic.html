@@ -123,7 +123,7 @@ it's w3c valid, at least
 
             <hr>
 
-            <h3>Miscelaneous File/Directory functions</h3><br><br>
+            <h3>Other File/Directory functions</h3><br><br>
 
             <p>
                 <span class="OW"></span> I actually just found out about this: You can call<br><br>
@@ -131,10 +131,16 @@ it's w3c valid, at least
                 <span class="function"><span class="boolean"></span> Misc.FileExists(<span class="string"></span> path) or<br><span class="boolean"></span> Misc.DirExists(<span class="string"></span> path)</span><br>
 
                 To check if a given File/Directory exists. <span class="term">Misc.FileExists</span> wasn't working well for me, though.
-                <br><br>
+                <br><br><br>
                 To list the directories within a given folder, you can call<br>
 
-                 <span class="function"><span class="boolean"></span> Misc.ListDir(<span class="string"></span> path)</span><br>
+                <span class="function"><span class="luatable"><span class="string"></span></span> Misc.ListDir(<span class="string"></span> path)</span><br><br>
+
+                You can READ files by calling
+                <span class="function">local file = Misc.OpenFile(<span class="string"></span> path, "r")<br>
+                file = file.ReadLines()
+                </span><br>
+                Theoretically, you could also... write... Oh no. Is that why none of this is documented?
 
                 <br><br>
 

@@ -1,16 +1,12 @@
 return function(self)
 
     -- Creates fake avatar keys, for optimized encounters.
-    function self.CreateAllAvatars_Optimized()
+    function self.CreateAllAvatars_Optimized(fake_keys)
         -- Search for every existing Avatar script.
-        local p = 1
-        for key, value in pairs(Misc.ListDir("/Lua/Overworld/Avatars/")) do
-            local fakekey = string.gsub(value, "/Lua/Overworld/Avatars/", "")
-            fakekey = string.gsub(value, ".lua", "")
-
-            self.allAvatars[fakekey] = {}
-            p = p + 1
+        for i=1, #fake_keys do
+            self.allAvatars[fake_keys[i]] = {}
         end
+
 
         for realI, v in pairs(self.allAvatars) do
             local avatar = self.allAvatars[realI]
@@ -31,7 +27,6 @@ return function(self)
             if avatar.maxhp == nil then
                 avatar.maxhp = avatar.hp
             end
-            
         end
 
     end

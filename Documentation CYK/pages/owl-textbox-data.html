@@ -33,7 +33,7 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "_blank.html", false)</script>
+            <script type="text/javascript">createSideBarItems(false, "owl-textbox-data.html", false)</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
@@ -44,47 +44,66 @@ it's w3c valid, at least
             <h4>You will need to create a room in your Encounter's <span class="term">EncounterStarting()</span> call.</h4>
 
             <p>
-                This is non-negotiable. If you'd like to have all of your cutscene's dialogues and branches neatly organized within a JSON file, this is the quickest way to do so.<br>
-                <br>
-            </p><br>
+                Unless you're using the optimized example, this is non-negotiable.<br>
+            </p>
 
-            <hr>
+            <hr><br>
 
             <p>
                 Each room within <span class="term">Overworld/Rooms</span> has a JSON Dialogue counterpart, located within <span class="term">Overworld/Dialogues</span>. <br>
-                Both files must share <i>the same name<i>.
-            </p>
-           
-            <p>
-                <span class="function">BlankFunction(<span class="string"></span> string) [E/M/P/W]</span>
+                Both files must share <i>the same name</i>.<br>
+
+                
             </p>
 
             <p><br>
-                Description paragraph.
-            </p><br>
+                Below is the empty room's JSON file as an example.
+            </p>
             <div class="code-container">
-   <pre class="brush: lua;">function CodeExample(command)
-    if command == "DINNER" then
-        if true then -- These were changed because of the + Overworld library.
-            DEBUG("true")
-        else
-            DEBUG("false")
-        end
-    end
-end
+   <pre class="brush: lua;">{
+    "scene1": ["[func:SetMugshot,Gentle.Pout]I have a mouth I just don't feel like screaming.",  
+    [   [],                   -- "Up" choice.
+        ["One", "scene2"],  -- "Right" choice.
+        [],                   -- "Down" choice.
+        ["Two", "close"] ]  -- "Left" choice.
+    ],
+
+    "scene2": ["[func:SetMugshot,Susie.Pout]Do you care? No? Okay then."] 
+}
 </pre>
             </div>
-
-
             <hr>
-        </div>
 
-        <div class="tab-pane text-style" id="mercy">
-            <h2 style="text-decoration: none; line-height:50px;">
-                * YOU WON!<br>
-                * You earned 0 EXP and 0 gold.<br>
-                * also the nav menu is broken now
-            </h2><br>
+            <h3>Writting Dialogues</h3><br><br>
+
+            <p>
+                Here's a brief summary of the data you've read above:
+
+                <ul style="line-height: 1.6em;">
+                    <li>Dialogues are stored as a <span class="luatable"><span class="string"></span></span>.</li><br>
+                    <li>If you wish to add a choice, you must make the <span style="color: #fff;">last value</span> of the Dialogue's <span class="luatablesolo"></span>, a <span class="luatable"><span class="luatablesolo"></span></span> with 4 items (rather than a <span class="string"></span>...)</li><br>
+                    <li>The Choice's <span class="luatablesolo"></span> items are ordered <i>clockwise</i> to how they'll be presented on the Textbox:</li>
+                    <ol>
+                        <li>is <span style="color: #fff;">UP</span>.</li>
+                        <li>is <span style="color: #fff;">RIGHT</span>.</li>
+                        <li>is <span style="color: #fff;">DOWN</span>.</li>
+                        <li>is <span style="color: #fff;">LEFT</span>.</li>
+                    </ol><br>
+
+                    <li>Each Choice is a <span class="luatable"><span class="luatablesolo"></span></span> with two items:</li>
+                    <ol>
+                        <li>is the <span class="string"></span> displayed on the Textbox.</li>
+                        <li>is the new dialogue's <span class="term">ID tag</span>(<span class="string"></span>).<br>
+                        If the player selects this choice, then this tag will then be passed down onto the Overworld's <span class="term">HandleChoice</span> function.</li>
+                    </ol>
+                </ul><br>
+                
+                You can read more about <span class="term">HandleChoice</span> over at the next section.<br><br>
+
+            </p>
+
+
+
         </div>
 
     </div>

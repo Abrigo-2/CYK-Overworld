@@ -41,7 +41,7 @@ return function()
     --]]
 
 
-    self.TextBox = (require "Libraries/Overworld/TextboxManager")(self)
+    self.TextBox = (require "Libraries/OverworldOptimized/TextboxManager")(self)
     self.Dialogues = (require "Libraries/Overworld/DialogueLoader")() -- Contains the dialogue JSON data, which is stored per room.
 
     self.CutsceneObj = (require "Overworld/Cutscenes")(self)

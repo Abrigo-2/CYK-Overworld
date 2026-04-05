@@ -1234,21 +1234,21 @@ return function ()
         end
     end
 
-    self.cold = 0 --cooldown for skipping text
+    self.skipDelay = 0 --cooldown for skipping text
     -- Skips dialogue if C is pressed
     function self.SkipDialogue()
-        if self.cold > 0 then
-            self.cold = self.cold - 1   end
+        if self.skipDelay > 0 then
+            self.skipDelay = self.skipDelay - 1   end
         
-        if (self.cold <= 0 and Input.Menu == 2) then
+        if (self.skipDelay <= 0 and Input.Menu == 2) then
             if self.state == "PLAYERTURN" then
-                if #self.currentPlayerActionQueue == 0 then
+                if #self.currentPlayerActionQueue == 0 and not self.stopPlayerTurnProgress then
                     self.Confirm(true)
-                    self.cold = 6
+                    self.skipDelay = 6
                 end
             elseif self.state == "ENEMYDIALOGUE" then
                 self.Confirm(true)
-                self.cold = 6
+                self.skipDelay = 6
             end
         end
     end

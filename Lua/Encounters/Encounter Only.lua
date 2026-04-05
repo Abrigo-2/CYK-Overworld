@@ -52,10 +52,6 @@ background = false     -- Set this variable to false to disable the square-grid 
 backgroundfade = true  -- Set this variable to false to disable the fade effect on the background when entering a wave. Advised to keep as true.
 
 
-optimizedForOneEncounter = true  -- Loads and builds certain things as soon as the mod starts, rather than doing so at certain points.
-
-poseurStatsBoost = 1.0  -- For funsies. Make sure to remove it within Overworld.HandleChoice()
-
 -- A custom list with attacks to choose from. Actual selection happens in EnemyDialogueEnding(). Put here in case you want to use it.
 possible_attacks = { }
 nextwaves = { "empty" }
@@ -70,6 +66,11 @@ function indexOf(array, value)
     return nil
 end
 
+
+optimizedForOneEncounter = true  -- Loads and builds certain things as soon as the mod starts, rather than doing so at certain points.
+
+poseurStatsBoost = 1.0  -- For funsies. Make sure to remove it within Overworld.HandleChoice()
+
 function EncounterStarting()
     State("NONE")
 
@@ -77,6 +78,8 @@ function EncounterStarting()
     Overworld = (require "OverworldOptimized/OverworldCore")()
 
     -- Since we're optimizing, you'll have to manually set the avatar data.
+    Overworld.CreateAllAvatars_Optimized({"OWKris","OWRalsei","OWSusie","OWGentle",})
+
     Overworld.SetAvatarProperties_Optimized("OWKris",   90, "Kris")
     Overworld.SetAvatarProperties_Optimized("OWRalsei", 70, "Ralsei")
     Overworld.allAvatars["OWRalsei"].hp = 45
@@ -95,7 +98,7 @@ function EncounterStarting()
     -- Load the game's data saved at a previous Savepoint, if there's any.
     local defaultParty = {"OWKris", "OWRalsei", "OWSusie"}
 
-    for i=1, 4 do  -- Max ammount of party members saved at the time. Change if you will.
+    for i=1, 3 do  -- Only 3, deltarune isn't designed for more.
         local partyName = GetAlMightyGlobal( "saveParty" .. tostring(i) )
         if partyName ~= nil and partyName ~= "" then
             Overworld.party[i] = Overworld.allAvatars[partyName]
@@ -140,7 +143,7 @@ end
 
 
 -- Related to battles
-battleLastLoaded = "" -- Name of the last loaded Battle file.
+battleLastLoaded = "Encounter-Only" -- Name of the last loaded Battle file. We make sure it matches the currently loaded battleFile to avoide the "require" call in OverworldCore.
 battleFile = (require "Battles/Encounter-Only")()
 
 -- In order to reduce lag, the enounter's file is *actually* loaded at Overworld.StartBattleIntro()
@@ -159,7 +162,7 @@ function LoadBattleValues()
     
     players             = table.copy(Overworld.partyNames)  -- Notice the different argument here!!
     playerpositions     = battleFile.playerpositions
-    _enemies            = battleFile.enemies
+    _enemies            = table.copy(battleFile.enemies)
     enemypositions      = battleFile.enemypositions
 
     if #players == 0 then
@@ -170,7 +173,7 @@ function LoadBattleValues()
     backgroundfade      = battleFile.backgroundfade
     skipintro           = battleFile.skipintro or false
 
-    possible_attacks    = battleFile.possible_attacks
+    possible_attacks    = table.copy(battleFile.possible_attacks)
 end
 
 function EnemyDialogueStarting()    battleFile.EnemyDialogueStarting()

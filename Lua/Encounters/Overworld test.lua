@@ -172,9 +172,9 @@ function LoadBattleValues()
     arenacolor          = battleFile.arenacolor
     arenarotation       = battleFile.arenarotation
     
-    players             = battleFile.players
+    players             = table.copy(battleFile.players)
     playerpositions     = battleFile.playerpositions
-    _enemies            = battleFile.enemies
+    _enemies            = table.copy(battleFile.enemies)
     enemypositions      = battleFile.enemypositions
 
     if #players == 0 then
