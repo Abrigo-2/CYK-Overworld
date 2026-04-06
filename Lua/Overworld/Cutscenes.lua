@@ -289,6 +289,7 @@ return function(CYK)
             self.currentCutscene   = nil
 
             State("INTRO")
+            Audio.PlaySound("battlestart") -- Manually play the sound, as it won't play otherwise.
         end
 
         self.frame = self.frame + 1

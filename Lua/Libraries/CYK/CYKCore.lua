@@ -1100,13 +1100,17 @@ return function ()
             -- Play the Intro animation of each Player
             for i = 1, #self.players do
                 self.players[i].sprite.alpha = 1
-                self.SetAnim(self.players[i], "Intro")
+                if not skipintro then
+                    self.SetAnim(self.players[i], "Intro")  end
             end
             -- For enemies, just. Show them.
             for i = 1, #self.enemies do
                 self.enemies[i].sprite.alpha = 1
             end
-            Audio.PlaySound("battlestart")
+
+            if not skipintro then
+                Audio.PlaySound("battlestart")
+            end
         elseif newState == "ACTIONSELECT" then
             -- Start the turn if it's not started yet
             if self.turn == 0 then

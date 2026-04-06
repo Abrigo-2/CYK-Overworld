@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>OWL Docs - Room Properties & Functions </title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "owl-rooms.html", false)</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="documentation">
+            <h2><span class="OW"></span> Room Properties & Functions</h2><br><br>
+            
+            <h4 style="color:#be0000">In order to manipulate rooms, you <a href="https://ogmo-editor-3.github.io">must install the Ogmo Editor</a>.</h4>
+            
+            <p>
+                This is non-negotiable.<br>
+                The <span style="color:#fff">Ogmo Editor</span> is an open source tool, available for all 3 major OS, and provides a visual
+                interface for building tiled rooms <span style="color:#fff">(an interface which <span class="CYK"></span> lacks out of the box!)</span>, which will let you perform operations you would otherwise
+                have to perform "blind".<br><br>
+
+                Don't hold me liable if you choose to manipulate every JSON file by hand. ^^"
+            </p>
+
+            <hr>
+
+            <h3>Overworld Properties</h3><br><br>
+
+            <p>
+                The following are properties inherent to the +Overworld library as a whole, not just any one particular room.<br><br>
+
+                <span class="function">Sprite Layering</span>
+                This is the order used by sprite layers <span style="color:#fff">(1 is the abovemost layer, 7 is the belowmost layer)</span>:<br>
+                <ol>
+                    <li><span class="CYK"></span> Background</li>
+                    <li>OWEntities</li>
+                    <li>BackEntity</li>
+                    <li>Ground</li>
+                    <li>animatedGround</li>
+                    <li>OWBackground</li>
+                    <li>BelowBackground</li>
+                </ol>
+                Honorable mention to the <span style="color:#fff">Fader</span> layer, located right below <span class="CYF"></span>'s <span style="color:#fff">Top</span> layer.
+            </p><br>
+
+            <p>
+                <span class="function">Audio Channel</span>
+                The +Overworld library uses the <span style="color:#fff">NewAudio</span> channel, <span style="color:#fff">"BGM"</span> to perform most music-related operations. (That being, playback and audio fading.)
+            </p><br><br>
+
+            <p>
+                Don't be afraid to open up your <span class="term">Libraries/Overworld/OverworldCore</span> script if you need more information.
+            </p>
+
+            <h3>Overworld Functions</h3><br><br>
+
+            <h4>
+                The following are functions you may call within the Overworld instance.<br>
+
+                That is, you may call them as <span class="term">Overworld.FunctionName()</span>,<br>
+                or as <span class="term">self.FunctionName()</span> if inside the <span class="term">Overworld/RoomHandler</span> script.
+            </h4><br><br>
+
+            <p>
+                <span class="function">Overworld.StartBattleIntro(<span class="string"></span> battle, <span class="boolean"></span>playhorn)</span>
+                <h4>Calling this is the only way to properly start an encounter, <span style="color:#fff">even if optimizing for 1 Encounter</span>!</h4><br>
+
+                <ol>
+                    <li><span class="term">battle</span> is the name of the Battle file within <span class="term">Lua/Battles</span> to be loaded.</li>
+                    <li><span class="term">playhorn</span> determines whether Deltarune's horn blares. Often plays when you touch an enemy.</li>
+                    <li>In order to skip the encounter's <span class="term">INTRO</span> state and move directly into <span class="term">ACTIONSELECT</span>, you <i style="color:#fff">must</i> set the <span class="term">Battle</span> file's <span class="boolean"></span><span class="term">self.skipintro</span> to true.</li>
+                </ol>
+
+                <span style="color:#fff">Notice: If Optimizing for 1 Encounter and you wish to skip the intro, simply call State("ACTIONSELECT") once you wish to start the encounter, rather than State("ACTIONSELECT")</span>
+                
+
+            </p><br>
+
+            
+
+            <p>
+                <span class="function">Overworld.SwapPartyMember(<span class="number"></span> placeInParty, <span class="string"></span> avatarName)</span>
+
+                Meant to be used during runtime.<br>
+                If on your Encounter's <span class="term">EncounterStarting()</span> function, you can simply do: <span class="term">Overworld.party[i] = "AvatarName"</span>.<br><br>
+
+                Swaps the avatar <span class="term">avatarName</span> with the party member at the given <span class="term">placeInParty</span>. (Inside the <span class="term">Overworld.party</span>'s <span class="luatablesolo"></span>). You can even swap with <span style="color:#fff">"nil"</span>!<br>
+
+                This function will automatically set their position, direction and sprites up for you.<br><br>
+
+                <h4>An <span class="term">Avatar</span>'s name is the same name of their respective <span class="term">Overworld/Avatars</span> Lua script!</h4>
+            </p><br>
+
+            <p>
+                <span class="function">StopPlayer()</span>
+                Stops all Avatars' <span style="color:#fff">"Walk"</span> animation (if playing), and sets <span class="boolean"></span> <span class="term">Overworld.canControl</span> to false.
+            </p><br>
+
+
+
+
+
+            <hr>
+
+
+            <h3>Room Properties</h3><br><br>
+
+            <p>
+                To manipulate a given room's properties:<br><br>
+                <img src="../img/owl/ex1.png" style="width: 60%;">
+                <ol>
+                    <li><span style="color:#ffff00">Open</span> the target room.</li>
+                    <li><span style="color:#ffff00">Right Click</span> the target room.</li>
+                    <li><span style="color:#ffff00">Click</span> on <span style="color:#fff">"PROPERTIES"</span>.</li>
+                </ol><br>
+
+                <h4 style="color:#a20000">Do NOT modify this value from within <span class="term">Edit Project</span>.</h4>
+                <img src="../img/owl/ex1-1.png" style="width: 40%;"><br><br>
+                This will set the default value for every room!
+            </p><br><br><br>
+
+            
+           
+            <p>
+                <span class="function"><span class="boolean"></span> hasBackground = false</span>
+
+                If true, whenever this room is created, a Sprite located within <span class="term">Overworld/Assets/Background</span> <span style="color:#fff">sharing this room's exact name</span> will also be created and placed in the background.
+            </p><br>
+
+            <hr>
+
+            <h3>RoomHandler's Event Functions</h3><br><br>
+
+
+            <p>
+                Event functions aren't functions that you <i style="color:#fff">call by yourself</i>, in order to achieve a particular end.<br>
+                Rather, they are functions you <i style="color:#fff">write inside of</i>, modifying their existing contents.<br><br>
+
+                <h4>The following functions are only accesible from within your <span class="term">Overworld/RoomHandler</span> script.</h4>
+            </p><br>
+
+
+            <p>
+                <span class="function">self.RoomUpdate(<span class="string"></span> currentRoomName)</span>
+                Called every frame, right after detections for Triggers.
+            </p><br>
+
+
+            <p>
+                <span class="function">self.OnRoomSetup(<span class="string"></span> currentRoomName)</span>
+                Called after everything else on the room has been created.<br><br>
+                Here you may create aditional sprites for each room, using the objects added in Ogmo as a reference.
+            </p><br>
+
+            <p>
+                <span class="function">self.RoomExiting(<span class="string"></span> currentRoomName, <span class="string"></span> nextRoomName)</span>
+                Happens on the bridge between a room and another: That is, once <span class="term">currentRoomName</span> has been destroyed and right before <span class="term">nextRoomName</span> is created.
+            </p><br>
+
+            <p>
+                <span class="function">self.HandleInteractable(<span class="string"></span> nextDialogueTag)</span>
+                Called when the player's Avatar interacts with an <span style="color:#fff">Interactable</span> <span class="term">Trigger</span> by pressing the <span style="color:#fff">Confirm key</span>.<br><br>
+
+                When this happens, the <span class="term">Trigger</span> "sends" its current <span class="string"></span><span class="term">dialogueID</span> to this function.<br>
+                Then, this functions processes the tag, performing a given action with it.<br><br><br>
+
+                By default, this function simply <span style="color:#fff">stops control</span> of the current Avatar, then <span style="color:#fff">opens up a Textbox</span>, concurrently using <span class="term">nextDialogueTag</span> to obtain the text to be displayed.<br><br>
+                <span >You can learn more about this process at the <span class="term" style="color:#fff">Textbox Fuctions &amp; Properties</span> page.</span>
+            </p><br>
+
+            <h4>self.HandleChoice() is located at the <span class="term">Textbox Fuctions &amp; Properties</span> page.</h4><br>
+
+            <p>
+                <span class="function">self.OnEncounterEnding(<span class="string"></span> lastBattleName)</span>
+                Called once an <span class="term">Battle</span> has ended, right after "<span class="CYK"></span>" is done destroying the battle's UI and Entities, and right before "<span class="OW"></span>" begins the Outro animation.<br><br>
+
+                You'll use this to start cutscenes after an battle's over, or to hide certain enemies that couldn't be hidden otherwise.
+            </p><br>
+
+
+            <hr>
+
+            <p>
+                Check out your existing <span class="term">Overworld/RoomHandler</span> script! You'll find code examples for things you can do with these events.
+                <br>
+            </p><br>
+
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

@@ -94,7 +94,7 @@ return function()
             Misc.MoveCameraTo(borderX-320, borderY-220)
         end
 
-
+        -- pretend this is "right below DetectRoomTriggers()"- it technically is!
         self.RoomUpdate(self.roomName)
         
         -- So players aren't obscured by the background...
@@ -223,6 +223,7 @@ return function()
         self.GeneratePartyBattleNames()
     end
 
+    -- Obtains the BattleName of all current party members, then places it in the partyNames table.
     function self.GeneratePartyBattleNames()
         self.partyNames = {}
         for i=1, math.min(3, #self.party) do

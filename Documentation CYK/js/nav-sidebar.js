@@ -134,10 +134,10 @@ function createSideBarItems(isIndexPage, currentPage, displayingCYKDocs=true) {
 
 
         addSectionHeader( "Room Triggers")
-        
-        addHeader("Interactions", "owl-rooms-interactions.html" )
-        addHeader("Doors (and Switching Rooms)", "owl-rooms-doors.html" )
-        addHeader("SavePoints", "owl-rooms-savepoints.html" )
+        addHeader("What are Triggers?", "owl-triggers.html" )
+        addHeader("Interactions", "owl-triggers-interactions.html" )
+        addHeader("Doors (and Switching Rooms)", "owl-triggers-doors.html" )
+        addHeader("SavePoints", "owl-triggers-savepoints.html" )
         addHeader("-", "-" )
 
 

@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>??? Docs - Blank Page</title>
+    <title>OWL Docs - What are Triggers?</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -33,36 +33,49 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "_blank.html", false)</script>
+            <script type="text/javascript">createSideBarItems(false, "owl-triggers.html", false)</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="documentation">
-            <h2>Blank Page</h2><br><br>
+            <h2><span class="OW"></span> What are Triggers?</h2><br><br>
             <p>
-                Intro paragraph.
+                <span style="color:#fff">"Triggers"</span> are <span class="userdata">object</span>s that perform a particular action once the player's <span style="color:#fff">Avatar</span> interacts with them.<br><br>
+                This interaction can ocurr by:
+                <ul>
+                    <li>The <span style="color:#fff">Avatar</span> walking inside their bounding box: <span class="sender"></span> </li>
+                    <li>The player pressing the <span style="color:#fff">Confirm</span> button whilst the <span style="color:#fff">Avatar</span> is right next to them: <span class="receiver"></span></li>
+                </ul><br>
+
+                <p style="font-size: 0.75em;"></p>
+
+                <h4><span class="term">Triggers</span> <i>must</i> be placed into the respective <span class="term">Triggers</span> layer via the Ogmo Editor</h4>
+
+                 <img src="../img/owl/ex2.png" style="width: 50%;">
             </p>
 
             <hr>
+
+            <h4>
+                The following function may be called within the Overworld instance.<br>
+
+                That is, you may call it as <span class="term">Overworld.FunctionName()</span>,<br>
+                or as <span class="term">self.FunctionName()</span> if inside the <span class="term">Overworld/RoomHandler</span> script.
+            </h4><br><br>
            
             <p>
-                <span class="function">BlankFunction(<span class="string"></span> string) [E/M/P/W]</span>
-                Description paragraph.
-            </p><br>
-            
-            <div class="code-container">
-   <pre class="brush: lua;">function CodeExample(command)
-    if command == "DINNER" then
-        if true then -- These were changed because of the + Overworld library.
-            DEBUG("true")
-        else
-            DEBUG("false")
-        end
-    end
-end
-</pre>
-            </div>
+                <span class="function"><span class="userdata">object</span> Overworld.FindObjectInRoom(<span class="string"></span> ogmoLayer, <span class="string"></span> ogmoObjectID)</span>
+                Returns the object from the given <span class="term">ogmoLayer</span> with the given <span class="term">ogmoObjectID</span>, within the current room.<br>
+
+                <ul>
+                    <li>Keep in mind that, although <span style="color:#fff">Triggers</span> contain Sprites, Triggers aren't sprites themselves.</li>
+                    <li><span style="color:#fff">Assets</span>, on the other hand, are always Sprites.</li>
+                </ul>
+                
+                
+                <h4>You can find which id belongs where in Ogmo.</h4>
+            </p>
 
 
             <hr>

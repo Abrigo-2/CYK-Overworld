@@ -9,7 +9,7 @@
   "layerGridDefaultSize": {"x": 40, "y": 40},
   "levelDefaultSize": {"x": 320, "y": 240},
   "levelMinSize": {"x": 640, "y": 480},
-  "levelMaxSize": {"x": 20000, "y": 20000},
+  "levelMaxSize": {"x": 6400, "y": 4800},
   "levelValues": [
     {"name": "hasBackground", "definition": "Boolean", "display": 0, "defaults": false}
   ],

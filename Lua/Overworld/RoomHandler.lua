@@ -73,10 +73,13 @@ return function(self)
             poseur["sprite"].SetPivot(.5, 0)
             poseur["sprite"].SetParent(poseur.hitbox)  -- With ysort enabled, though, you'll have to move it manually.
 
+            -- Pretty self explanatory...
             poseur["sprite"]["ysort"] = true
             table.insert(self.overworldYSortQueue,  poseur["sprite"])
+            
             table.insert(self.spriteTrashQueue,     poseur["sprite"])
 
+            -- Poseur's moving around gimmick.
             poseur["dirX"] = -1
             poseur["dirY"] = 0
 
@@ -87,11 +90,10 @@ return function(self)
                 
                 if self.party[3].name == "OWGentle" then
                     poseur.encounterName = "Z-Example"  end
-
             end
         elseif roomName == "PartyChangingRoom" then
             local lancer = self.FindObjectInRoom("Triggers", 0)
-            -- Check if lancer already was created, since this function will be ran more than once.
+            -- Check if lancer was already created, since this function will be ran more than once.
             if lancer["sprite"] == nil then
                 lancer["animPrefix"] =  "Overworld/Lancer"
                 lancer["quiet"]      =  { 0 }
@@ -105,7 +107,7 @@ return function(self)
                 lancer["sprite"].SetParent(lancer.hitbox)  -- Do this, and you won't have to delete it manually once the room is destroyed!
             end
 
-            -- Following code just hides the carboard cutouts.
+            -- The following code just hides the carboard cutouts.
             if self.party[3] ~= nil then
                 local susie = self.FindObjectInRoom("Assets", 3)
                 susie.alpha = 1
@@ -116,7 +118,6 @@ return function(self)
                 gentle.alpha = 1
                 if self.party[3].name == "OWGentle" then
                     gentle.alpha = 0 end
-
             end
 
             local starwalker = self.FindObjectInRoom("Assets", 4)
@@ -167,7 +168,9 @@ return function(self)
             enemies[1].maxhp = enemies[1].maxhp * poseurStatsBoost
             enemies[1].hp = enemies[1].maxhp
 
+            
             State("INTRO")
+            
             return
         elseif pick == "scene3-done" then
             State("DONE")

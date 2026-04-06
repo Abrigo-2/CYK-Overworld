@@ -162,6 +162,8 @@ end
             self.currentCutscene   = nil -- This stops the cutscene from playing.
 
             State("INTRO") -- This starts the encounter.
+            Audio.PlaySound("battlestart") -- This manually play the sound. 
+            -- It'll be ommited, since skipintro is set true for the demonstration.
         end
 
         self.frame = self.frame + 1

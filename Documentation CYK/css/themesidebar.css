@@ -110,6 +110,17 @@ span.userdata {
 	padding-right: 2.5px;
     */
 }
+span.sender::before, span.receiver::before {
+	color: #DC322F;
+	font-family: segoe ui;
+    font-weight: bold;
+}
+span.sender::before {
+	content: "(Sender)";
+}
+span.receiver::before {
+	content: "(Receiver)";
+}
 span.CYF {
     color: #ffff00;
 }
