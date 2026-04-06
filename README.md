@@ -1,10 +1,13 @@
 # CYK + Overworld
 A fork of Rhenaud The Lukark's Create Your Kris mod, to be used within Create Your Frisk's engine.
-
-Several substantial and potentially undesirable changes are made in order to better support the Overworld functionality.
 The original repository can be found here: https://github.com/RhenaudTheLukark/CreateYourKris
 
-Still a work in progress, strides are being made in documentation.
+## Significant Features
+- CYK's encounter effects have been polished.
+- Multiple encounters can now be loaded within one session.
+- A simple code interface for writting cutscenes is included.
+- Multiple rooms can be created and transitioned to and fro (Via the external Ogmo Editor tool).
+- Animated tilesets, which can be used for collisions and/or rendered during runtime.
 
 # Credits
 - The field's overworld theme is called "Field's Requiem, Dreams Return" by **harpoon64**.
