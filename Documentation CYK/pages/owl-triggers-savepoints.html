@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>OWL Docs - What are Triggers?</title>
+    <title>OWL Docs - Savepoints (Triggers)</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -33,55 +33,47 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "owl-triggers.html", false)</script>
+            <script type="text/javascript">createSideBarItems(false, "owl-triggers-savepoints.html", false)</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="documentation">
-            <h2><span class="OW"></span> What are Triggers?</h2><br><br>
+            <h2><span class="OW"></span> - Savepoints<span class="sender"></span> (Triggers)</h2><br><br>
+            
+            <h4>Savepoints will <i style="color: #a60000;">only</i> store the following data:</h4>
             <p>
-                <span style="color:#fff">"Triggers"</span> are <span class="userdata">object</span>s that perform a particular action once the player's <span style="color:#fff">Avatar</span> interacts with them.<br><br>
-                This interaction can ocurr by:
-                <ul>
-                    <li>The <span style="color:#fff">Avatar</span> walking inside their bounding box: <span class="receiver"></span> </li>
-                    <li>The player pressing the <span style="color:#fff">Confirm</span> button whilst the <span style="color:#fff">Avatar</span> is right next to them: <span class="sender"></span></li>
-                </ul>
-
-                In either case, <span style="color:#fff">Triggers only check for the player's exact coordinate.</span> The hitbox is only used in <span style="color:#fff">Tilesets</span>.<br><br><br>
-
-                <h4><span class="term">Triggers</span> <i>must</i> be placed into the respective <span class="term">Triggers</span> layer via the Ogmo Editor</h4>
-
-                 <img src="../img/owl/ex2.png" style="width: 50%;">
+            <ul>
+                <li><span class="number"></span> <span class="term">Overworld.story</span> </li>
+                <li><span class="luatable"><span class="number"></span></span> <span class="term">Overworld.storyFlags</span> </li><br>
+                <li>All Avatars' <span class="number"></span> <span class="term">max HP</span> (and, by implication, their current hp.)</li><br>
+                <li>The currently playing <span class="string"></span> <span class="term">BGM</span> (If none is playing, it also notes that down.)</li>
+                <li>The current <span class="string"></span> <span class="term">room's Name</span>.</li>
+                <li>The current Savepoint's <span class="string"></span> <span class="term">location</span> value.</li>
+            </ul>
             </p><br>
 
             <p>
-                This documentation will <i>not</i> explain how to use the OgmoEditor.<br>
-                Figure it out on your own time.
+                Loading of this data is then taken care of by your <span class="term">Encounter</span> script's <span class="term">EncounterStarting()</span> event function (assuming you haven't tampered with the code...!)
             </p>
 
             <hr>
 
-            <h4>
-                The following function may be called within the Overworld instance.<br>
+            <h3>Properties</h3><br><br>
 
-                That is, you may call it as <span class="term">Overworld.FunctionName()</span>,<br>
-                or as <span class="term">self.FunctionName()</span> if inside the <span class="term">Overworld/RoomHandler</span> script.
-            </h4><br><br>
+            <img src="../img/owl/ex5.png" style="width: 30%;"><br><br><br>
            
             <p>
-                <span class="function"><span class="userdata">object</span> Overworld.FindObjectInRoom(<span class="string"></span> ogmoLayer, <span class="string"></span> ogmoObjectID)</span>
-                Returns the object from the given <span class="term">ogmoLayer</span> with the given <span class="term">ogmoObjectID</span>, within the current room.<br>
+                <span class="function"><span class="string"></span> location</span>
+                The "name" of this Savepoint. This is the name of the location displayed in the Save Screen.
+            </p><br>
 
-                <ul>
-                    <li>Keep in mind that, although <span style="color:#fff">Triggers</span> contain Sprites, Triggers aren't sprites themselves.</li>
-                    <li><span style="color:#fff">Assets</span>, on the other hand, are always Sprites.</li>
-                </ul>
-                
-                
-                <h4>You can find which id belongs where in Ogmo.</h4>
-            </p>
+            <p>
+                <span class="function"><span class="boolean"></span> hasText = true</span>
+                If true, creates a Textbox <span style="color: #fff;">directly,</span> (without calling Overworld.HandleInteractable) using the current room Dialogue <span class="luatablesolo"></span>'s tag  <span class="term" style="color: #fff;">"save"</span>.
+            </p><br>
 
+            <img src="../img/owl/ex5-1.png" style="width: 40%;">
 
             <hr>
         </div>

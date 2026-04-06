@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>OWL Docs - Doors and Origins (Rooms)</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "owl-triggers-doors.html", false)</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="documentation">
+            <h2><span class="OW"></span> - Doors<span class="receiver"></span> and AvatarOrigins</h2><br>
+            <hr>
+
+            <h3>Doors<span class="receiver"></span> - Properties</h3><br><br>
+
+            <img src="../img/owl/ex2-5.png" style="width: 40%;"><br><br><br>
+
+            <p>
+                <span class="function"><span class="string"></span> roomNext</span>
+                The name of the Room within <span class="term">Overworld/Rooms</span> to be created after this Door is crossed.<br>
+            </p><br>
+
+            <p>
+                <span class="function"><span class="string"></span> nextBGM</span>
+                The name of the <span class="term">Audio</span> track to be queued for playback after this Door is crossed..<br>
+                <ul>
+                    <li>If empty, nothing happens.</li>
+                    <li>If set <span class="term">stop</span>, the current track fades out into silence, but no new track is queued.</li>
+                    <li>Otherwise, fades the current track into silence, then plays <span class="term">nextBGM</span>.</li>
+                </ul>
+            </p><br><br><br>
+
+            <p>
+                <span class="function"><span class="number"></span> originID</span>
+                An ID to be used by the Overworld when placing the Avatars on the next room.<br><br>
+                Further details can be found in the following section.
+            </p><br>
+
+
+            <hr>
+
+            <h3>AvatarOrigins</h3><br><br>
+
+            <h4><span class="term">AvatarOrigins</span> <i>must</i> be placed into the respective <span class="term">AvatarOrigin</span> layer via the Ogmo Editor</h4>
+
+            <img src="../img/owl/ex2-4.png" style="width: 50%;"><br>
+
+            <h4><span class="term">AvatarOrigins</span> are referred to as <span class="term">Player</span> by the Ogmo Editor</h4>
+
+
+            <br><br><br><br><br><br><br>
+
+            <p>Let's say you have a living room.</p>
+
+            <p>
+                <img src="../img/owl/ex2-2.png" style="width: 55%;"><br>
+                What a normal-looking living room, amirite? Moving on.
+            </p><br>
+
+            <p>
+                Let's say you wanted to create this room. In which entry would you place the gentle fellow?
+            </p><br><br>
+
+            <p>
+                That's right: <span style="color:#fff">You don't know.</span> There are 4 potential
+                entries the gentle fellow could have come through, and you wouldn't know which one they just passed.<br><br><br><br>
+                
+                That's what <span style="color:#fff">AvatarOrigins</span> are for! 
+            </p><br>
+
+            <img src="../img/owl/ex2-3.png" style="width: 55%;"><br><br>
+
+            <p>
+                When a <span style="color:#fff">Door</span> receives the player, it tells the Overworld its own <span class="term" style="color:#fff">originID</span>.<br><br>
+
+                The Overworld remembers this:
+                <ul>
+                    <li>Then destroys the current room.</li>
+                    <li>When <i>creating the next one</i>...</li>
+                    <li>...it gives the party's <span style="color:#fff">Avatars</span> the <span class="term">position</span> and <span class="term">direction</span> indicated by the <span style="color:#fff">AvatarOrigin</span> that's got the respective <span class="term" style="color:#fff">originID</span>!</li>
+                </ul>
+            </p><br><br>
+
+            <hr>
+
+            <p>
+                A bit of unsolicited advice: <span style="color:#fff">Deltarune's</span> rooms are designed with a bit of a linearity to them.<br>
+                You've never gotten lost on Deltarune, right? That's because of how rooms are designed.<br><br>
+
+                My advice is that you reserve the <span class="term">1st <span style="color:#fff">AvatarOrigin</span></span> for the <i>the Door to the past room</i>, and the <span class="term">2nd <span style="color:#fff">AvatarOrigin</span></span> for <i>the Door the player is intended to go through.</i>
+            </p>
+            
+            <hr><br><br>
+
+            <p>
+                Did you notice the <span class="term">0th <span style="color:#fff">AvatarOrigin</span></span>? This one is reserved <span style="color:#fff">exclusively to be used by SavePoints.</span><br>
+                This means, when creating the current room via a <span style="color:#fff">SavePoint</span>, the Avatars shall be placed there!
+                <br><br>
+
+                Actually, let me highlight that for those skimming through the docs:
+            </p><br><br>
+
+            <h4 style="font-size: 1.44em;">The  <span class="term">0th <span style="color:#fff">AvatarOrigin</span></span> is used exclusively by SavePoints.</h4><br><br>
+
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>
