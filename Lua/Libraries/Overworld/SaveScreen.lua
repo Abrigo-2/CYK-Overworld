@@ -91,7 +91,7 @@ return function(CYK)
                     end
 
                     -- Max amount of party members saved at the time. Change if you will.
-                    for i=1, 4 do  
+                    for i=1, savedmax_PartyAvatars do  
                         local partyName = ""
                         if i <= #Overworld.party then
                             partyName = Overworld.party[i].name end
@@ -104,7 +104,7 @@ return function(CYK)
                     end
 
                     -- Save current inventory. Deltarune only uses up to 12.
-                    for i=1, 12 do
+                    for i=1, savedmax_InventorySize do
                         if i > #OWinventory then
                             SetAlMightyGlobal( "saveInventory" .. tostring(i), "")
                         else

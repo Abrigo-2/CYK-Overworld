@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>OWL Docs - Avatars</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "owl-avatars.html", false)</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="documentation">
+            <h2><span class="OW"></span> - Avatars</h2><br><br>
+            <p>
+                Avatars serve a two-fold purpose:
+
+                <ul>
+                    <li>They are the sprites which the player uses to navigate and interact with the Overworld interface.</li>
+                    <li>They retain player HP after a battle.</li>
+                    <li>Optionally, they determine your battle's party members. (Check the <span class="term">Encounter Only</span> demo!) </li>
+                </ul>
+            </p><br>
+
+            <p>
+                In this documentation, <span style="color:#fff;">"active party"</span> refers to the <span class="term">Overworld.party</span> <span class="luatable"><span class="userdata">avatars</span></span>.<br><br>
+
+                Meanwhile, <span style="color:#fff;">"player's avatar"</span> refers to <span style="color:#fff;">the first Avatar within the <span class="term">Overworld.party</span>'s <span class="luatablesolo"></span></span>.<br>
+                This is the <span style="color:#fff;">Avatar</span> the player controls in order to navigate the Overworld. The other party members simply follow them around.
+            </p><br>
+
+            <hr><br>
+
+            <h3>Creating and Loading Avatars</h3><br><br>
+            <p>
+                <span style="color:#fff;">Avatar</span> scripts are loaded similarly to <span class="CYK"></span><span style="color:#fff;">Entities</span> (actually, identically: they even use the same function).<br><br>
+
+                First off,
+            </p>
+
+            <h4 style="font-size:1.4em;">Your script must be located within <span class="term">Lua/Overworld/Avatars</span>.</h4><br><br>
+
+            <p>
+                Once the mod is intialized, all <span style="color:#fff;">Avatar scripts</span> within that folder are then immediately loaded into the <span class="term" style="color:#fff;">Overworld.allAvatars</span>'s <span class="luatable"><span class="userdata">avatars</span></span>.<br>
+                Don't modify this table. Do I need to say that? <i>Don't modify this table!</i>
+            </p><br><br><br>
+
+            <h3>Avatar Properties</h3><br><br>
+
+            <p>
+                <span class="function"><span class="number"></span> hp</span>
+                Moonlights as this Avatar's Max HP <span style="color:#fff;">during initialization</span>. <br>Afterwards, this simply stores the <span style="color:#fff;">Avatar's</span> HP after a Battle. 
+            </p><br>
+
+            <p>
+                <span class="function"><span class="string"></span> battleName</span>
+                The name of this Avatar's <span class="CYK"></span><span style="color:#fff;">Player Entity</span> script within <span class="term">Lua/Players</span>.
+
+                <h4>Only used by the <span class="term">Encounter Only</span> demo!</h4>
+                
+            </p><br><br>
+
+            
+
+            <p>
+                <span class="function"><span class="luatable"><span class="number"></span></span> hitbox</span>
+
+                The Avatar's collision box. This is only taken into account <span style="color:#fff;">for the player's avatar, which is only checked against <span class="term">the "solid" Tileset Layer</span></span>.<br>
+                For checking collissions against <span class="term">Triggers</span>, the player's avatar <span style="color:#fff;">exact coordinate point</span> is used.<br><br>
+
+                This <span class="luatablesolo"></span> has the following properties:
+            </p>
+
+            <p style="padding-left: 5%;">
+                <span class="function"><span class="number"></span> hitbox.startX, hitbox.startY</span>
+                The box's offset from the Avatar's sprite <span style="color:#fff;">pivot</span>.<br>
+                Every Avatar's sprite pivot is set to <span class="term">x=0.5, y=0</span><br><br>
+
+                <span class="function"><span class="number"></span> hitbox.width, hitbox.height</span>
+                The box's size.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="number"></span> direction</span>
+                The Avatar's current direction they are looking at (or walking towards.)<br><br>
+
+                Avatar directions are ordered <i>clockwise</i>, meaning:
+                <ol>
+                    <li>is <span style="color: #fff;">UP</span>.</li>
+                    <li>is <span style="color: #fff;">RIGHT</span>.</li>
+                    <li>is <span style="color: #fff;">DOWN</span>.</li>
+                    <li>is <span style="color: #fff;">LEFT</span>.</li>
+                </ol>
+            </p>
+            <br><br>
+
+            <p>
+                <span class="function"><span class="userdata">sprite</span> sprite</span>
+                Same as <span style="color:#fff;"><span class="CYK"></span>'s Player Entities</span>.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="luatable"><span class="userdata">animations</span></span> animations</span>
+                Same as <span style="color:#fff;"><span class="CYK"></span>'s Player Entities</span>.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="string"></span> animsFolder</span>
+                The folder within <span class="term">Sprites/Overworld</span> where this Avatars' animations folders are located.
+            </p><br>
+
+
+
+            <hr>
+
+            <h3>Setting the <span style="color:#fff;">active party's</span> Avatars</h3>
+            <p>
+                <ul>
+                    <li>You may have <span style="color:#fff;">as many Avatars</span> on your active party as you'd like.</li><br>
+                    <li>Out of all the <span style="color:#fff;">Avatars</span> in your active party, only the <span class="term" style="color:#fff;">the first 3</span> are used during battles.</li><br>
+                    <li>By default, <span class="term" style="color:#fff;">only 4 party members</span> are saved at a time. You can change this.</li>
+                </ul>
+            </p><br><br>
+           
+            <p>
+                <span class="function">Setting the Avatars within your Encounter's <span class="term">EncounterStarting()</span> Event function.</span>
+                Simply do:
+            </p>
+            
+            <div class="code-container">
+   <pre class="brush: lua;">function EncounterStarting()
+    Overworld.party[1] = Overworld.allAvatars["OWKris"]
+    Overworld.party[2] = Overworld.allAvatars["OWRalsei"]
+    ...
+end
+</pre>
+            </div><br><br>
+
+            <p>
+                <span class="function">Setting the Avatars during runtime.</span>
+                Check out the following function:
+            </p>
+
+            <p>
+                <span class="function">Overworld.SwapPartyMember(<span class="number"></span> placeInParty, <span class="string"></span> avatarName)</span>
+
+                Meant to be used during runtime.<br>
+                If on your Encounter's <span class="term">EncounterStarting()</span> function, you can simply do: <span class="term">Overworld.party[i] = "AvatarName"</span>.<br><br>
+
+                Swaps the avatar <span class="term">avatarName</span> with the party member at the given <span class="term">placeInParty</span>. (Inside the <span class="term">Overworld.party</span>'s <span class="luatablesolo"></span>). You can even swap with <span style="color:#fff">"nil"</span>!<br>
+
+                This function will automatically set their position, direction and sprites up for you.<br>
+                <span style="color:#fff">These will be the same as active player's position and direction unless you set them afterwards.</span> <br><br>
+
+                <h4>An <span class="term">Avatar</span>'s name is the same name of their respective <span class="term">Overworld/Avatars</span> Lua script!</h4>
+            </p>
+
+            <hr><br>
+
+            <h3>Cutscene Functions</h3><br><br>
+
+            <p>
+                The following are functions to aid you in manipulating Avatars <i>before, during, or after</i> a given Cutscene.
+
+                <h4>Remember: When calling these within <span class="term">Lua/Overworld/Cutscenes</span>, you <i>cannot</i> use <span class="term">self.FunctionName()</span>!</h4>
+            </p><br><br>
+
+            <p>
+                <span class="function">Overworld.StopPlayer() [O]</span>
+                Stops all Avatars' <span style="color:#fff">"Walk"</span> animation (if playing), and sets <span class="boolean"></span> <span class="term">Overworld.canControl</span> to false.
+            </p><br>
+
+            <p>
+                <span class="function">Overworld.ToggleAvatars(<span class="number"></span> alpha) [O]</span>
+                Sets the alpha <i>(aka, opacity (aka, transparency))</i> of all Avatar sprites to the given <span class="term">alpha</span>.<br>
+                This is the only way to hide a sprite in <span class="CYF"></span>, far as I know.
+            </p><br>
+
+            <p>
+                <span class="function">Overworld.PlayerLookAt(<span class="userdata">avatar</span> avatarObj, <span class="number"></span> direction, <span class="boolean"></span>dontOverrideDirection = false) [O]</span>
+                Sets the <span class="term">avatarObj</span>'s <span class="userdata">sprite</span> animation to <span style="color:#fff">"Idle"</span>, making them "look at" the given <span class="term">direction</span>.<br><br>
+
+                Set <span class="term">dontOverrideDirection</span> true when calling this right before <span class="term">Overworld.Movement.MakeFollowPathTowardPlayer</span> for this <span class="userdata">avatar</span> in order to avoid flickering in the "Walk" animation.<br>
+                In other words: <span style="color:#fff">Set true for party members (that aren't the player's avatar) at the end of a cutscene!</span>
+
+            </p><br><br><br><br>
+
+
+            <p>
+                <span class="function"><span class="number"></span> Overworld.party[i].posX, Overworld.party[i].posY</span>
+                Same as <span style="color:#fff;"><span class="CYK"></span>'s Player Entities</span>.
+            </p><br>
+
+
+            <p>
+                <span class="function">Overworld.party[i].MoveToAbs(<span class="number"></span> absX, <span class="number"></span> absY)</span>
+                Same as any <span class="CYK"></span> <span class="userdata">sprite</span> or <span class="userdata">entity</span>.
+            </p><br>
+
+            <p>
+                <span class="function">Overworld.Movement.MakeFollowPathTowardPlayer(<span class="number"></span> partyMemberID, <span class="number"></span> fromAbsX, <span class="number"></span> fromAbsY, <span class="number"></span> toAbsX, <span class="number"></span> toAbsY, <span class="number"></span> direction)</span>
+                
+                Forges a "path" for this <span class="userdata">avatar</span> at <span class="term">Overworld.party[<span style="color: #fff;">partyMemberID</span>]</span> to follow whilst displaying the walking animation for the given <span class="term">direction</span>, before becoming "glued" to the <span style="color: #fff;">player's avatar</span> breadcrumbs position &amp; direction.<br><br>
+
+                Yes, it is mostly a required function to cope with the quirks of the engine, but the point is, you'll want to call it for <span style="color: #fff;">party members</span> at the end of a cutscene.<br><br><br>
+
+                Here is an example for how you would wrap-up a cutscene:
+            </p>
+
+            <div class="code-container">
+   <pre class="brush: lua;">...
+    -- Of course, we asume self.actor[1] & self.actor[2] were defined in the prior cutscene
+    Overworld.party[1].MoveToAbs( self.actor[1].absx, self.actor[1].absy )  -- Position.
+    Overworld.PlayerLookAt(Overworld.party[1],  3) -- "Idle" direction.
+
+    Overworld.party[2].MoveToAbs( self.actor[2].absx, self.actor[2].absy )
+    Overworld.PlayerLookAt(Overworld.party[2],  2, true)
+    
+    Overworld.Movement.MakeFollowPathTowardPlayer(2,  -- Party member ID
+    self.actor[2].absx, self.actor[2].absy,  -- "From" position
+    self.actor[1].absx, self.actor[1].absy,  -- "Towards" position
+    2) -- Direction the party member will look at during the walk.
+
+
+    -- We don't need the actors anymore.
+    self.actor[1].Remove()
+    self.actor[2].Remove()
+    self.actor = {}
+
+    self.ToggleAvatars(1)  -- Make the party members visible again.  
+    
+    self.currentCutscene   = nil -- Stops cutscene playback.
+
+    -- Then return player control.
+    Overworld.cameraFollowPlayer = true
+    Overworld.canControl = true
+    ...
+</pre>
+            </div>
+
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

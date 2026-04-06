@@ -238,7 +238,9 @@ return function(CYK)
                 self.ToggleAvatars(1)  -- Make the party members visible again.
                 
                 
-                self.currentCutscene   = nil
+                self.currentCutscene   = nil -- Stops cutscene playback.
+
+                -- Then return player control.
                 Overworld.cameraFollowPlayer = true
                 Overworld.canControl = true
             end

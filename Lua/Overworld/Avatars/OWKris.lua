@@ -5,7 +5,7 @@ _ENV = newENV
 -- Stats section
 hp = 90  -- The amount of hp for the player. 
 
-battleName = "Kris"  -- The name of the this player's entity within "CreateYourKris/Players"
+battleName = "Kris"  -- The name of the this player's entity within "Lua/Players"
 
 
 -- Movement section.

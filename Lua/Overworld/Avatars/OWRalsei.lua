@@ -6,7 +6,7 @@ _ENV = newENV
 hp = 45  -- The amount of starting hp for the player. 
 maxhp = 70  -- The amount of hp for the player. If unspecified, uses hp above.
 
-battleName = "Ralsei"  -- The name of the this player's entity within "CreateYourKris/Players"
+battleName = "Ralsei"  -- The name of the this player's entity within "Lua/Players"
 
 
 -- Movement section.

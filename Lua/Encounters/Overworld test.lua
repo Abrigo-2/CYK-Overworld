@@ -47,7 +47,6 @@ fontCharUsedForPlayer = { Kris = "Ђ", Susie = "Ѓ", Ralsei = "Є", Ieslar = "Љ
 fontCharUsedForPlayer["2FPEST"] = "Ќ"
 
 skipintro = false      -- Skips the battle intro animation.
-pauseowmusic = true    -- Pause the overworld's background track when a fight starts.
 background = false     -- Set this variable to false to disable the square-grid background. (or whatever is the default background)
 backgroundfade = true  -- Set this variable to false to disable the fade effect on the background when entering a wave. Advised to keep as true.
 
@@ -55,6 +54,14 @@ backgroundfade = true  -- Set this variable to false to disable the fade effect 
 -- A custom list with attacks to choose from. Actual selection happens in EnemyDialogueEnding(). Put here in case you want to use it.
 possible_attacks = { }
 nextwaves = { "empty" }
+
+
+pauseowmusic = true    -- Pause the overworld's background track when a fight starts.
+
+-- Constants used by Savepoints. 
+-- Please don't change them during runtime, just settle on one for your mod.
+savedmax_InventorySize = 12
+savedmax_PartyAvatars = 4
 
 
 function indexOf(array, value)
@@ -92,8 +99,8 @@ function EncounterStarting()
             Overworld.allAvatars[realI].hp = newhp
         end
 
-        -- Max amount of party members loaded at a time is 4. Change in Libraries/Overworld/SaveScreen if you will.
-        for i=1, 4 do
+        -- Max amount of party members loaded at a time is 4. Change the constant above if you will.
+        for i=1, savedmax_PartyAvatars do
             local partyName = GetAlMightyGlobal( "saveParty" .. tostring(i) )
             if partyName ~= "" then
                 Overworld.party[i] = Overworld.allAvatars[partyName]
@@ -103,7 +110,7 @@ function EncounterStarting()
 
         -- Loads inventory items. Don't use Inventory.SetInventory().
         OWinventory = { }
-        for i=1, 12 do
+        for i=1, savedmax_InventorySize do
             local savedItem = GetAlMightyGlobal( "saveInventory" .. tostring(i) )
             if savedItem ~= nil and savedItem ~= ""  then
                 table.insert( OWinventory, savedItem )
