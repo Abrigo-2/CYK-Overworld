@@ -79,24 +79,36 @@ function EncounterStarting()
     -- Load the game's data saved at a previous Savepoint, if there's any.
     if GetAlMightyGlobal("saveLocationName") ~= nil then
 
+        -- Loads "story" progress and flags.
         Overworld.story = GetAlMightyGlobal("saveStoryProgress")
         for i=1, #Overworld.storyFlags do
             Overworld.storyFlags[i] = GetAlMightyGlobal("saveStoryFlag" .. tostring(i))
         end
 
+        -- Loads HP of all avatars.
         for realI, v in pairs(Overworld.allAvatars) do
             local newhp = GetAlMightyGlobal( "saveAvatarHP_" .. realI)
             Overworld.allAvatars[realI].maxhp = newhp
             Overworld.allAvatars[realI].hp = newhp
         end
 
-        for i=1, 4 do  -- Max ammount of party members saved at the time. Change in Libraries/Overworld/SaveMechanism if you will.
+        -- Max amount of party members loaded at a time is 4. Change in Libraries/Overworld/SaveScreen if you will.
+        for i=1, 4 do
             local partyName = GetAlMightyGlobal( "saveParty" .. tostring(i) )
             if partyName ~= "" then
                 Overworld.party[i] = Overworld.allAvatars[partyName]
             end
         end
         Overworld.GeneratePartyBattleNames()
+
+        -- Loads inventory items. Don't use Inventory.SetInventory().
+        OWinventory = { }
+        for i=1, 12 do
+            local savedItem = GetAlMightyGlobal( "saveInventory" .. tostring(i) )
+            if savedItem ~= nil and savedItem ~= ""  then
+                table.insert( OWinventory, savedItem )
+            end
+        end
 
         Overworld.originID = 0  -- ID 0 is used specifically for the Savepoints!
         Overworld.CreateRoom(GetAlMightyGlobal("saveRoom"))
@@ -115,6 +127,9 @@ function EncounterStarting()
         Overworld.party[2] = Overworld.allAvatars["OWRalsei"]
         --Overworld.party[3] = Overworld.allAvatars["OWGentle"]
         Overworld.GeneratePartyBattleNames()
+
+        -- Rather than using Inventory.SetInventory, you'll have to use:
+        OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"}
         
         self.canControl = true  -- Set true so the player can move around from the get-go, as soon as the mod is loaded.
 
@@ -130,8 +145,6 @@ function EncounterStarting()
     Inventory.AddCustomItem("Dark Burger", "Burnt as hell 70HP", 0, "Player")
     Inventory.AddCustomItem("Bandage", "Apt healing", 0, "Player")
 
-    -- Rather than using Inventory.SetInventory, you'll have to use:
-    OWinventory = {"Dark Candy", "Dark Candy", "Dark Burger", "Bandage"} -- This carries over your inventory after a fight.
 
     -- For playtesting purposes...
     -- Uncoment these functions to mute the game's background music.

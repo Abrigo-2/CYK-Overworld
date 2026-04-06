@@ -56,6 +56,11 @@ it's w3c valid, at least
                 </ul>
             </p><br>
 
+            <h4>Calling <span class="term">Overworld.StartBattleIntro(<span class="string"></span> battle, <span class="boolean"></span>playhorn = false)</span> is the only way to properly start an encounter,<br> <span style="color:#fff">even if optimizing for 1 Encounter</span>!</h4>
+            
+            More on this at the <span class="term">Room Properties &amp; Functions page.</span> 
+            <br>
+
             <hr>
 
             <h3>Setting up the Encounter</h3>
@@ -109,7 +114,7 @@ function EncounterStarting()
     -- ensure the camera is in the same position as when you started the encounter.
 
 
-    -- This here loads the battle.
+    -- This here loads the battle's unique data, then builds the Entities and UI.
     Overworld.StartBattleIntro("Encounter-Only", false)
 
     -- By default, Overworld.CutsceneObj will start a cutscene if it detects this value as true.

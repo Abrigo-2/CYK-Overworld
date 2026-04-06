@@ -75,7 +75,8 @@ it's w3c valid, at least
    <pre class="brush: lua;">function self.OnRoomSetup(roomName)
     if     roomName == "Room1" then
         -- The poseur enemy that moves around the field.
-        local poseur = self.FindObjectInRoom("Triggers", 2)
+        local poseur = self.FindObjectInRoom("Triggers", 2) -- Of course, adjust this to *your* Battle Trigger's ogmoID.
+        
         poseur["sprite"]    = CreateSprite("CreateYourKris/Monsters/Poseur/Idle/0", "OWEntities")
         poseur["sprite"].SetAnimation( 
         { 0, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 

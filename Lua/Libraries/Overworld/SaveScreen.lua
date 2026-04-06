@@ -90,7 +90,8 @@ return function(CYK)
                         SetAlMightyGlobal( "saveStoryFlag" .. tostring(i), Overworld.storyFlags[i])
                     end
 
-                    for i=1, 4 do  -- Max ammount of party members saved at the time. Change if you will.
+                    -- Max amount of party members saved at the time. Change if you will.
+                    for i=1, 4 do  
                         local partyName = ""
                         if i <= #Overworld.party then
                             partyName = Overworld.party[i].name end
@@ -102,9 +103,19 @@ return function(CYK)
                         SetAlMightyGlobal( "saveAvatarHP_" .. realI, Overworld.allAvatars[realI].maxhp)
                     end
 
-                    SetAlMightyGlobal("saveLocationName", self.locationName)
-                    SetAlMightyGlobal("saveBGM",  Overworld.BGM.name)
-                    SetAlMightyGlobal("saveRoom", Overworld.roomName)
+                    -- Save current inventory. Deltarune only uses up to 12.
+                    for i=1, 12 do
+                        if i > #OWinventory then
+                            SetAlMightyGlobal( "saveInventory" .. tostring(i), "")
+                        else
+                            SetAlMightyGlobal( "saveInventory" .. tostring(i), OWinventory[i])
+                        end
+                    end
+
+                    SetAlMightyGlobal("saveBGM",  Overworld.BGM.name) -- Save currently playing bgm.
+                    
+                    SetAlMightyGlobal("saveRoom", Overworld.roomName) -- Save the current room.
+                    SetAlMightyGlobal("saveLocationName", self.locationName) -- Save the last savepoint's name.
 
                     -- ...workin on it. workin on WHAT?
                     Audio.PlaySound("menu/snd_save")

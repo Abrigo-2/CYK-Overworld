@@ -47,7 +47,8 @@ it's w3c valid, at least
                 <li><span class="number"></span> <span class="term">Overworld.story</span> </li>
                 <li><span class="luatable"><span class="number"></span></span> <span class="term">Overworld.storyFlags</span> </li><br>
                 <li>All Avatars' <span class="number"></span> <span class="term">max HP</span> (and, by implication, their current hp.)</li><br>
-                <li>The currently playing <span class="string"></span> <span class="term">BGM</span> (If none is playing, it also notes that down.)</li>
+                <li><span class="luatable"><span class="string"></span></span> <span class="term">OWinventory</span> [E/M/P/W], (aka, the items currently in your Inventory.) </li><br>
+                <li>The currently <span class="string"></span> <span class="term">playing BGM</span> (If none is playing, it also notes that down.)</li><br>
                 <li>The current <span class="string"></span> <span class="term">room's Name</span>.</li>
                 <li>The current Savepoint's <span class="string"></span> <span class="term">location</span> value.</li>
             </ul>
@@ -68,12 +69,14 @@ it's w3c valid, at least
                 The "name" of this Savepoint. This is the name of the location displayed in the Save Screen.
             </p><br>
 
+            <img src="../img/owl/ex5-1.png" style="width: 40%;"><br><br>
+
             <p>
                 <span class="function"><span class="boolean"></span> hasText = true</span>
                 If true, creates a Textbox <span style="color: #fff;">directly,</span> (without calling Overworld.HandleInteractable) using the current room Dialogue <span class="luatablesolo"></span>'s tag  <span class="term" style="color: #fff;">"save"</span>.
-            </p><br>
+            </p>
 
-            <img src="../img/owl/ex5-1.png" style="width: 40%;">
+            
 
             <hr>
         </div>
