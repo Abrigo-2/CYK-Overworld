@@ -93,17 +93,13 @@ it's w3c valid, at least
 
             <p>
                 <span class="function">Overworld.StartBattleIntro(<span class="string"></span> battle, <span class="boolean"></span>playhorn)</span>
-                <h4>Calling this is the only way to properly start an encounter, <span style="color:#fff">even if optimizing for 1 Encounter</span>!</h4><br>
+                <h4>Calling this is the only way to properly start an encounter,<br> <span style="color:#fff">even if optimizing for 1 Encounter</span>!</h4><br>
 
                 <ol>
                     <li><span class="term">battle</span> is the name of the Battle file within <span class="term">Lua/Battles</span> to be loaded.</li>
                     <li><span class="term">playhorn</span> determines whether Deltarune's horn blares. Often plays when you touch an enemy.</li>
                     <li>In order to skip the encounter's <span class="term">INTRO</span> state and move directly into <span class="term">ACTIONSELECT</span>, you <i style="color:#fff">must</i> set the <span class="term">Battle</span> file's <span class="boolean"></span><span class="term">self.skipintro</span> to true.</li>
                 </ol>
-
-                <span style="color:#fff">Notice: If Optimizing for 1 Encounter and you wish to skip the intro, simply call State("ACTIONSELECT") once you wish to start the encounter, rather than State("ACTIONSELECT")</span>
-                
-
             </p><br>
 
             

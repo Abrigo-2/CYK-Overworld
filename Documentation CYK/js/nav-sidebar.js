@@ -118,6 +118,7 @@ function createSideBarItems(isIndexPage, currentPage, displayingCYKDocs=true) {
         addSectionHeader( "The +OW Library")
         addHeader("Overview", "owl-overview.html" )
         addHeader("Optimizing for 1 Encounter", "owl-encounters.html" )
+        addHeader("Cutscenes", "owl-cutscenes.html" )
         addHeader("-", "-" )
         
 
@@ -138,11 +139,13 @@ function createSideBarItems(isIndexPage, currentPage, displayingCYKDocs=true) {
         addHeader("Interactions", "owl-triggers-interactions.html" )
         addHeader("Doors (and Switching Rooms)", "owl-triggers-doors.html" )
         addHeader("SavePoints", "owl-triggers-savepoints.html" )
+        addHeader("Battles (Trigger)", "owl-triggers-battle.html" )
         addHeader("-", "-" )
 
 
         addSectionHeader( "Other OWL Objects")
         addHeader("Avatars", "owl-avatars.html" )
+        addHeader("Room Assets (aka Sprites)", "owl-rooms-assets.html" )
 
         
         

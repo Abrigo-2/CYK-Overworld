@@ -14,7 +14,7 @@ it's w3c valid, at least
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>OWL Docs - What are Triggers?</title>
+    <title>OWL Docs - Room Assets</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
     <link href="../css/themesidebar.css" rel="stylesheet">
@@ -33,56 +33,44 @@ it's w3c valid, at least
         <nav class="nav-sidebar">
             <ul class="nav tabs"></ul>
             <script type="text/javascript" src="../js/nav-sidebar.js"></script>
-            <script type="text/javascript">createSideBarItems(false, "owl-triggers.html", false)</script>
+            <script type="text/javascript">createSideBarItems(false, "owl-rooms-assets.html", false)</script>
         </nav>
     </div>
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="documentation">
-            <h2><span class="OW"></span> What are Triggers?</h2><br><br>
+            <h2><span class="OW"></span>OWL Docs - Assets (aka "Sprites" in Ogmo)</h2><br><br>
             <p>
-                <span style="color:#fff">"Triggers"</span> are <span class="userdata">object</span>s that perform a particular action once the player's <span style="color:#fff">Avatar</span> interacts with them.<br><br>
-                This interaction can ocurr by:
-                <ul>
-                    <li>The <span style="color:#fff">Avatar</span> walking inside their bounding box: <span class="sender"></span> </li>
-                    <li>The player pressing the <span style="color:#fff">Confirm</span> button whilst the <span style="color:#fff">Avatar</span> is right next to them: <span class="receiver"></span></li>
-                </ul><br>
+                <h4><span class="term">Assets</span> <i>must</i> be placed into the respective <span class="term">Assets</span> layer via the Ogmo Editor</h4>
 
-                <p style="font-size: 0.75em;"></p>
+                <img src="../img/owl/ex4.png" style="width: 50%;"><br><br>
 
-                <h4><span class="term">Triggers</span> <i>must</i> be placed into the respective <span class="term">Triggers</span> layer via the Ogmo Editor</h4>
-
-                 <img src="../img/owl/ex2.png" style="width: 50%;">
-            </p><br>
-
-            <p>
-                This documentation will <i>not</i> explain how to use the OgmoEditor.<br>
-                Figure it out on your own time.
+                Seriously, watch it. That's the most common cause for bugs I found on my work.
             </p>
 
             <hr>
 
-            <h4>
-                The following function may be called within the Overworld instance.<br>
+            <h3>Properties</h3><br><br>
 
-                That is, you may call it as <span class="term">Overworld.FunctionName()</span>,<br>
-                or as <span class="term">self.FunctionName()</span> if inside the <span class="term">Overworld/RoomHandler</span> script.
-            </h4><br><br>
+            <img src="../img/owl/ex4-1.png" style="width: 40%;"><br><br><br>
            
             <p>
-                <span class="function"><span class="userdata">object</span> Overworld.FindObjectInRoom(<span class="string"></span> ogmoLayer, <span class="string"></span> ogmoObjectID)</span>
-                Returns the object from the given <span class="term">ogmoLayer</span> with the given <span class="term">ogmoObjectID</span>, within the current room.<br>
+                <span class="function"><span class="boolean"></span> rescale = false</span>
+                If true, scales up this sprite by 2.
+            </p><br>
 
-                <ul>
-                    <li>Keep in mind that, although <span style="color:#fff">Triggers</span> contain Sprites, Triggers aren't sprites themselves.</li>
-                    <li><span style="color:#fff">Assets</span>, on the other hand, are always Sprites.</li>
-                </ul>
-                
-                
-                <h4>You can find which id belongs where in Ogmo.</h4>
+            <p>
+                <span class="function"><span class="boolean"></span> hasYSort</span>
+                If true, adds this sprite into the <span class="term">Overworld.overworldYSortQueue</span>.<br><br>
+                By implication, this binds your sprite into the <span class="term">OWEntities</span> Sprite Layer.
+            </p><br>
+
+            <p>
+                <span class="function"><span class="string"></span> spritePath</span>
+                The path pointing towards the Sprite to be used.<br><br>
+
+                Worry not about the <span class="term" style="color:#c10000">"../../"</span>. The library trims it out.
             </p>
-
-
             <hr>
         </div>
 

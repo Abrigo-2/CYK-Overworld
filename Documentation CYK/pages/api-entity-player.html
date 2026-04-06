@@ -39,10 +39,10 @@ it's w3c valid, at least
     <!--tabs'n'shit-->
     <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="api-functions-player">
-            <h2><span class="CYK"></span> Player Entities!</span></h2><br>
+            <h2><span class="CYK"></span> Player Entities!</span></h2><br><br>
 
-            <h4>View <span class="term">UpdateUI</span> at the functions section!<br><br> It'll be important if you change <span class="term">name</span>, <span class="term">playerColor</span> or <span class="term">hp</span> manually.
-            </h4><br>
+            <h4>View <span class="term">UpdateUI</span> at the functions section!<br> It'll be important if you change <span class="term">name</span>, <span class="term">playerColor</span> or <span class="term">hp</span> manually.
+            </h4>
 
             <hr>
 
@@ -59,7 +59,7 @@ playerColor = { 0, 1, 1 }
 atkBarColor = { 0, 0, .5 }
 damageColor = { 0, 162/255, 232/255 }
 
-dialogbubble = "DRBubble"
+dialogbubble = "DRBubble"  -- Notice the added variable!
 
 -- From left to right: Frames, frame speed (1 second / X frames), other adjustments.
 animations = {
@@ -136,9 +136,7 @@ animations = {
 
             <p>
 				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">playerColor</span></span>
-                Main color of this Player's UI. Used for the Player's HP bar and status UI.
-                <br><br>
-                This is normally only applied at the start of the battle.
+                Main color of this Player's UI, that is, the Player's HP bar and UI box.
                 <br><br>
                 To change the UI's color, you must set this, then use the function <span class="term">Player.UpdateUI()</span>.
                 See the <span class="ref">Entity Object</span> page.
@@ -147,6 +145,10 @@ animations = {
             <p>
 				<br><span class="function"><span class="luatable"><span class="number"></span></span> <span class="term">atkBarColor</span></span>
                 Color used for the attack bar of this Player in the state ATTACKING.
+			</p>
+            <p>
+				<br><span class="function"><span class="OW"></span> <span class="luatable"><span class="number"></span></span> <span class="term">atkHitColor</span></span>
+                Color used for the attack bar's <span style="color:#fff;">hitzone</span> of this Player in the state ATTACKING.
 			</p>
 
             <p>
