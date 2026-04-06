@@ -130,7 +130,7 @@ function createSideBarItems(isIndexPage, currentPage, displayingCYKDocs=true) {
         
         addSectionHeader( "Working with Rooms")
         addHeader("Room Functions & Properties", "owl-rooms.html" )
-        addHeader("Tileset Properties", "owl-rooms-tilesets.html" )
+        addHeader("Tilesets", "owl-rooms-tilesets.html" )
         addHeader("-", "-" )
 
 

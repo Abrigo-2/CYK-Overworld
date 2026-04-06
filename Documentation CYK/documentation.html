@@ -125,6 +125,12 @@ it's w3c valid, at least
                     <li>A <span class="term">CreateArenaSprite</span> method was added, inteded for making sprites during Waves that'll then be automatically freed once the Wave ends.</li>
                 </ul>
 
+                <i><u>Inventory.</u></i>
+                <ul>
+                    <li>A certain bug regarding party members and used-up items has been fixed.</li>
+                    <li>As inventory items are now stored after Battles, <span class="term">Inventory.SetInventory({"item1", "item2", ...})</span>'s behaviour has been taken over by <span class="term">OWinventory = {"item1", "item2", ...}</span></li>
+                </ul>
+
                 <i><u>Text Objects.</u></i>
                 <ul>
                     <li>Both the Battle and +Overworld textboxes have a white gradient on top of the displayed font. Setting a color via <span class="term">[color:rrggbb]</span> on your dialogues (or changing the font) will make this noticeable.</li>

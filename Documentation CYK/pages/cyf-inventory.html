@@ -130,7 +130,12 @@ it's w3c valid, at least
                 <span class="function">Inventory.SetInventory(<span class="luatable"><span class="string"></span></span> names)</span>
                 Sets the player's inventory. To use custom items, this must be used after <span class="term">AddCustomItems</span>.
                 <br>This function is used like this: <span class="term">Inventory.SetInventory({"item1", "item2"})</span>;
-                <br><span class="term" style="margin-left:20px">names</span> = The names of the items.
+                <br><span class="term" style="margin-left:20px">names</span> = The names of the items.<br><br>
+
+                <h4><span class="OW"></span> Do not try to call this function from your Encounter's <span class="term">EncounterStarting</span> call.</h4>
+                Instead, set <span class="term">OWinventory = {"item1", "item2"}</span>.
+
+
             </p><br>
 
             <p>

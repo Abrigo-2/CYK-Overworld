@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--
+since you're here anyway: there's a small easter egg on the text commands page but it's probably not worth finding, sorry
+you may notice this page's code is garbage: i'm not a web designer! ;-;
+it's w3c valid, at least
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>OWL Docs - Tilesets</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/themesidebar.css" rel="stylesheet">
+    <link href="../css/shThemeRDark.css" rel="stylesheet">
+
+    <!-- Syntax highlighting -->
+    <script type="text/javascript" src="../js/shCore.js"></script>
+    <script type="text/javascript" src="../js/shBrushLua.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+<body>
+<img src="../img/bg2.png" alt="Undertale background" class="backimg">
+<div class="container arena black">
+    <!--navigation-->
+    <div class="col-md-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs"></ul>
+            <script type="text/javascript" src="../js/nav-sidebar.js"></script>
+            <script type="text/javascript">createSideBarItems(false, "owl-rooms-tilesets.html", false)</script>
+        </nav>
+    </div>
+    <!--tabs'n'shit-->
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active text-style" id="documentation">
+            <h2><span class="OW"></span> - Tilesets</h2><br><br>
+            
+            <h4>Would rather not use Tilesets to render your rooms? Check out the room property <span class="boolean"></span> <span class="term">hasBackground</span> at the <span class="term">Room Functions &amp; Properties</span> page.</h4><br>
+
+            <h4 style="color: #a60000; font-size: 1.4em;">NOTICE: Do NOT make far too large rooms!</h4>
+            <p>
+                Particularly extended rooms will cause significant lag and slowdown during runtime.<br>
+                Keep your rooms short, don't render more tiles than you need to.
+            </p>
+
+            <hr>
+
+            <h3>Tileset Layers</h3><br><br>
+           
+            <p>
+                <span class="function">The "solid" layer.</span>
+                This layer is used exclusively for collision data. It will not render any tiles.<br><br>
+
+                By default, <span class="term">grid tile width</span> and <span class="term">grid tile height</span> are both set to <span style="color:#fff">40px</span>.<br>
+                You can change this within the <span style="color:#fff">Ogmo Editor</span> by entering the <span style="color:#fff">"Edit Project -> Tilesets -> solid"</span> tab, and it should automatically update the collision size used by the <span class="term">Lua/Overworld/Movement</span> script's <span class="term">self.issolid()</span> function.<br><br> If that doesn't work, you can change the size used manually by visiting the aforementioned script.
+            </p><br>
+
+            <p>
+                <span class="function">The "Ground" layer (and all subsequent tileset layers).</span>
+                This layer, instead, <span style="color:#fff">will</span> render tiles, but provide no collision data.<br><br>
+
+                You can set the tileset used per room, or change its tileset size same as the <span class="term">"solid"</span> layer.<br>
+                All other tileset layers (aside from the <span class="term">"solid"</span> layer) should be treated the same as the <span class="term">"Ground"</span> layer.<br><br>
+
+                For information on how to build a tileset readable by the +Overworld library, check the following section.
+            </p>
+
+            <hr>
+
+
+            <h3>Building Tileset Data</h3><br><br>
+
+            <h4>This data must be placed within your <span class="term">Overworld/RoomHandler</span> script.</h4>
+
+            <h4>Tileset Sprites are stored within <span class="term">Sprites/Overworld/Tilesets</span>. Each <span class="term">Overworlds.tilesets</span> key must have an equally named Folder counterpart in that directory.</h4>
+
+            <p>First, let's read over the example tileset data:</p>
+
+            <div class="code-container">
+   <pre class="brush: lua;">
+    self.tilesets["field"] = {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 2, 3, 4, 5, 6, 7, 8}, -- Animation frames
+        3/30, -- Speed
+        false -- Has a center tile
+    }
+</pre>
+            </div><br>
+
+            <p>
+                <span class="function">Zeroeth value: Border Sprites</span>
+                Within <span class="term">Overworld/Tilesets/your_tileset_key</span>, there <i>must</i> be the following 8 sprites:
+                <ul>
+                    <li><span class="term">bottom</span></li>
+                    <li><span class="term">left</span></li>
+                    <li><span class="term">right</span></li>
+                    <li><span class="term">top</span></li>
+                    <li><span class="term">topright</span></li>
+                    <li><span class="term">topleft</span></li>
+                    <li><span class="term">bottomleft</span></li>
+                    <li><span class="term">bottomright</span></li>
+                </ul>
+            </p> <span class="term"></span>
+
+            <p>
+                <span class="function">First value: <span class="luatablesolo"></span> Animation Frames</span>
+                When generating the tileset sprites, the library will check if an <span class="term">Overworld/Tilesets/your_tileset_key/<span style="color:#fff">animated</span></span> folder exists.<br>
+                If it does, the library will generate an animated tile <i>right below every <span style="color:#fff">non-empty</span> tile</i>, using this <span class="luatablesolo"></span> as reference for each frame's name.
+            </p>
+
+            <p>
+                <span class="function">Second value: <span class="number"></span> Animation playback Speed</span>
+                Read it like this: For the default value of <span class="term">3/30</span>...
+                <ul>
+                   <li>Every <span class="term">3 seconds</span>...</li>
+                   <li>... <span class="term">30 frames</span> will have played.</li> 
+                </ul> 
+            </p>
+
+            <p>
+                <span class="function">Thrid value: <span class="boolean"></span> Has Center Tile</span>
+                If left false, no center tiles are created.<br>
+                If true, a <span class="term">center</span> sprite must exist within your tileset's sprite directory.<br><br>
+
+                <span style="color:#fff">If the center tile is fully opaque, animated tiles may be hidden!<span>
+            </p><br>
+
+
+
+        </div>
+
+        <div class="tab-pane text-style" id="mercy">
+            <h2 style="text-decoration: none; line-height:50px;">
+                * YOU WON!<br>
+                * You earned 0 EXP and 0 gold.<br>
+                * also the nav menu is broken now
+            </h2><br>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/fightbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/actbt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><img class="centerbt black" alt="Undertale fake button" src="../img/itembt_0.png" height="42">
+    </div>
+    <div class="col-xs-3"><a href="#mercy" data-toggle="tab"><img class="centerbt black" alt="Undertale fake button"
+                                                                  src="../img/mercybt_0.png" height="42"></a>
+    </div>
+</div>
+<br>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="../js/show_hide_comments.js"></script>
+
+<script type="text/javascript" src="../js/FontToggleButton.js"></script>
+</body>
+</html>

@@ -311,6 +311,7 @@ return function(self)
                             local adjacentTile = self.FindTileAdjacence(layer.data2D, Xid, Yid)
                             if not hasCenterTile and adjacentTile == "center" then
                                 -- This happens, and it means the center tile is hollow!
+                                -- So nothing happens.
                             else
                                 local newtile = CreateSprite(tilesSpritePath .. adjacentTile, layer.name)
                                 newtile.SetPivot(0,1)
@@ -635,9 +636,9 @@ return function(self)
         
         -- Not corners??
         elseif safedata[Ypos][x-1] == id.empty then
-            return "right"
-        elseif safedata[Ypos][x+1] == id.empty then
             return "left"
+        elseif safedata[Ypos][x+1] == id.empty then
+            return "right"
         elseif safedata[y-1][Xpos] == id.empty then
             return "bottom"
         elseif safedata[y+1][Xpos] == id.empty then
